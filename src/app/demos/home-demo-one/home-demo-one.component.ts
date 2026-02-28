@@ -45,6 +45,11 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     selectedCategory: string = '';
 
     categoriesForHome: any[] = [];
+    allLocations: any[] = [];
+    cities: any[] = [];
+    areas: any[] = [];
+    selectedCity: string = '';
+    selectedArea: string = '';
 
     categoryIconMapping: { [key: string]: string } = {
         'أسنان': 'fa-tooth',
@@ -148,6 +153,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.loadHomeData();
         this.loadCategories();
+        this.loadLocations();
         this.updateDefaultServices();
 
         // Subscribe to language changes
@@ -178,6 +184,29 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         return foundKey ? this.categoryIconMapping[foundKey] : 'fa-layer-group';
     }
 
+    loadLocations() {
+        this.listingsService.getLocations().subscribe({
+            next: (data: any[]) => {
+                this.allLocations = data;
+                // Cities don't have parents (parent = 0)
+                this.cities = data.filter(loc => loc.parent === 0);
+            },
+            error: (err: any) => {
+                console.error('Error fetching locations:', err);
+            }
+        });
+    }
+
+    onCityChange() {
+        this.selectedArea = '';
+        if (this.selectedCity) {
+            const cityId = Number(this.selectedCity);
+            this.areas = this.allLocations.filter(loc => loc.parent === cityId);
+        } else {
+            this.areas = [];
+        }
+    }
+
 
 
     ngAfterViewInit(): void {
@@ -201,6 +230,14 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         const params: any = {};
         if (this.searchQuery) params.s = this.searchQuery;
         if (this.selectedCategory) params['listing-category'] = this.selectedCategory;
+
+        // Pass specific area if selected, otherwise pass the city
+        if (this.selectedArea) {
+            params['location'] = this.selectedArea;
+        } else if (this.selectedCity) {
+            params['location'] = this.selectedCity;
+        }
+
         this.router.navigate(['/listings'], { queryParams: params });
     }
 

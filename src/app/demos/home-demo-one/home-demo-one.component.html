@@ -1,23 +1,23 @@
 <!-- Hero Search Section -->
 <section class="hero-listing-search">
     <div class="hero-overlay"></div>
-    <div class="container d-flex flex-column align-items-center justify-content-center h-100">
+    <div class="container d-flex flex-column align-items-center justify-content-center">
         <div class="hero-content text-center mb-5" data-aos="fade-up">
             <h1 class="display-4 fw-bold text-white mb-3">{{ 'HERO_TITLE' | translate }}</h1>
             <p class="lead text-white-50 mb-5">{{ 'HERO_SUBTITLE' | translate }}</p>
         </div>
 
-        <div class="search-box-wrap w-100 max-w-800" data-aos="fade-up" data-aos-delay="200">
+        <div class="search-box-wrap" data-aos="fade-up" data-aos-delay="200">
             <form (ngSubmit)="searchListings()" class="search-form-premium">
                 <div class="row g-0 align-items-center">
-                    <div class="col-lg-5 search-input-col">
+                    <div class="col-lg-3 search-input-col">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
-                                placeholder="{{ 'WHAT_LOOKING_FOR' | translate }}" class="form-control-premium">
+                                placeholder="{{ 'ENTITY_NAME' | translate }}" class="form-control-premium">
                         </div>
                     </div>
-                    <div class="col-lg-4 search-input-col border-start-lg">
+                    <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-layer-group"></i>
                             <select [(ngModel)]="selectedCategory" name="selectedCategory" class="form-select-premium">
@@ -26,8 +26,28 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 search-btn-col">
-                        <button type="submit" class="btn-search-premium">
+                    <div class="col-lg-2 search-input-col border-start-lg">
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-city"></i>
+                            <select [(ngModel)]="selectedCity" name="selectedCity" class="form-select-premium"
+                                (change)="onCityChange()">
+                                <option value="">{{ 'CITY' | translate }}</option>
+                                <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 search-input-col border-start-lg">
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-map-pin"></i>
+                            <select [(ngModel)]="selectedArea" name="selectedArea" class="form-select-premium"
+                                [disabled]="!selectedCity">
+                                <option value="">{{ 'AREA' | translate }}</option>
+                                <option *ngFor="let area of areas" [value]="area.id">{{ area.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 search-btn-col">
+                        <button type="submit" class="btn-search-premium w-100">
                             <i class="fa-solid fa-search me-2"></i> {{ 'SEARCH_BUTTON' | translate }}
                         </button>
                     </div>

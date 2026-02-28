@@ -30,6 +30,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
     // filter state
     searchQuery: string = '';
     selectedCategory: string = '';
+    selectedLocation: string = '';
     filterOpenNow: boolean = false;
     showMap: boolean = false;
     categories: any[] = []; // categories loaded from API or static
@@ -58,6 +59,12 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (params['listing-category']) {
                 this.selectedCategory = params['listing-category'];
+            }
+
+            if (params['location']) {
+                this.selectedLocation = params['location'];
+            } else {
+                this.selectedLocation = '';
             }
 
             if (params['open_now']) {
@@ -208,6 +215,9 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.selectedCategory) {
             params['listing-category'] = this.selectedCategory;
         }
+        if (this.selectedLocation) {
+            params['location'] = this.selectedLocation;
+        }
         if (this.filterOpenNow) {
             params.open_now = 1;
         }
@@ -217,7 +227,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             // Standard lat/lng/radius
             params.lat = this.userLat;
             params.lng = this.userLng;
-            params.radius = 105; 
+            params.radius = 105;
 
             // Alternative latitude/longitude/distance for CubeWP/ListingPro compatibility
             params.latitude = this.userLat;
