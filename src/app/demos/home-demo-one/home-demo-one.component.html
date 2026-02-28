@@ -12,14 +12,14 @@
                 <div class="row g-0 align-items-center">
                     <div class="col-lg-3 search-input-col">
                         <div class="input-with-icon">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fa-solid fa-magnifying-glass px-1"></i>
                             <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
                                 placeholder="{{ 'ENTITY_NAME' | translate }}" class="form-control-premium">
                         </div>
                     </div>
                     <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
-                            <i class="fa-solid fa-layer-group"></i>
+                            <i class="fa-solid fa-layer-group px-1"></i>
                             <select [(ngModel)]="selectedCategory" name="selectedCategory" class="form-select-premium">
                                 <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
                                 <option *ngFor="let cat of categoriesForHome" [value]="cat.id">{{ cat.name }}</option>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
-                            <i class="fa-solid fa-city"></i>
+                            <i class="fa-solid fa-city px-1"></i>
                             <select [(ngModel)]="selectedCity" name="selectedCity" class="form-select-premium"
                                 (change)="onCityChange()">
                                 <option value="">{{ 'CITY' | translate }}</option>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-lg-3 search-input-col border-start-lg">
                         <div class="input-with-icon">
-                            <i class="fa-solid fa-map-pin"></i>
+                            <i class="fa-solid fa-map-pin px-1"></i>
                             <select [(ngModel)]="selectedArea" name="selectedArea" class="form-select-premium"
                                 [disabled]="!selectedCity">
                                 <option value="">{{ 'AREA' | translate }}</option>
