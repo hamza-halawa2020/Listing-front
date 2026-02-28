@@ -23,10 +23,16 @@
 
             <div class="mb-4">
                 <label class="form-label fw-semibold text-muted mb-2">{{ 'password' | translate }}</label>
-                <div class="input-group-premium">
+                <div class="input-group-premium position-relative">
                     <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" formControlName="password" class="form-control"
-                        placeholder="{{ 'Enter Your Password' | translate }}">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
+                        placeholder="{{ 'Enter Your Password' | translate }}"
+                        style="padding-left: 40px; padding-right: 40px;">
+                    <span class="input-icon position-absolute top-50 translate-middle-y"
+                        style="right: 15px; left: auto; cursor: pointer; z-index: 10;"
+                        (click)="togglePasswordVisibility()">
+                        <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </span>
                 </div>
             </div>
 
@@ -37,9 +43,9 @@
                         {{ 'REMEMBER_ME' | translate }}
                     </label>
                 </div>
-                <a routerLink="/forgot-password" class="text-indigo small fw-semibold text-decoration-none">
+                <!-- <a routerLink="/forgot-password" class="text-indigo small fw-semibold text-decoration-none">
                     {{ 'Forget password?' | translate }}
-                </a>
+                </a> -->
             </div>
 
             <button type="submit" class="btn btn-primary-gradient w-100 py-3 rounded-3 fw-bold mb-4"
@@ -50,12 +56,12 @@
             </button>
 
             <div class="text-center">
-                <p class="text-muted small mb-0">
+                <!-- <p class="text-muted small mb-0">
                     {{ 'Already have an account?' | translate }}
                     <a routerLink="/signup" class="text-indigo fw-bold text-decoration-none ms-1">
                         {{ 'sign up' | translate }}
                     </a>
-                </p>
+                </p> -->
             </div>
         </form>
     </div>

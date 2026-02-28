@@ -10,14 +10,7 @@
         <div class="search-box-wrap" data-aos="fade-up" data-aos-delay="200">
             <form (ngSubmit)="searchListings()" class="search-form-premium">
                 <div class="row g-0 align-items-center">
-                    <div class="col-lg-3 search-input-col">
-                        <div class="input-with-icon">
-                            <i class="fa-solid fa-magnifying-glass px-1"></i>
-                            <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
-                                placeholder="{{ 'ENTITY_NAME' | translate }}" class="form-control-premium">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 search-input-col border-start-lg">
+                    <div class="col-lg-2 search-input-col">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-layer-group px-1"></i>
                             <select [(ngModel)]="selectedCategory" name="selectedCategory" class="form-select-premium">
@@ -36,7 +29,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 search-input-col border-start-lg">
+                    <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-map-pin px-1"></i>
                             <select [(ngModel)]="selectedArea" name="selectedArea" class="form-select-premium"
@@ -44,6 +37,13 @@
                                 <option value="">{{ 'AREA' | translate }}</option>
                                 <option *ngFor="let area of areas" [value]="area.id">{{ area.name }}</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 search-input-col border-start-lg">
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-magnifying-glass px-1"></i>
+                            <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
+                                placeholder="{{ 'ENTITY_NAME' | translate }}" class="form-control-premium">
                         </div>
                     </div>
                     <div class="col-lg-2 search-btn-col">
