@@ -1,0 +1,215 @@
+.listings-full-page {
+  background: #f8fafc;
+  height: calc(100vh - 70px); // subtract header height
+  overflow: hidden;
+  padding: 150px 0 0 0;
+
+
+  .container-fluid {
+    height: 100%;
+  }
+
+  .row {
+    height: 100%;
+  }
+
+  .listings-panel {
+    height: 100%;
+    overflow-y: auto;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+  }
+
+  .map-panel {
+    height: 100%;
+    position: relative;
+    background: #f1f5f9;
+
+    #listings-map-sticky {
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+  }
+
+  // Filter Bar Refinement
+  .filter-header-premium {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+
+    .premium-input-group,
+    .premium-select-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      i {
+        position: absolute;
+        left: 15px;
+        color: #64748b;
+        z-index: 10;
+      }
+
+      .form-control,
+      .form-select {
+        padding-left: 45px;
+        height: 50px;
+        border-radius: 12px;
+        border: 1px solid #cbd5e1;
+        font-size: 14px;
+
+        &:focus {
+          border-color: var(--secondaryColor);
+          box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+      }
+    }
+
+    .btn-filter-premium {
+      height: 50px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f1f5f9;
+      }
+
+      &.active {
+        background: var(--secondaryColor);
+        color: white;
+        border-color: var(--secondaryColor);
+      }
+    }
+
+    .btn-near-me-premium {
+      height: 50px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      color: #2b3990;
+      /* Brand Navy */
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+
+      i {
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        background: #f1f5f9;
+        border-color: #2b3990;
+        transform: translateY(-2px);
+      }
+
+      &.active {
+        background: #2b3990;
+        color: white;
+        border-color: #2b3990;
+        box-shadow: 0 4px 15px rgba(43, 57, 144, 0.3);
+
+        i {
+          animation: pulse-location 2s infinite;
+        }
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  @keyframes pulse-location {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    50% {
+      transform: scale(1.3);
+      opacity: 0.5;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .btn-view {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: none;
+
+    &.active {
+      background: var(--secondaryColor);
+      color: white;
+    }
+  }
+
+  .skeleton-loader.card-skeleton {
+    height: 350px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+}
+
+[dir="rtl"] {
+  .listings-full-page {
+    .listings-panel {
+      border-right: none;
+      border-left: 1px solid #e2e8f0;
+    }
+
+    .filter-header-premium {
+
+      .premium-input-group,
+      .premium-select-group {
+        i {
+          left: auto;
+          right: 15px;
+        }
+
+        .form-control,
+        .form-select {
+          padding-left: 15px;
+          padding-right: 45px;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

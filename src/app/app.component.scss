@@ -1,0 +1,40 @@
+// Global styles for the app component
+:host {
+    display: block;
+    min-height: 100vh;
+}
+
+// Add padding to account for fixed navbar
+:global(body) {
+    padding-top: 70px !important;
+    margin: 0;
+}
+
+// Responsive padding adjustments
+@media (max-width: 767px) {
+    :global(body) {
+        padding-top: 60px !important;
+    }
+}
+
+// Ensure smooth scrolling
+:global(html) {
+    scroll-behavior: smooth;
+}
+
+// RTL support
+:global([dir="rtl"]) {
+    text-align: right;
+    
+    * {
+        direction: rtl;
+    }
+}
+
+:global([dir="ltr"]) {
+    text-align: left;
+    
+    * {
+        direction: ltr;
+    }
+}

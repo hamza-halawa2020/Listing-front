@@ -1,0 +1,376 @@
+// Colors & Variables
+$primary: #2b3990; // Brand Navy
+$secondary: #f15a24; // Brand Orange
+$dark: #0f172a;
+$white: #ffffff;
+$cream: #f8fafc;
+$gray: #64748b;
+$glass: rgba(255, 255, 255, 0.9);
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.premium-contact-page {
+    background: $cream;
+}
+
+// Page Hero
+.page-banner {
+    background: linear-gradient(135deg, $primary 0%, darken($primary, 10%) 100%);
+    padding: 180px 0 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 70% 30%, rgba($secondary, 0.15) 0%, transparent 50%),
+            url('https://www.transparenttextures.com/patterns/cubes.png');
+        opacity: 0.4;
+    }
+
+    .page-banner-content {
+        position: relative;
+        z-index: 1;
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: $white;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .breadcrumb {
+            justify-content: center;
+            background: rgba($white, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 30px;
+            border-radius: 50px;
+            display: inline-flex;
+            border: 1px solid rgba($white, 0.1);
+
+            .breadcrumb-item {
+                font-size: 1rem;
+                color: rgba($white, 0.8);
+                font-weight: 500;
+
+                a {
+                    color: $secondary;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        color: $white;
+                    }
+                }
+
+                &.active {
+                    color: $white;
+                }
+
+                &+.breadcrumb-item::before {
+                    color: rgba($white, 0.4);
+                }
+            }
+        }
+    }
+}
+
+// Contact Info Wrapper
+.contact-info-wrapper {
+    .section-title {
+        .subtitle {
+            display: inline-block;
+            color: $secondary;
+            padding-bottom: 5px;
+            border-bottom: 3px solid $secondary;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: $primary;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            color: $gray;
+            line-height: 1.6;
+        }
+    }
+
+    .info-box-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .premium-info-box {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        background: $white;
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba($primary, 0.05);
+        transition: all 0.4s ease;
+
+        &:hover {
+            transform: translateX(10px);
+            border-color: rgba($secondary, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+            .icon-wrap {
+                background: $secondary;
+                color: $white;
+                transform: rotate(10deg);
+            }
+        }
+
+        .icon-wrap {
+            width: 70px;
+            height: 70px;
+            background: rgba($primary, 0.05);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: $primary;
+            transition: all 0.4s ease;
+        }
+
+        .info-content {
+            h4 {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: $primary;
+                margin-bottom: 8px;
+            }
+
+            p {
+                margin: 0;
+                color: $gray;
+                font-size: 1.05rem;
+                font-weight: 500;
+
+                a {
+                    color: inherit;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: $secondary;
+                    }
+                }
+            }
+
+            .phone-list {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    }
+}
+
+// Social Connect
+.social-connect {
+    h5 {
+        font-weight: 700;
+        color: $primary;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            background: $white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $primary;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+
+            &:hover {
+                background: $primary;
+                color: $white;
+                transform: translateY(-5px);
+            }
+        }
+    }
+}
+
+// Contact Form Glass Card
+.contact-form-glass-card {
+    background: $white;
+    padding: 60px;
+    border-radius: 40px;
+    box-shadow: 0 40px 100px rgba($primary, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    height: 100%;
+
+    .card-header {
+        h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: $primary;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: $gray;
+            font-size: 1.1rem;
+        }
+    }
+}
+
+// Map Section
+.premium-map-section {
+    padding-bottom: 100px;
+
+    .map-inner-wrapper {
+        border-radius: 40px;
+        overflow: hidden;
+        border: 10px solid $white;
+
+        iframe {
+            display: block;
+        }
+    }
+}
+
+// RTL Support
+:host-context([dir="rtl"]) {
+    .contact-info-wrapper {
+        .premium-info-box:hover {
+            transform: translateX(-10px);
+        }
+
+        .section-title {
+            .subtitle {
+                border-bottom-width: 3px;
+            }
+        }
+    }
+
+    .page-banner-content .breadcrumb .breadcrumb-item+.breadcrumb-item::before {
+        content: '/';
+    }
+}
+
+// Responsive
+.premium-contact-page {
+    overflow-x: hidden;
+}
+
+// Fluid title sizes
+.page-banner-content h1 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    letter-spacing: -1px;
+}
+
+.contact-info-wrapper .section-title h2 {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+}
+
+@media (max-width: 991px) {
+    .page-banner {
+        padding: 130px 0 70px;
+    }
+
+    .contact-form-glass-card {
+        padding: 35px 30px;
+        border-radius: 28px;
+    }
+
+    .section-padding {
+        padding: 70px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-banner {
+        padding: 100px 0 50px;
+    }
+
+    .contact-form-glass-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    .premium-info-box {
+        padding: 20px !important;
+        gap: 15px !important;
+
+        .icon-wrap {
+            width: 52px !important;
+            height: 52px !important;
+            font-size: 1.4rem !important;
+            flex-shrink: 0;
+        }
+    }
+
+    .premium-map-section {
+        padding-bottom: 60px;
+
+        .map-inner-wrapper {
+            border-radius: 20px;
+            border-width: 6px;
+        }
+    }
+
+    .section-padding {
+        padding: 50px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-banner {
+        padding: 80px 0 40px;
+    }
+
+    .contact-form-glass-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+    .premium-info-box {
+        flex-direction: column;
+        align-items: flex-start !important;
+        padding: 16px !important;
+    }
+
+    .social-connect .social-links .social-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://care_and_share.com/sitemap.xml

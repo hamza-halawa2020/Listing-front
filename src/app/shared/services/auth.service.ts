@@ -1,0 +1,63 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../../../environments/environment';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthService {
+    private readonly TOKEN_KEY = 'auth_token';
+    private readonly USER_KEY = 'auth_user';
+    private currentUserSubject = new BehaviorSubject<any>(null);
+
+    constructor(
+        private http: HttpClient,
+        private cookieService: CookieService
+    ) {
+        const savedUser = localStorage.getItem(this.USER_KEY);
+        if (savedUser) {
+            this.currentUserSubject.next(JSON.parse(savedUser));
+        }
+    }
+
+    getCurrentUser(): Observable<any> {
+        return this.currentUserSubject.asObservable();
+    }
+
+    login(credentials: { username: string; password: string }): Observable<any> {
+        const authUrl = `${environment.backEndUrl.replace('/wp/v2', '/jwt-auth/v1/token')}`;
+        return this.http.post<any>(authUrl, credentials).pipe(
+            tap(response => {
+                if (response.token) {
+                    // Store token in cookie (secure if on HTTPS)
+                    this.cookieService.set(this.TOKEN_KEY, response.token, 7, '/', '', true, 'Lax');
+
+                    const userData = {
+                        username: response.user_nicename,
+                        email: response.user_email,
+                        displayName: response.user_display_name
+                    };
+
+                    localStorage.setItem(this.USER_KEY, JSON.stringify(userData));
+                    this.currentUserSubject.next(userData);
+                }
+            })
+        );
+    }
+
+    logout(): void {
+        this.cookieService.delete(this.TOKEN_KEY, '/');
+        localStorage.removeItem(this.USER_KEY);
+        this.currentUserSubject.next(null);
+    }
+
+    isLoggedIn(): boolean {
+        return this.cookieService.check(this.TOKEN_KEY);
+    }
+
+    getToken(): string {
+        return this.cookieService.get(this.TOKEN_KEY);
+    }
+}

@@ -1,0 +1,319 @@
+// Brand System
+$primary: #2b3990;
+$secondary: #f15a24;
+$dark: #0f172a;
+$text: #334155;
+$text-muted: #64748b;
+$white: #ffffff;
+$glass: rgba(255, 255, 255, 0.95);
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.premium-post-details {
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+// Post Header Banner
+.post-header-banner {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+
+    .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba($dark, 0.9) 0%, rgba($dark, 0.4) 50%, transparent 100%);
+        z-index: 1;
+    }
+
+    .header-container {
+        position: relative;
+        z-index: 2;
+        padding-bottom: 80px;
+    }
+
+    .header-content {
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 20px;
+
+            .breadcrumb-item {
+                color: rgba($white, 0.7);
+                font-size: 0.9rem;
+
+                a {
+                    color: $secondary;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: $white;
+                    }
+                }
+
+                &.active {
+                    color: $white;
+                }
+
+                &+.breadcrumb-item::before {
+                    color: rgba($white, 0.3);
+                }
+            }
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 20px;
+            color: rgba($white, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .post-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: $white;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+        }
+    }
+}
+
+// Article Content
+.post-article-content {
+    background: $white;
+    padding: 60px;
+    border-radius: 40px;
+    box-shadow: 0 40px 100px rgba($primary, 0.05);
+    margin-top: -60px;
+    position: relative;
+    z-index: 3;
+    border: 1px solid rgba($primary, 0.03);
+
+    .content-body {
+        color: $text;
+        line-height: 1.8;
+        font-size: 1.15rem;
+
+        ::ng-deep {
+            p {
+                margin-bottom: 25px;
+            }
+
+            h2,
+            h3,
+            h4 {
+                color: $primary;
+                font-weight: 800;
+                margin-top: 40px;
+                margin-bottom: 20px;
+            }
+
+            img {
+                max-width: 100%;
+                border-radius: 20px;
+                margin: 30px 0;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            }
+
+            ul,
+            ol {
+                margin-bottom: 25px;
+
+                li {
+                    margin-bottom: 12px;
+                }
+            }
+
+            blockquote {
+                border-left: 5px solid $secondary;
+                padding-left: 25px;
+                font-style: italic;
+                color: $primary;
+                font-size: 1.4rem;
+                margin: 40px 0;
+            }
+        }
+    }
+
+    .premium-back-btn {
+        background: #f1f5f9;
+        color: $primary;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: $secondary;
+            color: $white;
+            transform: translateX(-5px);
+            box-shadow: 0 10px 20px rgba($secondary, 0.2);
+        }
+    }
+
+    .share-btn {
+        font-size: 1.4rem;
+        color: $text-muted;
+        margin-left: 15px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: $secondary;
+            transform: scale(1.2);
+        }
+    }
+}
+
+// Skeleton Loader
+.skeleton-post-content {
+    padding: 60px;
+    background: white;
+    border-radius: 40px;
+
+    .skeleton-line {
+        background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 10px;
+        margin-bottom: 20px;
+
+        &.title {
+            height: 50px;
+            width: 80%;
+        }
+
+        &.meta {
+            height: 20px;
+            width: 40%;
+        }
+
+        &.text {
+            height: 15px;
+            width: 100%;
+        }
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+// RTL
+:host-context([dir="rtl"]) {
+    .post-header-banner .header-content .post-title {
+        letter-spacing: 0;
+    }
+
+    .post-article-content {
+        .premium-back-btn:hover {
+            transform: translateX(5px);
+        }
+
+        .premium-back-btn i {
+            transform: rotate(180deg);
+        }
+
+        .share-btn {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+    }
+}
+
+// Responsive
+.premium-post-details {
+    overflow-x: hidden; // prevent horizontal scroll on mobile
+}
+
+// Make title always fluid
+.post-header-banner .header-content .post-title {
+    font-size: clamp(1.5rem, 5vw, 4rem);
+    letter-spacing: -1px;
+}
+
+@media (max-width: 991px) {
+    .post-header-banner {
+        min-height: 360px;
+
+        .header-container {
+            padding-bottom: 50px;
+        }
+    }
+
+    .post-article-content {
+        padding: 35px 25px;
+        border-radius: 24px;
+        margin-top: -30px;
+    }
+
+    .skeleton-post-content {
+        padding: 35px 25px;
+        border-radius: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .post-header-banner {
+        height: 50vh;
+        min-height: 280px;
+
+        .post-meta {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    }
+
+    .post-article-content {
+        padding: 22px 16px;
+        border-radius: 16px;
+        margin-top: -20px;
+
+        .content-body {
+            font-size: 1rem;
+        }
+
+        .premium-back-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+    }
+
+    .skeleton-post-content {
+        padding: 22px 16px;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-header-banner {
+        height: 45vh;
+        min-height: 240px;
+    }
+
+    .post-article-content {
+        padding: 16px 12px;
+    }
+}

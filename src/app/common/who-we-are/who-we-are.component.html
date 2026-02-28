@@ -1,0 +1,70 @@
+<div class="who-we-are-area ptb-120">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12">
+                <div class="who-we-are-content">
+                    <h2 class="text-uppercase fw-semibold">
+                        {{ 'WHO_WE_ARE_TITLE' | translate }}
+                    </h2>
+                    <p>{{ 'WHO_WE_ARE_DESC' | translate }}</p>
+                    <div class="funfacts">
+                        <h3 class="fw-semibold">
+                            250<span>+</span>
+                        </h3>
+                        <p class="fw-medium">
+                            {{ 'TRUSTED_PARTNERS' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="who-we-are-image">
+                    <div class="users">
+                        <div class="d-flex align-items-center">
+                            <img src="images/users/user6.jpg" class="rounded-circle" alt="user-image" width="40"
+                                height="40">
+                            <img src="images/users/user7.jpg" class="rounded-circle" alt="user-image" width="40"
+                                height="40">
+                            <img src="images/users/user8.jpg" class="rounded-circle" alt="user-image" width="40"
+                                height="40">
+                            <img src="images/users/user9.jpg" class="rounded-circle" alt="user-image" width="40"
+                                height="40">
+                        </div>
+                        <span class="d-block fw-medium">
+                            1000+
+                        </span>
+                        <p>
+                            {{ 'POSITIVE_FEEDBACK' | translate }}
+                        </p>
+                    </div>
+                    <div class="image position-relative">
+                        <img src="images/about-us/about3.jpg" alt="who-we-are-image" width="600" height="400">
+                        <button
+                            class="video-btn popup-youtube rounded-circle d-flex align-items-center justify-content-center border-0 p-0"
+                            (click)="openPopup()" type="button" [title]="'PLAY_VIDEO' | translate">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video Popup -->
+<div class="mfp-bg mfp-fade mfp-ready" *ngIf="isOpen"></div>
+<div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-fade mfp-ready" *ngIf="isOpen" tabindex="-1">
+    <div class="mfp-container mfp-iframe-holder">
+        <div class="mfp-content">
+            <div class="mfp-iframe-scaler">
+                <button (click)="closePopup()" [title]="'CLOSE' | translate" type="button" class="mfp-close">
+                    ×
+                </button>
+                <iframe src="https://www.youtube.com/embed/YDXQ_nociO4" [title]="'WEB_DESIGN_TRENDS' | translate"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>

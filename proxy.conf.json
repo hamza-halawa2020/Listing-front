@@ -1,0 +1,8 @@
+{
+    "/public/i18n": {
+        "target": "https://new-backend.care_and_share.net",
+        "secure": true,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}

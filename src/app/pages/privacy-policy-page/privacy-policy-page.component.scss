@@ -1,0 +1,309 @@
+// Colors
+$primary: #064e3b; /* Deep Islamic Green */
+$secondary: #b45309; /* Gold */
+$dark: #022c22;
+$white: #ffffff;
+$gray-light: #fdfbf7;
+$gray: #4b5563;
+
+// Investment opportunities list styles will inherit from global styles
+.team-area {
+    padding: 80px 0;
+    background-color: var(--creamBg);
+}
+
+.skeleton-loader {
+    height: 300px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 15px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+
+// Page Banner (Same as other pages)
+.page-banner {
+    background: linear-gradient(135deg, $primary 0%, $dark 100%);
+    padding: 140px 0 100px;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: var(--islamicPattern);
+        opacity: 0.15;
+    }
+
+    .page-banner-content {
+        text-align: center;
+        color: $white;
+        position: relative;
+        z-index: 1;
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb {
+            background: transparent;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+
+            .breadcrumb-item {
+                font-size: 1.1rem;
+
+                a {
+                    color: rgba($white, 0.8);
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: $white;
+                    }
+                }
+
+                &.active {
+                    color: $white;
+                }
+
+                &:not(:last-child)::after {
+                    content: '/';
+                    margin: 0 10px;
+                    color: rgba($white, 0.6);
+                }
+            }
+        }
+    }
+}
+
+// Policy Content Section
+.policy-content-section {
+    padding: 100px 0;
+    background: $gray-light;
+
+    .policy-content {
+        background: $white;
+        padding: 60px 50px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+        .policy-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid $gray-light;
+
+            h2 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: $dark;
+                margin-bottom: 15px;
+            }
+
+            .last-updated {
+                color: $gray;
+                font-size: 1rem;
+                margin: 0;
+                font-style: italic;
+            }
+        }
+
+        .policy-section {
+            margin-bottom: 40px;
+
+            h3 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: $dark;
+                margin-bottom: 20px;
+                position: relative;
+                padding-left: 20px;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 4px;
+                    height: 20px;
+                    background: $secondary;
+                    border-radius: 2px;
+                }
+            }
+
+            p {
+                color: $gray;
+                line-height: 1.8;
+                margin-bottom: 20px;
+                font-size: 1rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .policy-list {
+                margin: 20px 0;
+                padding-left: 0;
+
+                li {
+                    color: $gray;
+                    line-height: 1.8;
+                    margin-bottom: 10px;
+                    padding-left: 30px;
+                    position: relative;
+
+                    &::before {
+                        content: '•';
+                        color: $primary;
+                        font-weight: bold;
+                        position: absolute;
+                        left: 10px;
+                        font-size: 1.2rem;
+                    }
+                }
+
+                &.numbered {
+                    counter-reset: policy-counter;
+
+                    li {
+                        counter-increment: policy-counter;
+
+                        &::before {
+                            content: counter(policy-counter) '.';
+                            color: $primary;
+                            font-weight: 600;
+                            position: absolute;
+                            left: 0;
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .policy-footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid $gray-light;
+
+            .contact-info {
+                background: $gray-light;
+                padding: 30px;
+                border-radius: 15px;
+                text-align: center;
+
+                h4 {
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    color: $dark;
+                    margin-bottom: 15px;
+                }
+
+                p {
+                    color: $gray;
+                    margin-bottom: 20px;
+                }
+
+                .contact-details {
+                    p {
+                        margin-bottom: 10px;
+
+                        strong {
+                            color: $dark;
+                        }
+
+                        a {
+                            color: $primary;
+                            text-decoration: none;
+                            transition: color 0.3s ease;
+
+                            &:hover {
+                                color: $secondary;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .page-banner {
+        padding: 100px 0 60px;
+
+        .page-banner-content h1 {
+            font-size: 2.5rem;
+        }
+    }
+
+    .policy-content-section {
+        padding: 60px 0;
+
+        .policy-content {
+            padding: 40px 25px;
+
+            .policy-header {
+                margin-bottom: 40px;
+
+                h2 {
+                    font-size: 2rem;
+                }
+            }
+
+            .policy-section {
+                margin-bottom: 30px;
+
+                h3 {
+                    font-size: 1.3rem;
+                }
+
+                .policy-list li {
+                    padding-left: 25px;
+                }
+            }
+
+            .policy-footer {
+                margin-top: 40px;
+                padding-top: 30px;
+
+                .contact-info {
+                    padding: 20px;
+                }
+            }
+        }
+    }
+}
+
+// Section Padding
+.section-padding {
+    padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+    .section-padding {
+        padding: 60px 0;
+    }
+}

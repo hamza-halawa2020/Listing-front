@@ -1,0 +1,66 @@
+<section class="premium-post-details">
+    <!-- Immersive Header -->
+    <div class="post-header-banner" *ngIf="!isLoading && post"
+        [style.backgroundImage]="'url(' + (post.image_url || 'assets/images/placeholder-post.jpg') + ')'">
+        <div class="banner-overlay"></div>
+        <div class="container header-container">
+            <div class="header-content animate__animated animate__fadeInUp">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
+                        <li class="breadcrumb-item"><a routerLink="/posts">{{ 'BLOG' | translate }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ post.title.rendered }}</li>
+                    </ol>
+                </nav>
+                <div class="post-meta mb-3">
+                    <span class="meta-item"><i class="fa-regular fa-calendar-days me-1"></i> {{ post.date |
+                        date:'mediumDate' }}</span>
+                    <span class="meta-item" *ngIf="post.taxonomies && post.taxonomies.length > 0">
+                        <i class="fa-solid fa-tags me-1"></i>
+                        <span *ngFor="let tax of post.taxonomies; let last = last">{{ tax }}{{ !last ? ', ' : ''
+                            }}</span>
+                    </span>
+                </div>
+                <h1 class="post-title">{{ post.title.rendered }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container section-padding">
+        <!-- Loading Skeleton -->
+        <div class="row" *ngIf="isLoading">
+            <div class="col-lg-8 mx-auto">
+                <div class="skeleton-post-content">
+                    <div class="skeleton-line title"></div>
+                    <div class="skeleton-line meta"></div>
+                    <div class="skeleton-line text"></div>
+                    <div class="skeleton-line text"></div>
+                    <div class="skeleton-line text"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!isLoading && post">
+            <div class="col-lg-10 mx-auto">
+                <article class="post-article-content animate__animated animate__fadeIn">
+                    <div class="content-body" [innerHTML]="post.content.rendered"></div>
+
+                    <div class="post-footer mt-5 pt-4 border-top">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div class="share-links">
+                                <strong>{{ 'SHARE' | translate }}:</strong>
+                                <a href="javascript:void(0)" class="share-btn"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="javascript:void(0)" class="share-btn"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="javascript:void(0)" class="share-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                            <a routerLink="/posts" class="btn premium-back-btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                {{ 'BACK_TO_LIST' | translate }}
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

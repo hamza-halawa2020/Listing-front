@@ -1,0 +1,89 @@
+<section class="listings-full-page">
+    <div class="container-fluid p-0">
+        <div class="row g-0 flex-nowrap">
+            <!-- Listings Panel -->
+            <div class="col-lg-7 listings-panel">
+                <div class="listings-scroll-content p-4">
+                    <!-- Premium Search Filter Bar -->
+                    <div class="filter-header-premium mb-4" data-aos="fade-down">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="premium-input-group">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" class="form-control"
+                                        placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" [(ngModel)]="searchQuery"
+                                        (keyup.enter)="applyFilters()" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="premium-select-group">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    <select class="form-select" [(ngModel)]="selectedCategory"
+                                        (change)="applyFilters()">
+                                        <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
+                                        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="filter-actions-group d-flex gap-2">
+                                    <button class="btn btn-near-me-premium w-100" [class.active]="isNearMeActive"
+                                        [disabled]="isLocating" (click)="toggleNearMe()">
+                                        <i class="fa-solid" [class.fa-location-crosshairs]="!isLocating"
+                                            [class.fa-spinner]="isLocating" [class.fa-spin]="isLocating"></i>
+                                        <span class="ms-2 d-none d-xl-inline">{{ (isLocating ? 'LOCATING' : 'NEAR_ME') |
+                                            translate }}</span>
+                                    </button>
+                                    <button class="btn btn-filter-premium w-100" [class.active]="filterOpenNow"
+                                        (click)="filterOpenNow = !filterOpenNow; applyFilters()">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Listings Count -->
+                    <div class="listings-results-info mb-4 d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 fw-bold">{{ listings.length }} {{ 'RESULTS_FOUND' | translate }}</h5>
+                        <div class="view-toggles d-none d-md-flex gap-2">
+                            <button class="btn btn-view active"><i class="fa-solid fa-grid-2"></i></button>
+                            <button class="btn btn-view"><i class="fa-solid fa-list"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Listings List -->
+                    <div class="row" *ngIf="isLoading">
+                        <div class="col-md-6 mb-4" *ngFor="let item of [1,2,3,4]">
+                            <div class="skeleton-loader card-skeleton"></div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="!isLoading">
+                        <div class="col-md-6 mb-4" *ngFor="let listing of listings; let i = index">
+                            <app-content-card [item]="listing" [routePath]="'/listings'" [animationDelay]="i * 0.1">
+                            </app-content-card>
+                        </div>
+
+                        <div class="col-12 text-center py-5" *ngIf="listings.length === 0">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-search-minus display-4 mb-3 opacity-20"></i>
+                                <p class="text-muted">{{ 'NO_LISTINGS_FOUND' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="mt-4">
+                        <app-pagination [meta]="meta" (pageChange)="onPageChange($event)"></app-pagination>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Panel -->
+            <div class="col-lg-5 map-panel d-none d-lg-block">
+                <div id="listings-map-sticky"></div>
+            </div>
+        </div>
+    </div>
+</section>

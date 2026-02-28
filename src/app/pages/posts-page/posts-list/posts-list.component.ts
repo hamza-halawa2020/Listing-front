@@ -1,0 +1,54 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { PostsService } from '../posts.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { ContentCardComponent } from '../../../shared/components/content-card/content-card.component';
+
+@Component({
+    selector: 'app-posts-list',
+    standalone: true,
+    imports: [CommonModule, RouterLink, TranslateModule, PaginationComponent, ContentCardComponent],
+    templateUrl: './posts-list.component.html',
+    styleUrls: ['./posts-list.component.scss']
+})
+export class PostsListComponent implements OnInit {
+    posts: any[] = [];
+    isLoading: boolean = true;
+    meta: any;
+
+    constructor(private postsService: PostsService) { }
+
+    ngOnInit(): void {
+        this.fetchPosts();
+    }
+
+    fetchPosts(page: number = 1) {
+        this.isLoading = true;
+        this.postsService.getPostsList(page).subscribe({
+            next: (resp) => {
+                // WP returns array body, pagination info in headers
+                this.posts = resp.body || [];
+                const total = resp.headers.get('X-WP-Total');
+                const totalPages = resp.headers.get('X-WP-TotalPages');
+                this.meta = {
+                    total: total ? +total : 0,
+                    last_page: totalPages ? +totalPages : 0,
+                    current_page: page
+                };
+                this.isLoading = false;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+            error: () => {
+                this.isLoading = false;
+            }
+        });
+    }
+
+    onPageChange(page: number) {
+        if (this.meta && page >= 1 && page <= this.meta.last_page && page !== this.meta.current_page) {
+            this.fetchPosts(page);
+        }
+    }
+}

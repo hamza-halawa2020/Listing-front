@@ -1,0 +1,62 @@
+<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100">
+    <div class="login-container glass-bg p-5 rounded-4 shadow-2xl" data-aos="fade-up">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold text-indigo mb-2">{{ 'LOGIN' | translate }}</h2>
+            <p class="text-muted">{{ 'LOG_IN_TO_YOUR_ACCOUNT' | translate }}</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger-soft mb-4 d-flex align-items-center">
+                <i class="fa-solid fa-circle-exclamation me-2"></i>
+                <span>{{ errorMessage | translate }}</span>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'name' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" formControlName="username" class="form-control"
+                        placeholder="{{ 'Enter Your Name' | translate }}">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'password' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" formControlName="password" class="form-control"
+                        placeholder="{{ 'Enter Your Password' | translate }}">
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="rememberMe" id="rememberMe">
+                    <label class="form-check-label text-muted small" for="rememberMe">
+                        {{ 'REMEMBER_ME' | translate }}
+                    </label>
+                </div>
+                <a routerLink="/forgot-password" class="text-indigo small fw-semibold text-decoration-none">
+                    {{ 'Forget password?' | translate }}
+                </a>
+            </div>
+
+            <button type="submit" class="btn btn-primary-gradient w-100 py-3 rounded-3 fw-bold mb-4"
+                [disabled]="isLoading">
+                <span *ngIf="!isLoading">{{ 'Login' | translate }}</span>
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                <span *ngIf="isLoading">{{ 'LOADING' | translate }}</span>
+            </button>
+
+            <div class="text-center">
+                <p class="text-muted small mb-0">
+                    {{ 'Already have an account?' | translate }}
+                    <a routerLink="/signup" class="text-indigo fw-bold text-decoration-none ms-1">
+                        {{ 'sign up' | translate }}
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

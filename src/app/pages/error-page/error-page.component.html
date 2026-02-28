@@ -1,0 +1,21 @@
+<app-navbar />
+
+<!-- Error -->
+<div class="not-found-area bg-white text-center ptb-120">
+    <div class="container">
+        <h1 class="lh-1">
+            404
+        </h1>
+        <p class="mx-auto">
+            {{ 'PAGE_NOT_FOUND_MESSAGE' | translate }}
+        </p>
+        <a routerLink="/" class="default-btn">
+            {{ 'BACK_TO_HOME' | translate }}
+        </a>
+    </div>
+</div>
+<!-- End Error -->
+
+<app-footer />
+
+<app-back-to-top />

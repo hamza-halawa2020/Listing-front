@@ -1,0 +1,73 @@
+<nav class="main-navbar" [class.sticky]="isSticky">
+    <div class="navbar-container">
+        <!-- Brand Logo -->
+        <div class="navbar-brand">
+            <a routerLink="/" (click)="closeMobileMenu()">
+                <img [src]="settings.logo_url || 'assets/images/logo.svg'" alt="care & share" class="logo">
+            </a>
+        </div>
+
+        <!-- Desktop Navigation Menu -->
+        <div class="navbar-menu" [class.active]="!isCollapsed">
+            <ul class="nav-links">
+                <li *ngFor="let item of menuItems">
+                    <ng-container *ngIf="!item['requiresAuth'] || authService.isLoggedIn()">
+                        <a [routerLink]="item.route" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: item.route === '/'}" (click)="closeMobileMenu()">
+                            {{ item.label | translate }}
+                        </a>
+                    </ng-container>
+                </li>
+            </ul>
+
+            <!-- Action Buttons -->
+            <div class="navbar-actions">
+                <!-- Language Switcher -->
+                <div class="language-switcher me-3" ngbDropdown placement="bottom-end">
+                    <button class="lang-btn" ngbDropdownToggle id="languageDropdown">
+                        <span class="flag">{{ getCurrentLanguageData().flag }}</span>
+                        <span class="lang-name d-none d-lg-inline-block">{{ getCurrentLanguageData().name }}</span>
+                        <i class="fas fa-chevron-down ms-1"></i>
+                    </button>
+                    <div class="dropdown-menu shadow-lg border-0" ngbDropdownMenu>
+                        <button class="dropdown-item py-2" *ngFor="let lang of languages"
+                            [class.active]="lang.code === currentLanguage" (click)="switchLanguage(lang.code)">
+                            <span class="flag me-2">{{ lang.flag }}</span>
+                            <span>{{ lang.name }}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Auth Buttons -->
+                <ng-container *ngIf="!authService.isLoggedIn()">
+                    <a routerLink="/login" class="btn btn-primary" (click)="closeMobileMenu()">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i> {{ 'Login' | translate }}
+                    </a>
+                </ng-container>
+
+                <ng-container *ngIf="authService.isLoggedIn()">
+                    <div class="user-info d-flex align-items-center me-3 border-end pe-3">
+                        <div class="user-avatar-sm me-2">
+                            <i class="fa-solid fa-circle-user text-indigo"></i>
+                        </div>
+                        <span class="user-name small fw-bold text-muted">{{ currentUser?.displayName }}</span>
+                        <button class="btn btn-logout-sm ms-3" (click)="logout()" title="{{ 'Log Out' | translate }}">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
+                    </div>
+                </ng-container>
+
+                <a routerLink="/contacts" class="btn btn-outline" (click)="closeMobileMenu()">
+                    {{ 'CONTACT_US' | translate }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-toggle" (click)="toggleMobileMenu()" [class.active]="!isCollapsed">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>

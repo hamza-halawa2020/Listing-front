@@ -1,0 +1,88 @@
+<section class="team-area">
+    <div class="">
+        <div class="section-title text-center mt-5">
+            <h2>{{ 'TERMS_OF_SERVICE' | translate }}</h2>
+            <p class="mt-5">{{ 'TERMS_OF_SERVICE' | translate }}</p>
+        </div>
+
+
+
+        <!-- Terms & Conditions Content -->
+        <section class="policy-content-section section-padding">
+            <div class="">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="policy-content">
+                            <div class="policy-header">
+                                <h2>{{ 'TERMS_OF_SERVICE' | translate }}</h2>
+                                <p class="last-updated">{{ 'LAST_UPDATED' | translate }}: 25 {{ 'JANUARY' | translate }}
+                                    2024</p>
+                            </div>
+
+                            <div class="policy-section">
+                            </div>
+
+                            <div *ngIf="settings.terms_conditions" [innerHTML]="settings.terms_conditions"></div>
+
+                            <div *ngIf="!settings.terms_conditions">
+                                <div class="policy-section">
+                                    <h3>{{ 'TERMS_OVERVIEW' | translate }}</h3>
+                                    <p>{{ 'TERMS_INTRO' | translate }}</p>
+                                </div>
+
+                                <div class="policy-section">
+                                    <h3>{{ 'GENERAL_PERMISSION_TITLE' | translate }}</h3>
+                                    <p>{{ 'GENERAL_PERMISSION_DESC' | translate }}</p>
+                                    <p>{{ 'SHIPPING_OPTIONS' | translate }}</p>
+                                </div>
+
+                                <div class="policy-section">
+                                    <h3>{{ 'CONFIDENTIAL_INFO_TITLE' | translate }}</h3>
+                                    <ul class="policy-list">
+                                        <li>{{ 'CREDIT_CARD_TERMS' | translate }}</li>
+                                        <li>{{ 'FAST_CHECKOUT_TERMS' | translate }}</li>
+                                        <li>{{ 'PAYPAL_TERMS' | translate }}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="policy-section">
+                                    <h3>{{ 'LINKING_TITLE' | translate }}</h3>
+                                    <p>{{ 'RETURN_POLICY_TERMS' | translate }}</p>
+                                </div>
+
+                                <div class="policy-section">
+                                    <h3>{{ 'INTELLECTUAL_PROPERTY_TITLE' | translate }}</h3>
+                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC' | translate }}</p>
+                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC_2' | translate }}</p>
+                                </div>
+
+                                <div class="policy-section">
+                                    <h3>{{ 'SECURITY_STORAGE_TITLE' | translate }}</h3>
+                                    <p>{{ 'SECURITY_STORAGE_DESC' | translate }}</p>
+                                    <ol class="policy-list numbered">
+                                        <li>{{ 'CREDIT_CARD_TERMS' | translate }}</li>
+                                        <li>{{ 'FAST_CHECKOUT_TERMS' | translate }}</li>
+                                        <li>{{ 'PAYPAL_TERMS' | translate }}</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="policy-footer">
+                                <div class="contact-info">
+                                    <h4>{{ 'CONTACT_US' | translate }}</h4>
+                                    <p>{{ 'TERMS_CONTACT_DESC' | translate }}</p>
+                                    <div class="contact-details">
+                                        <p *ngIf="settings.email"><strong>{{ 'EMAIL' | translate }}:</strong> <a
+                                                href="mailto:{{ settings.email }}">{{ settings.email }}</a></p>
+                                        <p *ngIf="settings.phone"><strong>{{ 'PHONE' | translate }}:</strong> <a
+                                                href="tel:{{ settings.phone }}">{{ settings.phone }}</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>

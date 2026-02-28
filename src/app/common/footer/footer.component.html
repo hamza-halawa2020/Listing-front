@@ -1,0 +1,97 @@
+<footer class="premium-footer">
+    <div class="footer-wave-wrap">
+        <svg class="footer-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#2b3990" fill-opacity="0.05"
+                d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+            </path>
+        </svg>
+    </div>
+
+    <div class="container footer-content-wrap">
+        <div class="row g-4 mb-5">
+            <!-- Brand & About -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <div class="footer-card brand-card">
+                    <img [src]="settings.logo_url || '/assets/images/logo.svg'" alt="care & share"
+                        class="footer-logo mb-4">
+                    <p class="brand-desc" *ngIf="settings.about_us_footer || settings.about_us">
+                        {{ settings.about_us_footer || settings.about_us }}
+                    </p>
+                    <div class="social-circles mt-4">
+                        <a *ngIf="settings.facebook" [href]="settings.facebook" target="_blank" class="circle-btn fb"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a *ngIf="settings.instagram" [href]="settings.instagram" target="_blank"
+                            class="circle-btn ig"><i class="fab fa-instagram"></i></a>
+                        <a *ngIf="settings.twitter" [href]="settings.twitter" target="_blank" class="circle-btn tw"><i
+                                class="fab fa-twitter"></i></a>
+                        <a *ngIf="settings.linkedin" [href]="settings.linkedin" target="_blank" class="circle-btn in"><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                <div class="footer-card">
+                    <h4 class="footer-title">{{ 'MENU' | translate }}</h4>
+                    <ul class="clean-links">
+                        <li><a routerLink="/"><i class="fa-solid fa-chevron-right me-2"></i> {{ 'HOME' | translate
+                                }}</a></li>
+                        <li><a routerLink="/testimonials"><i class="fa-solid fa-chevron-right me-2"></i> {{
+                                'TESTIMONIALS' | translate }}</a></li>
+                        <li><a routerLink="/contacts"><i class="fa-solid fa-chevron-right me-2"></i> {{ 'CONTACT_US' |
+                                translate }}</a></li>
+                        <li><a routerLink="/about"><i class="fa-solid fa-chevron-right me-2"></i> {{ 'ABOUT_US' |
+                                translate }}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Policies -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <div class="footer-card">
+                    <h4 class="footer-title">{{ 'POLICIES_SUPPORT' | translate }}</h4>
+                    <ul class="clean-links">
+                        <li><a routerLink="/privacy-policy"><i class="fa-solid fa-shield-halved me-2"></i> {{
+                                'PRIVACY_POLICY' | translate }}</a></li>
+                        <li><a routerLink="/terms-conditions"><i class="fa-solid fa-file-contract me-2"></i> {{
+                                'TERMS_OF_SERVICE' | translate }}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Hub -->
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-card contact-hub">
+                    <h4 class="footer-title">{{ 'LOCATION' | translate }}</h4>
+                    <div class="hub-item mb-3">
+                        <div class="hub-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="hub-text">{{ settings.address || ("NEW_CAIRO" | translate) }}</div>
+                    </div>
+                    <div class="hub-item mb-3" *ngIf="settings.email">
+                        <div class="hub-icon"><i class="fa-solid fa-at"></i></div>
+                        <div class="hub-text"><a href="mailto:{{ settings.email }}">{{ settings.email }}</a></div>
+                    </div>
+                    <div class="hub-item mb-3" *ngIf="settings.phone">
+                        <div class="hub-icon"><i class="fa-solid fa-headset"></i></div>
+                        <div class="hub-text"><a dir="ltr" href="tel:{{ settings.phone }}">{{ settings.phone }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright Bar -->
+        <div class="footer-bar pt-4 mt-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <p class="copyright-text mb-0">© {{ 2024 }} **Care & Share**. {{ 'ALL_RIGHTS_RESERVED' | translate }}
+                </p>
+                <div class="legal-mini-links">
+                    <a routerLink="/privacy-policy">{{ 'PRIVACY' | translate }}</a>
+                    <span class="sep">|</span>
+                    <a routerLink="/terms-conditions">{{ 'TERMS' | translate }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

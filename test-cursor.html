@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Cursor Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 50px;
+            font-family: Cairo, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            cursor: auto;
+            /* Keep default cursor visible */
+        }
+
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            opacity: 1;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .cursor.clicking .cursor-dot {
+            transform: scale(1.5);
+            background: #ff6b6b;
+        }
+
+        .cursor.clicking .cursor-outline {
+            transform: scale(1.8);
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.2);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .cursor.hovering .cursor-dot {
+            transform: scale(0.5);
+            background: #10ac84;
+        }
+
+        .cursor.hovering .cursor-outline {
+            transform: scale(1.5);
+            border-color: #10ac84;
+            background: rgba(16, 172, 132, 0.15);
+        }
+
+        .trail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor" id="cursor">
+        <div class="cursor-outline"></div>
+    </div>
+
+    <div class="content">
+        <h1>🎯 Custom Cursor Test</h1>
+        <p>Move your mouse around to see the custom cursor in action!</p>
+        <p>The cursor should follow your mouse movement smoothly with a beautiful trail effect.</p>
+
+        <a href="#" class="btn">Hover over me!</a>
+        <a href="#" class="btn">Click me!</a>
+
+        <input type="text" placeholder="Type something here...">
+
+        <p>Try clicking, hovering over buttons, and moving quickly to see different effects!</p>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const trails = [];
+        let mousePosition = { x: 0, y: 0 };
+        let cursorPosition = { x: 0, y: 0 };
+
+        // Create trail elements - circles only
+        for (let i = 0; i < 6; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            const size = 20 - i * 2;
+            trail.style.width = size + 'px';
+            trail.style.height = size + 'px';
+            trail.style.top = (-size / 2) + 'px';
+            trail.style.left = (-size / 2) + 'px';
+            trail.style.opacity = (0.6 - i * 0.1);
+            trail.style.transform = `scale(${1 - i * 0.15})`;
+            trail.style.zIndex = 99998 - i;
+            document.body.appendChild(trail);
+            trails.push(trail);
+        }
+
+        // Mouse move event
+        document.addEventListener('mousemove', (e) => {
+            mousePosition.x = e.clientX;
+            mousePosition.y = e.clientY;
+        });
+
+        // Mouse down event
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('clicking');
+        });
+
+        // Mouse up event
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('clicking');
+        });
+
+        // Hover events for interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, input');
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hovering');
+            });
+
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hovering');
+            });
+        });
+
+        // Animation loop
+        function animate() {
+            // Smooth cursor movement
+            const ease = 0.15;
+            cursorPosition.x += (mousePosition.x - cursorPosition.x) * ease;
+            cursorPosition.y += (mousePosition.y - cursorPosition.y) * ease;
+
+            // Update cursor position
+            cursor.style.transform = `translate3d(${cursorPosition.x}px, ${cursorPosition.y}px, 0)`;
+
+            // Update trail elements
+            trails.forEach((trail, index) => {
+                const delay = (index + 1) * 0.08;
+                const targetX = cursorPosition.x - delay * (mousePosition.x - cursorPosition.x);
+                const targetY = cursorPosition.y - delay * (mousePosition.y - cursorPosition.y);
+
+                trail.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) scale(${1 - index * 0.15})`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+
+        // Set initial position
+        mousePosition.x = window.innerWidth / 2;
+        mousePosition.y = window.innerHeight / 2;
+        cursorPosition.x = mousePosition.x;
+        cursorPosition.y = mousePosition.y;
+
+    </script>
+</body>
+
+</html>

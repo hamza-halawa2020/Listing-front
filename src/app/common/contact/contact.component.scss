@@ -1,0 +1,99 @@
+$primary: var(--primaryColor, #2b3990);
+$secondary: var(--secondaryColor, #f15a24);
+$dark: #0f172a;
+$gray: #64748b;
+
+.contact-form {
+    .form-group {
+        margin-bottom: 25px;
+
+        label {
+            display: block;
+            color: $dark;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-control {
+            height: 60px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 0 25px;
+            color: $dark;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+
+            &:focus {
+                border-color: $secondary;
+                background: white;
+                box-shadow: 0 10px 25px rgba($secondary, 0.1);
+                outline: none;
+            }
+
+            &::placeholder {
+                color: #94a3b8;
+            }
+
+            &.is-invalid {
+                border-color: #ef4444;
+
+                &:focus {
+                    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.1);
+                }
+            }
+        }
+
+        textarea.form-control {
+            height: 150px;
+            padding-top: 20px;
+            resize: none;
+        }
+
+        .invalid-feedback {
+            font-weight: 600;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: $primary;
+        color: white;
+        padding: 20px 45px;
+        border-radius: 15px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+
+        &:hover:not(:disabled) {
+            background: $secondary;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba($secondary, 0.2);
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+}
+
+:host-context([dir="rtl"]) {
+    .submit-btn i {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

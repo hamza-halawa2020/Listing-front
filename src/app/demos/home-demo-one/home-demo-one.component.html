@@ -1,0 +1,162 @@
+<!-- Hero Search Section -->
+<section class="hero-listing-search">
+    <div class="hero-overlay"></div>
+    <div class="container d-flex flex-column align-items-center justify-content-center h-100">
+        <div class="hero-content text-center mb-5" data-aos="fade-up">
+            <h1 class="display-4 fw-bold text-white mb-3">{{ 'HERO_TITLE' | translate }}</h1>
+            <p class="lead text-white-50 mb-5">{{ 'HERO_SUBTITLE' | translate }}</p>
+        </div>
+
+        <div class="search-box-wrap w-100 max-w-800" data-aos="fade-up" data-aos-delay="200">
+            <form (ngSubmit)="searchListings()" class="search-form-premium">
+                <div class="row g-0 align-items-center">
+                    <div class="col-lg-5 search-input-col">
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
+                                placeholder="{{ 'WHAT_LOOKING_FOR' | translate }}" class="form-control-premium">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 search-input-col border-start-lg">
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <select [(ngModel)]="selectedCategory" name="selectedCategory" class="form-select-premium">
+                                <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
+                                <option *ngFor="let cat of categoriesForHome" [value]="cat.id">{{ cat.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 search-btn-col">
+                        <button type="submit" class="btn-search-premium">
+                            <i class="fa-solid fa-search me-2"></i> {{ 'SEARCH_BUTTON' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Category Shortcuts -->
+            <div class="hero-category-shortcuts mt-4 d-flex flex-wrap justify-content-center gap-3">
+                <div *ngFor="let cat of categoriesForHome" class="cat-shortcut"
+                    (click)="selectedCategory=cat.id; searchListings()">
+                    <i class="fa-solid {{cat.icon}}"></i>
+                    <span>{{cat.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-section section-padding text-center">
+    <div class="container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'LOADING' | translate }}</span>
+        </div>
+        <p class="mt-3">{{ 'LOADING' | translate }}...</p>
+    </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="error-section section-padding text-center">
+    <div class="container">
+        <div class="alert alert-warning">
+            <i class="fa-solid fa-exclamation-triangle mb-3"></i>
+            <p>{{ error }}</p>
+            <button class="btn btn-primary" (click)="retryLoadData()">
+                {{ 'TRY_AGAIN' | translate }}...
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div *ngIf="!isLoading && homeData">
+    <!-- Why Choose Us / About Section -->
+    <section class="about-section mt-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-content" data-aos="fade-left">
+                        <div class="section-header mb-4">
+                            <span class="text-indigo fw-bold tracking-wider text-uppercase fs-0-8">{{ 'WHY_CHOOSE_US' |
+                                translate }}</span>
+                            <h2 class="display-5 fw-bold mt-2">{{ 'WHO_WE_ARE_TITLE' | translate }}</h2>
+                            <p class="lead text-muted mt-3 mb-4">{{ 'ABOUT_US_DESC_1' | translate }}</p>
+                        </div>
+                        <div class="about-features-premium mt-5">
+                            <div class="premium-feature-card mb-4">
+                                <div class="feature-icon-box bg-indigo-light">
+                                    <i class="fa-solid fa-magnifying-glass-location text-indigo"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h4 class="fw-bold mb-1">{{ 'FIND_BEST_PLACES' | translate }}</h4>
+                                    <p class="text-muted mb-0">{{ 'FIND_BEST_PLACES_DESC' | translate }}</p>
+                                </div>
+                            </div>
+                            <div class="premium-feature-card mb-4">
+                                <div class="feature-icon-box bg-amber-light">
+                                    <i class="fa-solid fa-id-card-clip text-amber"></i>
+                                </div>
+                                <div class="feature-text">
+                                    <h4 class="fw-bold mb-1">{{ 'DIRECT_CONTACT' | translate }}</h4>
+                                    <p class="text-muted mb-0">{{ 'DIRECT_CONTACT_DESC' | translate }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-cta mt-5">
+                            <a routerLink="/listings" class="btn btn-primary px-5 py-3 rounded-pill fw-bold">
+                                {{ 'EXPLORE_NOW' | translate }}
+                                <i class="fa-solid ms-2"
+                                    [ngClass]="{'fa-arrow-right': translate.currentLang === 'en', 'fa-arrow-left': translate.currentLang === 'ar'}"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-image-wrap ps-lg-5" data-aos="zoom-in">
+                        <div class="image-stack">
+                            <img src="assets/images/care-and-share-bannar.svg" alt="Experience"
+                                class="img-fluid rounded-4 shadow-lg main-img">
+                            <div class="experience-card-glass glass-bg premium-shadow">
+                                <h3 class="display-4 fw-bold text-indigo mb-0">{{ homeData.stats.satisfiedClients }}+
+                                </h3>
+                                <p class="mb-0 fw-semibold text-muted">{{ 'HAPPY_USERS' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Browse Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <h2 class="section-title display-6 fw-bold mt-2">{{ 'BROWSE_BY_CATEGORY' | translate }}</h2>
+                <p class="section-description max-w-600 mx-auto text-muted">{{ 'CATEGORIES_DESC' | translate }}</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let cat of categoriesForHome; let i = index"
+                    data-aos="fade-up" [attr.data-aos-delay]="i * 50">
+                    <div class="cat-modern-card" (click)="selectedCategory=cat.id; searchListings()">
+                        <div class="cat-icon-wrap">
+                            <i class="fa-solid {{cat.icon}}"></i>
+                        </div>
+                        <div class="cat-details">
+                            <h4 class="mb-1">{{cat.name}}</h4>
+                            <span class="text-muted fs-0-9">12+ {{ 'LISTINGS' | translate }}</span>
+                        </div>
+                        <div class="arrow-icon">
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>

@@ -1,0 +1,30 @@
+<div class="content-card animate__animated animate__fadeInUp" [style.animation-delay]="animationDelay + 's'">
+    <div class="card-img">
+        <img [src]="getImageUrl()" [alt]="item.title?.rendered || item.title">
+        <div class="overlay"></div>
+        <!-- Open/Closed badge — only shown if API returns explicit open status -->
+        <div class="listing-badge" *ngIf="item.is_open !== undefined || item.open_status">
+            <span class="badge" [ngClass]="(item.is_open === true || item.open_status === 'open') ? 'bg-success' : 'bg-danger'">
+                {{ (item.is_open === true || item.open_status === 'open') ? ('OPEN' | translate) : ('CLOSED' | translate) }}
+            </span>
+        </div>
+        <!-- Distance badge — shown when Near Me is active -->
+        <div class="distance-badge" *ngIf="item._distanceKm !== undefined && item._distanceKm < 9999">
+            <i class="fa-solid fa-location-dot"></i>
+            {{ item._distanceKm | number:'1.1-1' }} كم
+        </div>
+    </div>
+    <div class="card-content">
+        <h3>
+            <a [routerLink]="[routePath, item.id]">{{ item.title?.rendered || item.title }}</a>
+        </h3>
+        <div class="description-preview" [innerHTML]="item.excerpt?.rendered || item.description"></div>
+
+        <div class="card-footer">
+            <a [routerLink]="[routePath, item.id]" class="read-more-btn">
+                {{ 'READ_MORE' | translate }}
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>

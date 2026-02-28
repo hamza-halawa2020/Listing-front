@@ -1,0 +1,131 @@
+<section class="review-area">
+    <div class="container">
+        <div class="section-title text-center mt-5">
+            <h2>{{ 'CLIENT_TESTIMONIALS' | translate }}</h2>
+            <p class="mt-5">{{ 'TESTIMONIALS_SUBTITLE' | translate }}</p>
+        </div>
+
+        <div class="row" *ngIf="isLoading">
+            <div class="col-lg-4 col-md-6 mb-4" *ngFor="let item of [1,2,3,4,5,6]">
+                <div class="skeleton-loader"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <section class="stats-section" *ngIf="!isLoading && reviews.length > 0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">{{ meta?.total || 0 }}+</h3>
+                                <p class="stat-label">{{ 'HAPPY_CLIENTS' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">100+</h3>
+                                <p class="stat-label">{{ 'PROJECTS_COMPLETED' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">5.0</h3>
+                                <p class="stat-label">{{ 'AVERAGE_RATING' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-handshake"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">98%</h3>
+                                <p class="stat-label">{{ 'CLIENT_SATISFACTION' | translate }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews-area">
+            <div class="container">
+
+                <!-- Reviews Grid -->
+                <div class="row" *ngIf="!isLoading">
+                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let review of reviews; let i = index">
+                        <div class="review-card animate__animated animate__fadeInUp"
+                            [style.animation-delay]="i * 0.1 + 's'">
+                            <div class="quote-icon">
+                                <i class="fa-solid fa-quote-left"></i>
+                            </div>
+
+                            <div class="review-content">
+                                <p class="review-text">{{ review.review }}</p>
+                            </div>
+
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">
+                                    <span>{{ getInitials(review.name) }}</span>
+                                </div>
+                                <div class="reviewer-details">
+                                    <h4 class="reviewer-name">{{ review.name }}</h4>
+                                    <p class="review-date">{{ formatDate(review.created_at) }}</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- No Reviews Message -->
+                    <div class="col-12 text-center py-5" *ngIf="reviews.length === 0">
+                        <div class="alert alert-info">
+                            <i class="fa-solid fa-info-circle"></i>
+                            {{ 'NO_REVIEWS_FOUND' | translate }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <app-pagination [meta]="meta" (pageChange)="onPageChange($event)"
+                    *ngIf="!isLoading && meta"></app-pagination>
+            </div>
+        </section>
+    </div>
+    <!-- Call to Action Section -->
+    <section class="cta-section" *ngIf="!isLoading && reviews.length > 0">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="cta-content">
+                        <h2>{{ 'READY_TO_START' | translate }}</h2>
+                        <p>{{ 'CTA_DESCRIPTION' | translate }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a routerLink="/contacts" class="cta-btn">
+                        {{ 'GET_STARTED_TODAY' | translate }}
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

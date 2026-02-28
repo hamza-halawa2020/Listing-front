@@ -1,0 +1,154 @@
+<div class="listing-details-wrapper" *ngIf="!isLoading && listing">
+    <!-- Premium Header Section -->
+    <header class="listing-header-premium">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/listings">{{ 'LISTINGS' | translate }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" [innerHTML]="listing.title?.rendered"></li>
+                </ol>
+            </nav>
+            <div class="header-main-info d-flex flex-wrap justify-content-between align-items-end">
+                <div class="title-area">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge bg-success me-2">{{ mockData.status }}</span>
+                        <div class="rating-stars">
+                            <i class="fa-solid fa-star text-amber" *ngFor="let star of [1,2,3,4,5]"></i>
+                            <span class="ms-2 text-white">({{ mockData.reviewsCount }} {{ 'REVIEWS' | translate
+                                }})</span>
+                        </div>
+                    </div>
+                    <h1 class="fsresp fw-bold text-white mb-2" [innerHTML]="listing.title?.rendered"></h1>
+                    <p class="text-white-50 fs-5 mb-0">
+                        <i class="fa-solid fa-location-dot me-2"></i> {{ mockData.address }}
+                    </p>
+                </div>
+                <div class="action-buttons mt-4 mt-lg-0 d-flex gap-2">
+                    <button class="btn btn-glass"><i class="fa-regular fa-heart me-2"></i> {{ 'SAVE' | translate
+                        }}</button>
+                    <button class="btn btn-glass"><i class="fa-solid fa-share-nodes me-2"></i> {{ 'SHARE' | translate
+                        }}</button>
+                    <button class="btn btn-secondary px-4"><i class="fa-solid fa-star me-2"></i> {{ 'WRITE_REVIEW' |
+                        translate }}</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="container py-5">
+        <div class="row g-lg-5 g-3">
+            <!-- Main Content (8 cols) -->
+            <div class="col-lg-8">
+                <!-- Gallery Section -->
+                <div class="listing-gallery mb-5">
+                    <img [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
+                        [alt]="listing.title?.rendered">
+                    <div class="row g-2 mt-2">
+                        <div class="col-4" *ngFor="let img of mockData.gallery">
+                            <img [src]="img" class="img-fluid rounded-3 gallery-thumb" alt="Gallery">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="content-box mb-5">
+                    <h3 class="fw-bold mb-4">{{ 'DESCRIPTION' | translate }}</h3>
+                    <div class="description-text" [innerHTML]="listing.content?.rendered"></div>
+                </div>
+
+                <!-- Features/Taxonomies -->
+                <div class="content-box mb-5" *ngIf="taxonomyNames.length">
+                    <h3 class="fw-bold mb-4">{{ 'AMENITIES' | translate }}</h3>
+                    <div class="row g-3">
+                        <div class="col-md-4" *ngFor="let t of taxonomyNames">
+                            <div class="amenity-item">
+                                <i class="fa-solid fa-check text-success me-2"></i> {{ t }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Placeholder -->
+                <div class="content-box mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold mb-0">{{ 'REVIEWS' | translate }}</h3>
+                        <div class="overall-rating fs-4 fw-bold">
+                            {{ mockData.rating }} <i class="fa-solid fa-star text-amber"></i>
+                        </div>
+                    </div>
+                    <div class="alert alert-light border">
+                        {{ 'NO_REVIEWS_YET' | translate }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar (4 cols) -->
+            <div class="col-lg-4">
+                <div class="sticky-sidebar">
+                    <!-- Map Card -->
+                    <div class="sidebar-card mb-4 overflow-hidden">
+                        <div id="listing-detail-map" class="listing-map-container"></div>
+                        <div class="p-3 bg-white border-top">
+                            <p class="mb-2"><i class="fa-solid fa-location-dot text-indigo me-2"></i> {{
+                                mockData.address }}</p>
+                            <a href="javascript:void(0)" class="text-indigo fw-semibold">{{ 'GET_DIRECTIONS' | translate
+                                }}</a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info Card -->
+                    <div class="sidebar-card p-4 mb-4 bg-white">
+                        <h5 class="fw-bold mb-4">{{ 'CONTACT_INFO' | translate }}</h5>
+                        <ul class="list-unstyled contact-list mb-4">
+                            <li class="mb-3">
+                                <i class="fa-solid fa-phone me-3 text-muted"></i>
+                                <span class="fw-semibold">{{ mockData.phone }}</span>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fa-solid fa-globe me-3 text-muted"></i>
+                                <a [href]="mockData.website" target="_blank" class="text-dark">{{ mockData.website
+                                    }}</a>
+                            </li>
+                        </ul>
+                        <div class="social-links d-flex gap-2">
+                            <a *ngFor="let s of mockData.social" [href]="s.link" class="social-btn">
+                                <i class="fa-brands" [ngClass]="s.icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Contact Form -->
+                    <div class="sidebar-card p-4 bg-white">
+                        <h5 class="fw-bold mb-4">{{ 'SEND_MESSAGE' | translate }}</h5>
+                        <form (ngSubmit)="submitContactForm()">
+                            <input type="text" class="form-control mb-3" placeholder="{{ 'YOUR_NAME' | translate }}"
+                                required>
+                            <input type="email" class="form-control mb-3"
+                                placeholder="{{ 'EMAIL_ADDRESS' | translate }}" required>
+                            <textarea class="form-control mb-3" rows="4" placeholder="{{ 'YOUR_MESSAGE' | translate }}"
+                                required></textarea>
+                            <button type="submit" class="btn btn-secondary w-100 py-3 fw-bold">
+                                {{ 'SUBMIT_REQUEST' | translate }} <i class="fa-solid fa-paper-plane ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- States -->
+<div class="container py-120" *ngIf="isLoading">
+    <div class="skeleton-loader h-400"></div>
+</div>
+
+<div class="container py-120" *ngIf="!isLoading && !listing">
+    <div class="alert alert-warning text-center">
+        <i class="fa-solid fa-circle-exclamation fa-2x mb-3"></i>
+        <p>{{ 'LISTING_NOT_FOUND' | translate }}</p>
+        <a routerLink="/listings" class="btn btn-secondary">{{ 'BACK_TO_LISTINGS' | translate }}</a>
+    </div>
+</div>

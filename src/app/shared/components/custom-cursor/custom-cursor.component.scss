@@ -1,0 +1,16 @@
+// Custom Cursor Component Styles
+:host {
+  pointer-events: none;
+  z-index: 999999;
+}
+
+// Global Cursor Overrides when custom cursor is active
+:global(body.custom-cursor-active) {
+  @media (hover: hover) and (pointer: fine) {
+    cursor: none !important;
+
+    * {
+      cursor: none !important;
+    }
+  }
+}

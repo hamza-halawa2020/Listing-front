@@ -1,0 +1,201 @@
+.who-we-are-content {
+    h2 {
+        font-size: 32px;
+        line-height: 1.5;
+        margin-bottom: 32px;
+    }
+    p {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+    .funfacts {
+        margin-top: 87px;
+        
+        h3 {
+            font-size: 48px;
+            margin-bottom: 2px;
+
+            span {
+                color: #fbe8fe;
+            }
+        }
+        p {
+            font-size: 20px;
+        }
+    }
+}
+.who-we-are-image {
+    padding-left: 33px;
+
+    .users {
+        div {
+            margin-bottom: 12px;
+
+            img {
+                width: 61px;
+                margin-right: -15px;
+                border: 2px solid var(--whiteColor);
+            }
+        }
+        span {
+            margin-bottom: 4px;
+        }
+        p {
+            font-size: 16px;
+        }
+    }
+    .image {
+        border-radius: 15px;
+        margin-top: 42px;
+
+        img {
+            border-radius: 15px;
+        }
+        .video-btn {
+            top: 50%;
+            width: 60px;
+            right: 70px;
+            height: 60px;
+            font-size: 27px;
+            position: absolute;
+            color: #fbe8fe;
+            transform: translateY(-50%);
+            transition: var(--transition);
+            background-color: var(--whiteColor);
+
+            &:hover {
+                color: var(--whiteColor);
+                background-color: #4c0048;
+            }
+        }
+        &::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            content: '';
+            opacity: .20;
+            position: absolute;
+            border-radius: 15px;
+            background: #4c0048;
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .who-we-are-content {
+        h2 {
+            font-size: 25px;
+            line-height: 1.3;
+            margin-bottom: 13px;
+        }
+        p {
+            font-size: 15px;
+        }
+        .funfacts {
+            margin-top: 20px;
+            
+            h3 {
+                font-size: 35px;
+            }
+            p {
+                font-size: 15px;
+            }
+        }
+    }
+    .who-we-are-image {
+        padding-left: 0;
+        margin-top: 20px;
+    
+        .users {
+            p {
+                font-size: 15px;
+            }
+        }
+        .image {
+            margin-top: 25px;
+    
+            .video-btn {
+                width: 50px;
+                right: 25px;
+                height: 50px;
+                font-size: 22px;
+            }
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .who-we-are-content {
+        h2 {
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        p {
+            line-height: 1.7;
+        }
+        .funfacts {
+            margin-top: 20px;
+            
+            h3 {
+                font-size: 40px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+    }
+    .who-we-are-image {
+        padding-left: 0;
+        margin-top: 25px;
+    
+        .image {
+            margin-top: 30px;
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .who-we-are-content {
+        h2 {
+            font-size: 30px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+        .funfacts {
+            margin-top: 40px;
+            
+            h3 {
+                font-size: 45px;
+            }
+            p {
+                font-size: 18px;
+            }
+        }
+    }
+    .who-we-are-image {
+        padding-left: 15px;
+    
+        .image {
+            margin-top: 40px;
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

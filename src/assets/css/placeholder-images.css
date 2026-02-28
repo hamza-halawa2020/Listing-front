@@ -1,0 +1,181 @@
+/* Placeholder Images for Demo */
+img[src*="care-and-share-bannar.svg"],
+img[src*="work-sample-"],
+img[src*="team-"],
+img[src*="client-"],
+img[src*="post-"],
+img[src*="partner-"] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-weight: 600;
+    position: relative;
+}
+
+img[src*="care-and-share-bannar.svg"]::before {
+    content: "About Image";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="work-sample-1.jpg"]::before {
+    content: "Work Sample 1";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="work-sample-2.jpg"]::before {
+    content: "Work Sample 2";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="work-sample-3.jpg"]::before {
+    content: "Work Sample 3";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="team-1.jpg"]::before {
+    content: "Team Member 1";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="team-2.jpg"]::before {
+    content: "Team Member 2";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="team-3.jpg"]::before {
+    content: "Team Member 3";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="team-4.jpg"]::before {
+    content: "Team Member 4";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="client-1.jpg"]::before {
+    content: "Client 1";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="client-2.jpg"]::before {
+    content: "Client 2";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="client-3.jpg"]::before {
+    content: "Client 3";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="post-1.jpg"]::before {
+    content: "Post Image 1";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="post-2.jpg"]::before {
+    content: "Post Image 2";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="post-3.jpg"]::before {
+    content: "Post Image 3";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-"] {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    min-height: 80px;
+}
+
+img[src*="partner-1.png"]::before {
+    content: "Partner 1";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-2.png"]::before {
+    content: "Partner 2";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-3.png"]::before {
+    content: "Partner 3";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-4.png"]::before {
+    content: "Partner 4";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-5.png"]::before {
+    content: "Partner 5";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+img[src*="partner-6.png"]::before {
+    content: "Partner 6";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

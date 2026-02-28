@@ -1,0 +1,69 @@
+<main class="posts-list-page">
+    <!-- Premium Hero Section -->
+    <section class="posts-hero">
+        <div class="container text-center">
+            <div class="hero-content" data-aos="fade-up">
+                <div class="breadcrumb-wrap">
+                    <div class="breadcrumb">
+                        <a routerLink="/">{{ 'HOME' | translate }}</a>
+                        <span class="separator">/</span>
+                        <span>{{ 'POSTS' | translate }}</span>
+                    </div>
+                </div>
+                <h1 class="display-3 fw-bold mb-4">
+                    <span>{{ 'BLOG' | translate }}</span>
+                </h1>
+                <p class="lead mx-auto opacity-80">
+                    {{ 'POSTS_DESC' | translate }}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post Grid Section -->
+    <section class="posts-grid-section">
+        <div class="container">
+            <!-- Loading Grid -->
+            <div class="row g-4" *ngIf="isLoading">
+                <div class="col-lg-4 col-md-6" *ngFor="let item of [1,2,3,4,5,6]">
+                    <div class="skeleton-card" data-aos="fade-up">
+                        <div class="skeleton-content">
+                            <div class="line title"></div>
+                            <div class="line meta"></div>
+                            <div class="line text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="row g-4" *ngIf="!isLoading">
+                <div class="col-lg-4 col-md-6" *ngFor="let post of posts; let i = index">
+                    <app-content-card [item]="post" [routePath]="'/posts'" [animationDelay]="i * 0.1">
+                    </app-content-card>
+                </div>
+
+                <!-- Empty State -->
+                <div class="col-12 text-center" *ngIf="posts.length === 0">
+                    <div class="empty-state-wrap" data-aos="zoom-in">
+                        <div class="empty-card">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-newspaper"></i>
+                            </div>
+                            <h3>{{ 'NO_POSTS_FOUND' | translate }}</h3>
+                            <p>{{ 'STAY_TUNED_FOR_UPDATES' | translate }}</p>
+                            <a routerLink="/" class="btn btn-primary px-5 rounded-pill">
+                                {{ 'BACK_TO_HOME' | translate }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Outer -->
+            <div class="pagination-wrap" *ngIf="posts.length > 0">
+                <app-pagination [meta]="meta" (pageChange)="onPageChange($event)"></app-pagination>
+            </div>
+        </div>
+    </section>
+</main>
