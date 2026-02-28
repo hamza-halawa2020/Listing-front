@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/care_and_share",
+            "outputPath": "dist/careandshare",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -95,10 +95,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "care_and_share:build:production"
+              "buildTarget": "careandshare:build:production"
             },
             "development": {
-              "buildTarget": "care_and_share:build:development"
+              "buildTarget": "careandshare:build:development"
             }
           },
           "defaultConfiguration": "development"
