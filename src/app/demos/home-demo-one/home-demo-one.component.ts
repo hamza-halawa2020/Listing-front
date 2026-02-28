@@ -168,6 +168,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 this.categoriesForHome = data.map(cat => ({
                     id: cat.id,
                     name: cat.name,
+                    count: cat.count || 0,
                     icon: this.getIconForCategory(cat.name)
                 }));
             },
