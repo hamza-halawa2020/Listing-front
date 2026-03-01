@@ -85,25 +85,45 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 }
 
                 // Image processing
-                if (this.listing.image_url) {
+                if (this.listing.images && Array.isArray(this.listing.images) && this.listing.images.length > 0) {
+                    const cover = this.listing.images.find((img: any) => img.is_cover) || this.listing.images[0];
+                    this.featuredImageUrl = `${environment.imgUrl}/storage/${cover.image_path}`;
+
+                    // Populate gallery with all other images
+                    this.mockData.gallery = this.listing.images
+                        .filter((img: any) => img.id !== cover.id)
+                        .map((img: any) => `${environment.imgUrl}/storage/${img.image_path}`);
+                } else if (this.listing.image_url) {
                     this.featuredImageUrl = this.listing.image_url;
+                    this.mockData.gallery = [];
                 } else if (this.listing.image) {
-                    this.featuredImageUrl = `${environment.imgUrl}storage/${this.listing.image}`;
+                    this.featuredImageUrl = `${environment.imgUrl}/storage/${this.listing.image}`;
+                    this.mockData.gallery = [];
                 } else if (this.listing.featured_image) {
                     this.featuredImageUrl = this.listing.featured_image;
+                    this.mockData.gallery = [];
                 } else if (this.listing.featured_media) {
                     this.listingsService.getMedia(this.listing.featured_media).subscribe({
                         next: (media: any) => {
                             this.featuredImageUrl = media?.source_url || '';
                         }
                     });
+                    this.mockData.gallery = [];
                 } else {
                     this.featuredImageUrl = 'assets/images/listing-placeholder.jpg';
+                    this.mockData.gallery = [];
                 }
 
                 // Dynamic mapping of listing metadata
                 this.mockData.address = this.listing.address || '';
-                this.mockData.phone = this.listing.phone || '';
+
+                // Handle phones
+                if (this.listing.phones && Array.isArray(this.listing.phones) && this.listing.phones.length > 0) {
+                    this.mockData.phone = this.listing.phones[0].phone_number;
+                } else {
+                    this.mockData.phone = this.listing.phone || '';
+                }
+
                 this.mockData.website = this.listing.website || '';
 
                 if (this.listing.open_status || this.listing.is_active !== undefined) {
@@ -129,8 +149,12 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         const container = document.getElementById('listing-detail-map');
         if (!container) return;
 
-        const lat = parseFloat(this.listing.latitude || '30.0444'); // Cairo fallback
-        const lng = parseFloat(this.listing.longitude || '31.2357');
+        // Try to get coordinates from multiple possible fields
+        const latVal = this.listing.latitude || this.listing.lat || this.listing.acf?.latitude || this.listing.acf?.lat;
+        const lngVal = this.listing.longitude || this.listing.lng || this.listing.acf?.longitude || this.listing.acf?.lng;
+
+        const lat = latVal ? parseFloat(latVal) : 30.0444; // Cairo fallback
+        const lng = lngVal ? parseFloat(lngVal) : 31.2357;
 
         try {
             this.map = L.map('listing-detail-map').setView([lat, lng], 15);

@@ -81,7 +81,7 @@
             <div class="plan-cta">
                 <button class="btn w-100 py-3 rounded-pill fw-bold"
                     [class.btn-primary]="plan.coverage_type === 'national'"
-                    [class.btn-outline-primary]="plan.coverage_type !== 'national'">
+                    [class.btn-outline-primary]="plan.coverage_type !== 'national'" (click)="onPlanSelected(plan)">
                     {{ 'GET_STARTED' | translate }}
                 </button>
             </div>

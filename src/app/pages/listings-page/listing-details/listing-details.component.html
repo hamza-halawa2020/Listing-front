@@ -43,10 +43,11 @@
             <!-- Main Content (8 cols) -->
             <div class="col-lg-8">
                 <!-- Gallery Section -->
-                <div class="listing-gallery mb-5">
-                    <img [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
+                <div class="listing-gallery mb-5"
+                    *ngIf="featuredImageUrl || (mockData.gallery && mockData.gallery.length)">
+                    <img *ngIf="featuredImageUrl" [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
                         [alt]="listing.name || listing.title?.rendered">
-                    <div class="row g-2 mt-2">
+                    <div class="row g-2 mt-2" *ngIf="mockData.gallery && mockData.gallery.length">
                         <div class="col-4" *ngFor="let img of mockData.gallery">
                             <img [src]="img" class="img-fluid rounded-3 gallery-thumb" alt="Gallery">
                         </div>
@@ -103,11 +104,25 @@
                     <div class="sidebar-card p-4 mb-4 bg-white">
                         <h5 class="fw-bold mb-4">{{ 'CONTACT_INFO' | translate }}</h5>
                         <ul class="list-unstyled contact-list mb-4">
-                            <li class="mb-3">
-                                <i class="fa-solid fa-phone me-3 text-muted"></i>
-                                <span class="fw-semibold">{{ mockData.phone }}</span>
-                            </li>
-                            <li class="mb-3">
+                            <!-- All Phones -->
+                            <ng-container *ngIf="listing.phones && listing.phones.length > 0; else singlePhone">
+                                <li class="mb-3" *ngFor="let p of listing.phones">
+                                    <i class="fa-solid"
+                                        [ngClass]="p.type === 'mobile' ? 'fa-mobile-screen-button' : 'fa-phone'"
+                                        class="me-3 text-muted"></i>
+                                    <span class="fw-semibold">{{ p.phone_number }}</span>
+                                    <small class="text-muted ms-2" *ngIf="p.contact_person">({{ p.contact_person
+                                        }})</small>
+                                </li>
+                            </ng-container>
+                            <ng-template #singlePhone>
+                                <li class="mb-3" *ngIf="mockData.phone">
+                                    <i class="fa-solid fa-phone me-3 text-muted"></i>
+                                    <span class="fw-semibold">{{ mockData.phone }}</span>
+                                </li>
+                            </ng-template>
+
+                            <li class="mb-3" *ngIf="mockData.website">
                                 <i class="fa-solid fa-globe me-3 text-muted"></i>
                                 <a [href]="mockData.website" target="_blank" class="text-dark">{{ mockData.website
                                     }}</a>
@@ -117,6 +132,19 @@
                             <a *ngFor="let s of mockData.social" [href]="s.link" class="social-btn">
                                 <i class="fa-brands" [ngClass]="s.icon"></i>
                             </a>
+                        </div>
+                    </div>
+
+                    <!-- Special Offers -->
+                    <div class="sidebar-card p-4 mb-4 bg-white" *ngIf="listing.offers && listing.offers.length > 0">
+                        <h5 class="fw-bold mb-4 text-danger"><i class="fa-solid fa-tag me-2"></i> {{ 'OFFERS' |
+                            translate }}</h5>
+                        <div class="offer-item mb-3 p-3 border rounded-3 bg-light" *ngFor="let offer of listing.offers">
+                            <h6 class="fw-bold mb-2">{{ offer.title }}</h6>
+                            <p class="small text-muted mb-0">{{ offer.description }}</p>
+                            <div class="mt-2 text-primary fw-bold" *ngIf="offer.discount_percentage">
+                                {{ offer.discount_percentage }}% {{ 'DISCOUNT' | translate }}
+                            </div>
                         </div>
                     </div>
 

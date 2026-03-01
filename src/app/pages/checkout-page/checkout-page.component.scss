@@ -1,0 +1,64 @@
+.checkout-wrapper {
+    background: #f8fafc;
+    min-height: 80vh;
+
+    .card {
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, darken(#1e40af, 10%) 100%) !important;
+        border: 0;
+    }
+
+    .plan-summary {
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+    }
+
+    .form-label {
+        color: #4b5563;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-control, .form-select {
+        transition: all 0.3s ease;
+        font-size: 1rem;
+
+        &:focus {
+            background-color: #fff !important;
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1) !important;
+            border-color: var(--primary-color) !important;
+        }
+    }
+
+    .btn-primary {
+        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.2);
+        transition: all 0.3s ease;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(30, 64, 175, 0.3);
+        }
+
+        &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    }
+}
+
+// RTL Support
+[dir="rtl"] {
+    .checkout-wrapper {
+        .plan-summary {
+            text-align: right;
+        }
+    }
+}

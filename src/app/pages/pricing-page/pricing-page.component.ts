@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ListingsService } from '../listings-page/listings.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     selector: 'app-pricing-page',
@@ -17,7 +18,11 @@ export class PricingPageComponent implements OnInit {
     isLoading = true;
     error: string | null = null;
 
-    constructor(private listingsService: ListingsService) { }
+    constructor(
+        private listingsService: ListingsService,
+        private authService: AuthService,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
         this.fetchPlans();
@@ -38,5 +43,14 @@ export class PricingPageComponent implements OnInit {
                 this.isLoading = false;
             }
         });
+    }
+
+    onPlanSelected(plan: any) {
+        if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/checkout', plan.id]);
+        } else {
+            // Store target plan in state or query params if needed, but simple redirect for now
+            this.router.navigate(['/login'], { queryParams: { returnUrl: `/checkout/${plan.id}` } });
+        }
     }
 }

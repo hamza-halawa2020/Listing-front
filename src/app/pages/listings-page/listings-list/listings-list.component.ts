@@ -34,7 +34,12 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedLocation: string = '';
     filterOpenNow: boolean = false;
     showMap: boolean = false;
-    categories: any[] = []; // categories loaded from API or static
+    categories: any[] = []; // raw category tree from API
+    categoryLevels: any[][] = []; // options for each cascading dropdown
+    selectedCategoryPath: string[] = []; // selected IDs at each level
+    locations: any[] = []; // raw location tree from API
+    locationLevels: any[][] = []; // options for each cascading dropdown
+    selectedLocationPath: string[] = []; // selected IDs at each level
 
     // Geolocation state
     isNearMeActive: boolean = false;
@@ -49,6 +54,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         this.loadCategories();
+        this.loadLocations();
 
         // Subscribe to query parameters to handle search and category filters from home page
         this.route.queryParams.subscribe(params => {
@@ -194,37 +200,108 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     loadCategories() {
-        // fetch categories from the Laravel backend
         this.listingsService.getCategories().subscribe({
             next: (response: any) => {
-                // Laravel returns data under the 'data' key for API resources
                 const rawCategories = response.data || response;
+                this.categories = Array.isArray(rawCategories) ? rawCategories : [];
 
-                // We flatten the categories to make them easily accessible in the select dropdown
-                let flatCategories: any[] = [];
-
-                if (Array.isArray(rawCategories)) {
-                    rawCategories.forEach(parent => {
-                        flatCategories.push(parent);
-                        if (parent.children && parent.children.length > 0) {
-                            parent.children.forEach((child: any) => {
-                                // Add a visual indicator for child categories
-                                flatCategories.push({
-                                    ...child,
-                                    name: `- ${child.name}`
-                                });
-                            });
-                        }
-                    });
-                }
-
-                this.categories = flatCategories;
+                // Initialize first level with root categories
+                this.categoryLevels = [this.categories];
+                this.selectedCategoryPath = [''];
             },
             error: () => {
-                // fallback to empty list
                 this.categories = [];
+                this.categoryLevels = [];
             }
         });
+    }
+
+    onCategoryChange(levelIndex: number) {
+        const selectedId = this.selectedCategoryPath[levelIndex];
+        console.log(`Category changed at level ${levelIndex} to ID: ${selectedId}`);
+
+        // Remove all subsequent levels
+        this.categoryLevels = this.categoryLevels.slice(0, levelIndex + 1);
+        this.selectedCategoryPath = this.selectedCategoryPath.slice(0, levelIndex + 1);
+
+        // Update main selectedCategory for API filtering
+        this.selectedCategory = selectedId;
+
+        if (selectedId) {
+            // Find children of selected category
+            const currentLevelOptions = this.categoryLevels[levelIndex];
+            const selectedCat = currentLevelOptions.find((cat: any) => String(cat.id) === String(selectedId));
+
+            if (selectedCat && selectedCat.children && selectedCat.children.length > 0) {
+                console.log(`Adding Category Level ${levelIndex + 1} with ${selectedCat.children.length} children`);
+                this.categoryLevels = [...this.categoryLevels, selectedCat.children];
+                this.selectedCategoryPath = [...this.selectedCategoryPath, ''];
+            }
+        } else {
+            // If "All" selected at this level, use parent level's ID if exists
+            if (levelIndex > 0) {
+                this.selectedCategory = this.selectedCategoryPath[levelIndex - 1];
+            } else {
+                this.selectedCategory = '';
+            }
+        }
+
+        this.applyFilters();
+    }
+
+    loadLocations() {
+        this.listingsService.getLocations().subscribe({
+            next: (response: any) => {
+                const rawLocations = response.data || response;
+                this.locations = Array.isArray(rawLocations) ? rawLocations : [];
+
+                // Initialize first level with root locations
+                this.locationLevels = [this.locations];
+                this.selectedLocationPath = [''];
+            },
+            error: () => {
+                this.locations = [];
+                this.locationLevels = [];
+            }
+        });
+    }
+
+    onLocationChange(levelIndex: number) {
+        const selectedId = this.selectedLocationPath[levelIndex];
+        console.log(`Location changed at level ${levelIndex} to ID: ${selectedId}`);
+
+        // Remove all subsequent levels (use slice to create a new array reference for reactivity)
+        this.locationLevels = this.locationLevels.slice(0, levelIndex + 1);
+        this.selectedLocationPath = this.selectedLocationPath.slice(0, levelIndex + 1);
+
+        // Update main selectedLocation for API filtering
+        this.selectedLocation = selectedId;
+
+        if (selectedId) {
+            // Find children of selected location
+            const currentLevelOptions = this.locationLevels[levelIndex];
+            const selectedLoc = currentLevelOptions.find((loc: any) => String(loc.id) === String(selectedId));
+
+            console.log('Selected Location Object:', selectedLoc);
+
+            if (selectedLoc && selectedLoc.children && selectedLoc.children.length > 0) {
+                console.log(`Adding Level ${levelIndex + 1} with ${selectedLoc.children.length} children`);
+                // Use spread to trigger change detection
+                this.locationLevels = [...this.locationLevels, selectedLoc.children];
+                this.selectedLocationPath = [...this.selectedLocationPath, ''];
+            } else {
+                console.log('No children found for this location');
+            }
+        } else {
+            // If "All" selected at this level, use parent level's ID if exists
+            if (levelIndex > 0) {
+                this.selectedLocation = this.selectedLocationPath[levelIndex - 1];
+            } else {
+                this.selectedLocation = '';
+            }
+        }
+
+        this.applyFilters();
     }
 
     fetchListings(page: number = 1) {

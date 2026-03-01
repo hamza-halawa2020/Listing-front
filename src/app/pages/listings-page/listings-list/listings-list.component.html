@@ -6,8 +6,9 @@
                 <div class="listings-scroll-content p-4">
                     <!-- Premium Search Filter Bar -->
                     <div class="filter-header-premium mb-4" data-aos="fade-down">
-                        <div class="row g-3">
-                            <div class="col-md-6">
+                        <div class="row g-3 align-items-center">
+                            <!-- Search -->
+                            <div class="col-md-4">
                                 <div class="premium-input-group">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <input type="text" class="form-control"
@@ -15,29 +16,48 @@
                                         (keyup.enter)="applyFilters()" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+
+                            <!-- Actions -->
+                            <div class="col-md-2 ms-auto">
+                                <div class="filter-actions-group d-flex gap-1 justify-content-end">
+                                    <button class="btn btn-near-me-premium" [class.active]="isNearMeActive"
+                                        [disabled]="isLocating" (click)="toggleNearMe()"
+                                        [title]="'NEAR_ME' | translate">
+                                        <i class="fa-solid" [class.fa-location-crosshairs]="!isLocating"
+                                            [class.fa-spinner]="isLocating" [class.fa-spin]="isLocating"></i>
+                                    </button>
+                                    <button class="btn btn-filter-premium" [class.active]="filterOpenNow"
+                                        (click)="filterOpenNow = !filterOpenNow; applyFilters()"
+                                        [title]="'OPEN_NOW' | translate">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hierarchical Filters Row -->
+                        <div class="row g-2 mt-2">
+                            <!-- Dynamic Cascading Categories -->
+                            <div class="col-md-3" *ngFor="let level of categoryLevels; let i = index">
                                 <div class="premium-select-group">
                                     <i class="fa-solid fa-layer-group"></i>
-                                    <select class="form-select" [(ngModel)]="selectedCategory"
-                                        (change)="applyFilters()">
+                                    <select class="form-select" [(ngModel)]="selectedCategoryPath[i]"
+                                        (change)="onCategoryChange(i)">
                                         <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
-                                        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                                        <option *ngFor="let cat of level" [value]="cat.id">{{ cat.name }}</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="filter-actions-group d-flex gap-2">
-                                    <button class="btn btn-near-me-premium w-100" [class.active]="isNearMeActive"
-                                        [disabled]="isLocating" (click)="toggleNearMe()">
-                                        <i class="fa-solid" [class.fa-location-crosshairs]="!isLocating"
-                                            [class.fa-spinner]="isLocating" [class.fa-spin]="isLocating"></i>
-                                        <span class="ms-2 d-none d-xl-inline">{{ (isLocating ? 'LOCATING' : 'NEAR_ME') |
-                                            translate }}</span>
-                                    </button>
-                                    <button class="btn btn-filter-premium w-100" [class.active]="filterOpenNow"
-                                        (click)="filterOpenNow = !filterOpenNow; applyFilters()">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </button>
+
+                            <!-- Dynamic Cascading Locations -->
+                            <div class="col-md-3" *ngFor="let level of locationLevels; let i = index">
+                                <div class="premium-select-group">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <select class="form-select" [(ngModel)]="selectedLocationPath[i]"
+                                        (change)="onLocationChange(i)">
+                                        <option value="">{{ 'ALL_LOCATIONS' | translate }}</option>
+                                        <option *ngFor="let loc of level" [value]="loc.id">{{ loc.name }}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
