@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { ListingsService } from '../listings.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../../../environments/environment';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ContentCardComponent } from '../../../shared/components/content-card/content-card.component';
 import { FormsModule } from '@angular/forms';
@@ -232,14 +233,13 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
         // construct params based on filters
         let params: any = {};
         if (this.searchQuery) {
-            // Ensure we use 'search' for WP REST API parameters
-            params.search = this.searchQuery;
+            params.s = this.searchQuery;
         }
         if (this.selectedCategory) {
-            params['category'] = this.selectedCategory;
+            params.category_id = this.selectedCategory;
         }
         if (this.selectedLocation) {
-            params['location'] = this.selectedLocation;
+            params.location_id = this.selectedLocation;
         }
         if (this.filterOpenNow) {
             params.open_now = 1;
@@ -258,16 +258,18 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             params.distance = 105;
         }
 
+        console.log('Fetching Listings with params:', params);
         this.listingsService.getListings(page, params).subscribe({
             next: (response: any) => {
-                // WP returns array in body and pagination headers
-                let results = response.body || [];
+                console.log('Listings API Success:', response);
+                // Laravel JsonResource wraps data and provides meta for pagination
+                let results = response.data || (Array.isArray(response) ? response : []);
 
                 // If Near Me is active, sort by distance (nearest first)
                 if (this.isNearMeActive && this.userLat && this.userLng) {
                     results = results.map((listing: any) => {
-                        const lat = parseFloat(listing.latitude || listing.acf?.latitude || listing.meta?.latitude);
-                        const lng = parseFloat(listing.longitude || listing.acf?.longitude || listing.meta?.longitude);
+                        const lat = parseFloat(listing.latitude);
+                        const lng = parseFloat(listing.longitude);
                         const dist = (lat && lng) ? this.haversineDistance(this.userLat!, this.userLng!, lat, lng) : Infinity;
                         return { ...listing, _distanceKm: dist };
                     });
@@ -275,13 +277,22 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
                 this.listings = results;
-                const total = response.headers.get('X-WP-Total');
-                const totalPages = response.headers.get('X-WP-TotalPages');
-                this.meta = {
-                    total: total ? +total : 0,
-                    last_page: totalPages ? +totalPages : 0,
-                    current_page: page
-                };
+
+                if (response.meta) {
+                    this.meta = {
+                        total: response.meta.total || 0,
+                        last_page: response.meta.last_page || 0,
+                        current_page: response.meta.current_page || page
+                    };
+                } else {
+                    // Fallback for direct arrays
+                    this.meta = {
+                        total: results.length,
+                        last_page: 1,
+                        current_page: 1
+                    };
+                }
+
                 this.isLoading = false;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.updateMapMarkers();
@@ -333,17 +344,23 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
         const bounds = L.latLngBounds([]);
 
         this.listings.forEach(listing => {
-            const lat = listing.latitude || listing.acf?.latitude;
-            const lng = listing.longitude || listing.acf?.longitude;
+            const lat = parseFloat(listing.latitude);
+            const lng = parseFloat(listing.longitude);
 
             if (lat && lng) {
-                const address = listing.address || listing.acf?.address || '';
+                const address = listing.address || '';
+                let imageUrl = listing.image_url || listing.featured_image;
+                if (!imageUrl && listing.image) {
+                    imageUrl = `${environment.imgUrl}storage/${listing.image}`;
+                }
+                if (!imageUrl) imageUrl = 'assets/images/placeholder.jpg';
+
                 const marker = L.marker([lat, lng])
                     .addTo(this.map)
                     .bindPopup(`
                         <div class="map-popup-premium">
-                            <img src="${listing.featured_image || 'assets/images/placeholder.jpg'}" style="width:100%; border-radius:8px; margin-bottom:8px;">
-                            <h6 style="margin:0; font-weight:700;">${listing.title.rendered || listing.title}</h6>
+                            <img src="${imageUrl}" style="width:100%; border-radius:8px; margin-bottom:8px;">
+                            <h6 style="margin:0; font-weight:700;">${listing.name}</h6>
                             <p style="margin:4px 0; font-size:12px; color:#64748b;">${address}</p>
                             <a href="/listings/${listing.id}" style="font-size:12px; font-weight:600; color:var(--secondaryColor);">View Details</a>
                         </div>

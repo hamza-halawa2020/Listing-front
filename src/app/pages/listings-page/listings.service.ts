@@ -11,30 +11,28 @@ export class ListingsService {
 
     constructor(private http: HttpClient) { }
 
-    getListings(page: number = 1, params: any = {}): Observable<HttpResponse<any[]>> {
-        const query: any = { page, ...params };
-        return this.http.get<any[]>(`${this.apiUrl}/listing`, { params: query, observe: 'response' });
+    getListings(page: number = 1, params: any = {}): Observable<any> {
+        const query: any = { page, limit: 10, ...params };
+        return this.http.get(`${this.apiUrl}/listings`, { params: query });
     }
 
     getListing(id: string): Observable<any> {
-        return this.http.get(`${this.apiUrl}/listing/${id}`);
+        return this.http.get(`${this.apiUrl}/listings/${id}`);
     }
     getCategories(): Observable<any> {
         return this.http.get(`${this.apiUrl}/categories?limit=999`);
     }
 
-    /**
-     * Retrieve listing locations (regions/cities) from WordPress.
-     */
+
     getLocations(): Observable<any> {
         return this.http.get(`${this.apiUrl}/locations?limit=999`);
     }
 
-    /**
-     * Fetch a media object by ID so we can obtain its URL.
-     * @param mediaId numeric media ID returned by REST
-     */
     getMedia(mediaId: number): Observable<any> {
         return this.http.get(`${this.apiUrl}/media/${mediaId}`);
+    }
+
+    getSubscriptionPlans(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/subscription-plans?limit=999`);
     }
 }

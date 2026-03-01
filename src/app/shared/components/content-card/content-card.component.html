@@ -1,11 +1,13 @@
 <div class="content-card animate__animated animate__fadeInUp" [style.animation-delay]="animationDelay + 's'">
     <div class="card-img">
-        <img [src]="getImageUrl()" [alt]="item.title?.rendered || item.title">
+        <img [src]="getImageUrl()" [alt]="item.name || item.title?.rendered || item.title">
         <div class="overlay"></div>
         <!-- Open/Closed badge — only shown if API returns explicit open status -->
         <div class="listing-badge" *ngIf="item.is_open !== undefined || item.open_status">
-            <span class="badge" [ngClass]="(item.is_open === true || item.open_status === 'open') ? 'bg-success' : 'bg-danger'">
-                {{ (item.is_open === true || item.open_status === 'open') ? ('OPEN' | translate) : ('CLOSED' | translate) }}
+            <span class="badge"
+                [ngClass]="(item.is_open === true || item.open_status === 'open') ? 'bg-success' : 'bg-danger'">
+                {{ (item.is_open === true || item.open_status === 'open') ? ('OPEN' | translate) : ('CLOSED' |
+                translate) }}
             </span>
         </div>
         <!-- Distance badge — shown when Near Me is active -->
@@ -16,9 +18,9 @@
     </div>
     <div class="card-content">
         <h3>
-            <a [routerLink]="[routePath, item.id]">{{ item.title?.rendered || item.title }}</a>
+            <a [routerLink]="[routePath, item.id]">{{ item.name || item.title?.rendered || item.title }}</a>
         </h3>
-        <div class="description-preview" [innerHTML]="item.excerpt?.rendered || item.description"></div>
+        <div class="description-preview" [innerHTML]="item.description || item.excerpt?.rendered"></div>
 
         <div class="card-footer">
             <a [routerLink]="[routePath, item.id]" class="read-more-btn">

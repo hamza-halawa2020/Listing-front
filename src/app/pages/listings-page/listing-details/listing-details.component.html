@@ -6,7 +6,8 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
                     <li class="breadcrumb-item"><a routerLink="/listings">{{ 'LISTINGS' | translate }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" [innerHTML]="listing.title?.rendered"></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ listing.name || listing.title?.rendered }}
+                    </li>
                 </ol>
             </nav>
             <div class="header-main-info d-flex flex-wrap justify-content-between align-items-end">
@@ -19,7 +20,7 @@
                                 }})</span>
                         </div>
                     </div>
-                    <h1 class="fsresp fw-bold text-white mb-2" [innerHTML]="listing.title?.rendered"></h1>
+                    <h1 class="fsresp fw-bold text-white mb-2">{{ listing.name || listing.title?.rendered }}</h1>
                     <p class="text-white-50 fs-5 mb-0">
                         <i class="fa-solid fa-location-dot me-2"></i> {{ mockData.address }}
                     </p>
@@ -44,7 +45,7 @@
                 <!-- Gallery Section -->
                 <div class="listing-gallery mb-5">
                     <img [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
-                        [alt]="listing.title?.rendered">
+                        [alt]="listing.name || listing.title?.rendered">
                     <div class="row g-2 mt-2">
                         <div class="col-4" *ngFor="let img of mockData.gallery">
                             <img [src]="img" class="img-fluid rounded-3 gallery-thumb" alt="Gallery">
@@ -55,7 +56,7 @@
                 <!-- Description -->
                 <div class="content-box mb-5">
                     <h3 class="fw-bold mb-4">{{ 'DESCRIPTION' | translate }}</h3>
-                    <div class="description-text" [innerHTML]="listing.content?.rendered"></div>
+                    <div class="description-text" [innerHTML]="listing.description || listing.content?.rendered"></div>
                 </div>
 
                 <!-- Features/Taxonomies -->

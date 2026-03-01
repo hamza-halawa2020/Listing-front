@@ -57,6 +57,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             label: 'TESTIMONIALS',
             route: '/testimonials'
         },
+        {
+            label: 'PRICING',
+            route: '/pricing'
+        },
 
     ];
 

@@ -235,5 +235,18 @@
   "REMEMBER_ME": "REMEMBER ME",
   "Enter Your Name": "Enter Your Name",
   "INVALID_CREDENTIALS": "Invalid Credentials",
-  "PLEASE_FILL_ALL_FIELDS": "Please fill all fields"
+  "PLEASE_FILL_ALL_FIELDS": "Please fill all fields",
+  "PRICING": "Subscription Plans",
+  "PRICING_TITLE": "Choose the Right Plan for You",
+  "PRICING_SUBTITLE": "Flexible subscription plans that fit your needs and guarantee the best services",
+  "POPULAR": "Most Popular",
+  "DAYS": "Days",
+  "COVERAGE": "Coverage",
+  "MAX_MEMBERS": "Max Family Members",
+  "DURATION": "Duration",
+  "GET_STARTED": "Get Started",
+  "NO_PLANS_FOUND": "No plans found at the moment",
+  "FAILED_TO_LOAD_PLANS": "Failed to load plans, please try again",
+  "INDIVIDUAL_PLANS": "Individual Plans",
+  "FAMILY_PLANS": "Family Plans"
 }

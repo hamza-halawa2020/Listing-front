@@ -28,7 +28,7 @@ export class HomeService {
 
   constructor(
     private http: HttpClient,
-  ) {}
+  ) { }
 
 
   getHomeData(): Observable<HomeData> {

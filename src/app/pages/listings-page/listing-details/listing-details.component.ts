@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ListingsService } from '../listings.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../../../environments/environment';
 
 declare var L: any;
 
@@ -71,16 +72,26 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         this.isLoading = true;
         this.listingsService.getListing(id).subscribe({
             next: (response: any) => {
-                this.listing = response;
+                // Laravel JsonResource might wrap in 'data'
+                this.listing = response.data || response;
 
-                // WP categories/tags logic
-                if (Array.isArray(this.listing.taxonomies)) {
+                // Category processing
+                if (this.listing.category) {
+                    this.taxonomyNames = [this.listing.category.name];
+                } else if (Array.isArray(this.listing.taxonomies)) {
                     this.taxonomyNames = Array.from(new Set(this.listing.taxonomies.map((t: any) => String(t)))) as string[];
                 } else {
                     this.taxonomyNames = [];
                 }
 
-                if (this.listing.featured_media) {
+                // Image processing
+                if (this.listing.image_url) {
+                    this.featuredImageUrl = this.listing.image_url;
+                } else if (this.listing.image) {
+                    this.featuredImageUrl = `${environment.imgUrl}storage/${this.listing.image}`;
+                } else if (this.listing.featured_image) {
+                    this.featuredImageUrl = this.listing.featured_image;
+                } else if (this.listing.featured_media) {
                     this.listingsService.getMedia(this.listing.featured_media).subscribe({
                         next: (media: any) => {
                             this.featuredImageUrl = media?.source_url || '';
@@ -91,12 +102,12 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 }
 
                 // Dynamic mapping of listing metadata
-                this.mockData.address = this.listing.address || this.listing.acf?.address || '';
-                this.mockData.phone = this.listing.phone || this.listing.acf?.phone || '';
-                this.mockData.website = this.listing.website || this.listing.acf?.website || '';
+                this.mockData.address = this.listing.address || '';
+                this.mockData.phone = this.listing.phone || '';
+                this.mockData.website = this.listing.website || '';
 
-                if (this.listing.open_status || this.listing.is_open !== undefined) {
-                    this.mockData.status = (this.listing.is_open === true || this.listing.open_status === 'open') ? 'OPEN' : 'CLOSED';
+                if (this.listing.open_status || this.listing.is_active !== undefined) {
+                    this.mockData.status = (this.listing.is_active === true || this.listing.open_status === 'open') ? 'OPEN' : 'CLOSED';
                 }
 
                 this.isLoading = false;
@@ -118,8 +129,8 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         const container = document.getElementById('listing-detail-map');
         if (!container) return;
 
-        const lat = this.listing.latitude || 30.0444; // Cairo fallback
-        const lng = this.listing.longitude || 31.2357;
+        const lat = parseFloat(this.listing.latitude || '30.0444'); // Cairo fallback
+        const lng = parseFloat(this.listing.longitude || '31.2357');
 
         try {
             this.map = L.map('listing-detail-map').setView([lat, lng], 15);
@@ -132,7 +143,7 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             const marker = L.marker([lat, lng]).addTo(this.map);
             marker.bindPopup(`
                 <div class="map-popup-premium">
-                    <h6 style="margin:0; font-weight:700;">${this.listing.title?.rendered || this.listing.title}</h6>
+                    <h6 style="margin:0; font-weight:700;">${this.listing.name || this.listing.title?.rendered || this.listing.title}</h6>
                     <p style="margin:4px 0; font-size:12px; color:#64748b;">${address}</p>
                 </div>
             `).openPopup();

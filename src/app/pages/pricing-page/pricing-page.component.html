@@ -1,0 +1,90 @@
+<section class="pricing-section section-padding">
+    <div class="container">
+        <div class="section-header text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold">{{ 'PRICING_TITLE' | translate }}</h2>
+            <p class="lead text-muted">{{ 'PRICING_SUBTITLE' | translate }}</p>
+        </div>
+
+        <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div *ngIf="error && !isLoading" class="alert alert-danger text-center">
+            {{ error | translate }}
+        </div>
+
+        <div *ngIf="!isLoading">
+            <!-- Individual Plans Section -->
+            <div class="plans-group-section mb-5" *ngIf="individualPlans.length > 0">
+                <h3 class="section-subtitle mb-4 text-center fw-bold">{{ 'INDIVIDUAL_PLANS' | translate }}</h3>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-4 col-md-6" *ngFor="let plan of individualPlans; let i = index"
+                        data-aos="fade-up" [attr.data-aos-delay]="i * 100">
+                        <ng-container *ngTemplateOutlet="planCard; context: { plan: plan }"></ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Plans Section -->
+            <div class="plans-group-section mb-5" *ngIf="familyPlans.length > 0">
+                <h3 class="section-subtitle mb-4 text-center fw-bold">{{ 'FAMILY_PLANS' | translate }}</h3>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-4 col-md-6" *ngFor="let plan of familyPlans; let i = index" data-aos="fade-up"
+                        [attr.data-aos-delay]="i * 100">
+                        <ng-container *ngTemplateOutlet="planCard; context: { plan: plan }"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!isLoading && individualPlans.length === 0 && familyPlans.length === 0" class="text-center py-5">
+            <p class="text-muted">{{ 'NO_PLANS_FOUND' | translate }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Reusable Plan Card Template -->
+<ng-template #planCard let-plan="plan">
+    <div class="pricing-card" [class.featured]="plan.coverage_type === 'national'">
+        <div class="card-body p-5">
+            <div class="plan-header mb-4">
+                <span class="badge bg-indigo-light text-indigo mb-2" *ngIf="plan.coverage_type === 'national'">{{
+                    'POPULAR' | translate }}</span>
+                <h2 class="fw-bold mb-1 fs-3">{{ plan.name }}</h2>
+                <p class="text-muted small">{{ plan.code }}</p>
+            </div>
+
+            <div class="plan-price mb-4">
+                <h2 class="display-5 fw-bold mb-0">
+                    {{ plan.price }}
+                    <span class="fs-4 fw-normal text-muted">/ {{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
+                </h2>
+            </div>
+
+            <ul class="plan-features list-unstyled mb-5">
+                <li class="mb-3">
+                    <i class="fa-solid fa-check text-success me-2"></i>
+                    <span>{{ 'COVERAGE' | translate }}: {{ plan.coverage_type | uppercase }}</span>
+                </li>
+                <li class="mb-3" *ngIf="plan.max_family_members > 0">
+                    <i class="fa-solid fa-check text-success me-2"></i>
+                    <span>{{ 'MAX_MEMBERS' | translate }}: {{ plan.max_family_members }}</span>
+                </li>
+                <li class="mb-3">
+                    <i class="fa-solid fa-check text-success me-2"></i>
+                    <span>{{ 'DURATION' | translate }}: {{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
+                </li>
+            </ul>
+
+            <div class="plan-cta">
+                <button class="btn w-100 py-3 rounded-pill fw-bold"
+                    [class.btn-primary]="plan.coverage_type === 'national'"
+                    [class.btn-outline-primary]="plan.coverage_type !== 'national'">
+                    {{ 'GET_STARTED' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

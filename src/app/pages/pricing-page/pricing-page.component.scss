@@ -1,0 +1,86 @@
+.pricing-section {
+    background-color: #f8f9fa;
+    min-height: 80vh;
+}
+
+.section-subtitle {
+    position: relative;
+    padding-bottom: 15px;
+    color: #333;
+    font-size: 2rem;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--primary-color, #4f46e5);
+        border-radius: 10px;
+    }
+}
+
+.plans-group-section {
+    padding: 20px 0;
+}
+
+.pricing-card {
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    &.featured {
+        border: 2px solid var(--primary-color, #4f46e5);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, transparent 50%, rgba(79, 70, 229, 0.05) 50%);
+            z-index: 0;
+        }
+    }
+}
+
+.bg-indigo-light {
+    background-color: rgba(79, 70, 229, 0.1);
+}
+
+.text-indigo {
+    color: #4f46e5;
+}
+
+.plan-features {
+    li {
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.badge {
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+html[dir="rtl"] {
+    .plan-features li i {
+        margin-right: 0 !important;
+        margin-left: 0.5rem;
+    }
+}
