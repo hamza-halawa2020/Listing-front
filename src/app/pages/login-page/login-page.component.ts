@@ -30,7 +30,7 @@ export class LoginPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.loginForm = this.fb.group({
-            username: ['', [Validators.required]],
+            national_id: ['', [Validators.required]],
             password: ['', [Validators.required]],
             rememberMe: [false]
         });
@@ -49,9 +49,9 @@ export class LoginPageComponent implements OnInit {
         this.isLoading = true;
         this.errorMessage = '';
 
-        const { username, password } = this.loginForm.value;
+        const { national_id, password } = this.loginForm.value;
 
-        this.authService.login({ username, password }).subscribe({
+        this.authService.login({ national_id, password }).subscribe({
             next: () => {
                 this.isLoading = false;
                 this.router.navigate(['/']);

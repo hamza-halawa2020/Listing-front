@@ -1,15 +1,33 @@
-<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100">
+<div class="login-wrapper d-flex align-items-center justify-content-center min-vh-100 pb-5 pt-5">
     <div class="login-container glass-bg p-5 rounded-4 shadow-2xl" data-aos="fade-up">
         <div class="text-center mb-5">
-            <h2 class="display-6 fw-bold text-indigo mb-2">{{ 'LOGIN' | translate }}</h2>
-            <p class="text-muted">{{ 'LOG_IN_TO_YOUR_ACCOUNT' | translate }}</p>
+            <h2 class="display-6 fw-bold text-indigo mb-2">{{ 'SIGN_UP' | translate }}</h2>
+            <p class="text-muted">{{ 'CREATE_YOUR_ACCOUNT' | translate }}</p>
         </div>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <!-- Error Message -->
             <div *ngIf="errorMessage" class="alert alert-danger-soft mb-4 d-flex align-items-center">
                 <i class="fa-solid fa-circle-exclamation me-2"></i>
                 <span>{{ errorMessage | translate }}</span>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'name' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" formControlName="name" class="form-control"
+                        placeholder="{{ 'Enter Your Name' | translate }}">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'email' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="email" formControlName="email" class="form-control"
+                        placeholder="{{ 'Enter Your Email' | translate }}">
+                </div>
             </div>
 
             <div class="mb-4">
@@ -18,6 +36,15 @@
                     <span class="input-icon"><i class="fa-solid fa-id-card"></i></span>
                     <input type="text" formControlName="national_id" class="form-control"
                         placeholder="{{ 'Enter Your National ID' | translate }}">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'phone' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-phone"></i></span>
+                    <input type="text" formControlName="phone" class="form-control"
+                        placeholder="{{ 'Enter Your Phone (optional)' | translate }}">
                 </div>
             </div>
 
@@ -36,30 +63,18 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="rememberMe" id="rememberMe">
-                    <label class="form-check-label text-muted small" for="rememberMe">
-                        {{ 'REMEMBER_ME' | translate }}
-                    </label>
-                </div>
-                <!-- <a routerLink="/forgot-password" class="text-indigo small fw-semibold text-decoration-none">
-                    {{ 'Forget password?' | translate }}
-                </a> -->
-            </div>
-
             <button type="submit" class="btn btn-primary-gradient w-100 py-3 rounded-3 fw-bold mb-4"
                 [disabled]="isLoading">
-                <span *ngIf="!isLoading">{{ 'Login' | translate }}</span>
+                <span *ngIf="!isLoading">{{ 'Sign Up' | translate }}</span>
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 <span *ngIf="isLoading">{{ 'LOADING' | translate }}</span>
             </button>
 
             <div class="text-center mt-4">
                 <p class="text-muted small mb-0">
-                    {{ "Don't have an account?" | translate }}
-                    <a routerLink="/signup" class="text-indigo fw-bold text-decoration-none ms-1">
-                        {{ 'sign up' | translate }}
+                    {{ 'Already have an account?' | translate }}
+                    <a routerLink="/login" class="text-indigo fw-bold text-decoration-none ms-1">
+                        {{ 'login' | translate }}
                     </a>
                 </p>
             </div>

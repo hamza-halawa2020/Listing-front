@@ -1,5 +1,6 @@
 export const environment = {
-    backEndUrl: 'https://admin.careandshare-eg.com/wp-json/wp/v2',
-    imgUrl: 'https://admin.careandshare-eg.com/',
+    backEndUrl: 'http://listing_dashboard.test/api',
+    imgUrl: 'http://listing_dashboard.test',
 };
+
 

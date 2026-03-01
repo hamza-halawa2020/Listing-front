@@ -164,11 +164,14 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
     loadCategories() {
         this.listingsService.getCategories().subscribe({
-            next: (data: any[]) => {
-                this.categoriesForHome = data.map(cat => ({
+            next: (response: any) => {
+                const data = response.data || response;
+
+                this.categoriesForHome = data.map((cat: any) => ({
                     id: cat.id,
                     name: cat.name,
-                    count: cat.count || 0,
+                    slug: cat.slug,
+                    count: cat.count || 0, // Fallback as Laravel resource didn't include count
                     icon: this.getIconForCategory(cat.name)
                 }));
             },
@@ -187,10 +190,11 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
     loadLocations() {
         this.listingsService.getLocations().subscribe({
-            next: (data: any[]) => {
-                this.allLocations = data;
-                // Cities don't have parents (parent = 0)
-                this.cities = data.filter(loc => loc.parent === 0);
+            next: (response: any) => {
+                const data = response.data || response;
+                // Cities don't have parents (parent_id = null)
+                // In the new API structure, top level items might be cities and have children.
+                this.cities = data.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
             },
             error: (err: any) => {
                 console.error('Error fetching locations:', err);
@@ -202,7 +206,9 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         this.selectedArea = '';
         if (this.selectedCity) {
             const cityId = Number(this.selectedCity);
-            this.areas = this.allLocations.filter(loc => loc.parent === cityId);
+            // Find the selected city and get its nested children
+            const selectedCityObj = this.cities.find(c => c.id === cityId);
+            this.areas = selectedCityObj && selectedCityObj.children ? selectedCityObj.children : [];
         } else {
             this.areas = [];
         }
@@ -230,7 +236,8 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     searchListings() {
         const params: any = {};
         if (this.searchQuery) params.s = this.searchQuery;
-        if (this.selectedCategory) params['listing-category'] = this.selectedCategory;
+        // Sending category slug or ID to the search page instead of term name
+        if (this.selectedCategory) params['category'] = this.selectedCategory;
 
         // Pass specific area if selected, otherwise pass the city
         if (this.selectedArea) {

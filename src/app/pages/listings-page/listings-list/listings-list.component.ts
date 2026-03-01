@@ -57,7 +57,10 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.searchQuery = params['search'];
             }
 
-            if (params['listing-category']) {
+            if (params['category']) {
+                this.selectedCategory = params['category'];
+            } else if (params['listing-category']) {
+                // Keep backward compatibility for existing URLs
                 this.selectedCategory = params['listing-category'];
             }
 
@@ -190,11 +193,31 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     loadCategories() {
-        // fetch categories from the WordPress backend
+        // fetch categories from the Laravel backend
         this.listingsService.getCategories().subscribe({
             next: (response: any) => {
-                // WP returns an array of term objects
-                this.categories = response;
+                // Laravel returns data under the 'data' key for API resources
+                const rawCategories = response.data || response;
+
+                // We flatten the categories to make them easily accessible in the select dropdown
+                let flatCategories: any[] = [];
+
+                if (Array.isArray(rawCategories)) {
+                    rawCategories.forEach(parent => {
+                        flatCategories.push(parent);
+                        if (parent.children && parent.children.length > 0) {
+                            parent.children.forEach((child: any) => {
+                                // Add a visual indicator for child categories
+                                flatCategories.push({
+                                    ...child,
+                                    name: `- ${child.name}`
+                                });
+                            });
+                        }
+                    });
+                }
+
+                this.categories = flatCategories;
             },
             error: () => {
                 // fallback to empty list
@@ -213,7 +236,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             params.search = this.searchQuery;
         }
         if (this.selectedCategory) {
-            params['listing-category'] = this.selectedCategory;
+            params['category'] = this.selectedCategory;
         }
         if (this.selectedLocation) {
             params['location'] = this.selectedLocation;
