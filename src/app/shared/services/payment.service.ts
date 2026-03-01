@@ -21,6 +21,12 @@ export class PaymentService {
             }
         });
 
+        // Debug: Log FormData entries
+        console.log('FormData entries:');
+        (formData as any).forEach((value: any, key: string) => {
+            console.log(`${key}:`, value instanceof File ? `File(${value.name})` : value);
+        });
+
         return this.http.post(`${this.apiUrl}/payments`, formData);
     }
 }

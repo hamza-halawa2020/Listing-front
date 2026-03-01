@@ -253,6 +253,20 @@
   "SUBMIT_PAYMENT": "إرسال طلب الدفع للمراجعة",
   "PAYMENT_SUBMITTED_SUCCESSFULLY": "تم إرسال طلب الدفع بنجاح! سيقوم فريقنا بمراجعته قريباً.",
   "PAYMENT_FAILED": "فشل إرسال طلب الدفع. يرجى المحاولة مرة أخرى أو الاتصال بالدعم.",
+  "CHECK_SUBSCRIPTION_TITLE": "الاستعلام عن حالة الاشتراك",
+  "CHECK_SUBSCRIPTION_DESC": "أدخل الرقم القومي ورقم الكارنيه للاطلاع على اشتراكاتك الحالية.",
+  "NATIONAL_ID": "الرقم القومي",
+  "ENTER_NATIONAL_ID": "أدخل الرقم القومي المكون من 14 رقم",
+  "MEMBERSHIP_CARD_NUMBER": "رقم الكارنيه",
+  "ENTER_CARD_NUMBER": "أدخل رقم الكارنيه",
+  "CHECK_NOW": "استعلام الآن",
+  "MEMBER_NOT_FOUND": "لم يتم العثور على عضو بهذه البيانات. يرجى التأكد من صحة البيانات.",
+  "NO_SUBSCRIPTIONS_FOUND": "لا توجد اشتراكات مسجلة لهذا العضو.",
+  "STARTS_AT": "يبدأ في",
+  "ENDS_AT": "ينتهي في",
+  "ACTIVE": "نشط",
+  "PENDING": "قيد الانتظار",
+  "EXPIRED": "منتهي",
   "EXPLORE": "اكتشف",
   "WHAT_LOOKING_FOR": "ما الذي تبحث عنه؟",
   "TOP_LISTINGS": "أفضل الخدمات",
@@ -353,5 +367,6 @@
   "FAMILY_GOVERNORATE": "عائلي - محافظة",
   "FAMILY_NATIONAL": "عائلي - قومي",
   "NO_LISTINGS_FOUND": "لا توجد خدمات متاحة حالياً",
-  "Dont_have_account": "لا يوجد لديك حساب؟"
+  "Dont_have_account": "لا يوجد لديك حساب؟",
+  "CHECK_SUBSCRIPTION": "الاستعلام عن الاشتراك"
 }

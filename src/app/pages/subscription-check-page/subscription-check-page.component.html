@@ -1,0 +1,84 @@
+<div class="sub-check-wrapper py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-header text-center mb-5">
+                    <h2 class="fw-bold">{{ 'CHECK_SUBSCRIPTION_TITLE' | translate }}</h2>
+                    <p class="text-muted">{{ 'CHECK_SUBSCRIPTION_DESC' | translate }}</p>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-5">
+                    <form (ngSubmit)="onSubmit()" #checkForm="ngForm">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">{{ 'NATIONAL_ID' | translate }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text border-0 bg-light"><i
+                                        class="fa-solid fa-id-card"></i></span>
+                                <input type="text" class="form-control border-0 bg-light py-3" name="national_id"
+                                    [(ngModel)]="checkData.national_id" required
+                                    placeholder="{{ 'ENTER_NATIONAL_ID' | translate }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-bold">{{ 'MEMBERSHIP_CARD_NUMBER' | translate }}</label>
+                            <div class="input-group">
+                                <span class="input-group-text border-0 bg-light"><i
+                                        class="fa-solid fa-barcode"></i></span>
+                                <input type="text" class="form-control border-0 bg-light py-3"
+                                    name="membership_card_number" [(ngModel)]="checkData.membership_card_number"
+                                    required placeholder="{{ 'ENTER_CARD_NUMBER' | translate }}">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold"
+                            [disabled]="isLoading || !checkForm.valid">
+                            <span *ngIf="!isLoading">{{ 'CHECK_NOW' | translate }}</span>
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Error Message -->
+                <div *ngIf="errorMessage"
+                    class="alert alert-danger rounded-4 p-4 text-center mb-5 animate__animated animate__shakeX">
+                    <i class="fa-solid fa-circle-exclamation fs-3 mb-2 d-block"></i>
+                    {{ errorMessage | translate }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div *ngIf="results" class="container-fluid results-container animate__animated animate__fadeInUp">
+        <div class="member-header mb-4 p-3 bg-indigo-light rounded-4 text-center">
+            <h4 class="mb-0 fw-bold text-indigo">{{ results.member_name }}</h4>
+        </div>
+
+        <div *ngIf="results.subscriptions?.length === 0" class="alert alert-info rounded-4 p-4 text-center">
+            {{ 'NO_SUBSCRIPTIONS_FOUND' | translate }}
+        </div>
+
+        <div class="subscription-item card border-0 shadow-sm rounded-4 mb-3" *ngFor="let sub of results.subscriptions">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="fw-bold mb-0">{{ sub.plan?.name }}</h5>
+                    <span class="badge rounded-pill px-3 py-2" [ngClass]="getStatusClass(sub.status)">
+                        {{ sub.status | translate | uppercase }}
+                    </span>
+                </div>
+
+                <div class="sub-details row g-3 text-muted small">
+                    <div class="col-6">
+                        <i class="fa-solid fa-calendar-check me-2 text-primary"></i>
+                        {{ 'STARTS_AT' | translate }}: {{ sub.starts_at }}
+                    </div>
+                    <div class="col-6">
+                        <i class="fa-solid fa-calendar-xmark me-2 text-primary"></i>
+                        {{ 'ENDS_AT' | translate }}: {{ sub.ends_at }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

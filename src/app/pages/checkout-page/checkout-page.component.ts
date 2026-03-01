@@ -71,6 +71,7 @@ export class CheckoutPageComponent implements OnInit {
     onFileSelected(event: any) {
         const file = event.target.files[0];
         if (file) {
+            console.log('File selected:', file.name, file.type, file.size);
             this.attachment = file;
         }
     }
@@ -87,9 +88,10 @@ export class CheckoutPageComponent implements OnInit {
 
         if (this.attachment) {
             (data as any).attachment = this.attachment;
+            console.log('Attachment added to data:', this.attachment.name);
         }
 
-        console.log('Sending payment data:', data);
+        console.log('Final data before sending:', data);
 
         this.paymentService.createPayment(data).subscribe({
             next: (response) => {

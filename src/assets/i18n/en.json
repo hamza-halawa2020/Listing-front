@@ -229,6 +229,20 @@
   "PAYMENT_SUBMITTED_SUCCESSFULLY": "Payment submitted successfully! Our team will review it shortly.",
   "PAYMENT_FAILED": "Payment submission failed. Please try again or contact support.",
   "CANCEL": "Cancel",
+  "CHECK_SUBSCRIPTION_TITLE": "Check Subscription Status",
+  "CHECK_SUBSCRIPTION_DESC": "Enter your National ID and Membership Card Number to see your active subscriptions.",
+  "NATIONAL_ID": "National ID",
+  "ENTER_NATIONAL_ID": "Enter your 14-digit national ID",
+  "MEMBERSHIP_CARD_NUMBER": "Membership Card Number",
+  "ENTER_CARD_NUMBER": "Enter your card number",
+  "CHECK_NOW": "Check Now",
+  "MEMBER_NOT_FOUND": "Member not found with these credentials. Please check your data.",
+  "NO_SUBSCRIPTIONS_FOUND": "No subscriptions found for this member.",
+  "STARTS_AT": "Starts At",
+  "ENDS_AT": "Ends At",
+  "ACTIVE": "Active",
+  "PENDING": "Pending",
+  "EXPIRED": "Expired",
   "TOP_LISTINGS": "Top Listings",
   "TOP_LISTINGS_DESC": "Explore top-rated services and establishments with high ratings.",
   "FEATURED": "Featured",
@@ -272,5 +286,6 @@
   "FAILED_TO_LOAD_PLANS": "Failed to load plans, please try again",
   "INDIVIDUAL_PLANS": "Individual Plans",
   "FAMILY_PLANS": "Family Plans",
-  "Dont_have_account": "Don't have an account?"
+  "Dont_have_account": "Don't have an account?",
+  "CHECK_SUBSCRIPTION": "Check Subscription"
 }

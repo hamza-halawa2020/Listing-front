@@ -35,4 +35,11 @@ export class ListingsService {
     getSubscriptionPlans(): Observable<any> {
         return this.http.get(`${this.apiUrl}/subscription-plans?limit=999`);
     }
+
+    checkSubscription(national_id: string, membership_card_number: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/check-subscription`, {
+            national_id,
+            membership_card_number
+        });
+    }
 }

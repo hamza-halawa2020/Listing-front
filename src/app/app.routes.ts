@@ -28,7 +28,12 @@ export const routes: Routes = [
     },
     {
         path: 'checkout/:planId',
-        loadComponent: () => import('./pages/checkout-page/checkout-page.component').then(m => m.CheckoutPageComponent)
+        loadComponent: () => import('./pages/checkout-page/checkout-page.component').then(m => m.CheckoutPageComponent),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'check-subscription',
+        loadComponent: () => import('./pages/subscription-check-page/subscription-check-page.component').then(m => m.SubscriptionCheckPageComponent)
     },
 
 
