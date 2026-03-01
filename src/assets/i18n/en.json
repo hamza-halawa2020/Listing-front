@@ -248,5 +248,6 @@
   "NO_PLANS_FOUND": "No plans found at the moment",
   "FAILED_TO_LOAD_PLANS": "Failed to load plans, please try again",
   "INDIVIDUAL_PLANS": "Individual Plans",
-  "FAMILY_PLANS": "Family Plans"
+  "FAMILY_PLANS": "Family Plans",
+  "Dont_have_account": "Don't have an account?"
 }

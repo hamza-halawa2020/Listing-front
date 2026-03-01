@@ -259,8 +259,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 if (!this.homeData) {
                     this.homeData = {
                         stats: this.defaultStats,
-                        latestWorkSamples: [],
-                        teamMembers: [],
                         testimonials: [],
                         latestPosts: [],
                         partners: []
@@ -276,12 +274,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 if (data.partners && data.partners.length > 0) {
                     this.homeData.partners = data.partners;
                 }
-                if (data.latestWorkSamples && data.latestWorkSamples.length > 0) {
-                    this.homeData.latestWorkSamples = data.latestWorkSamples;
-                }
-                if (data.teamMembers && data.teamMembers.length > 0) {
-                    this.homeData.teamMembers = data.teamMembers;
-                }
+
                 if (data.latestPosts && data.latestPosts.length > 0) {
                     this.homeData.latestPosts = data.latestPosts;
                 }
@@ -305,8 +298,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 if (!this.homeData) {
                     this.homeData = {
                         stats: this.defaultStats,
-                        latestWorkSamples: [],
-                        teamMembers: [],
                         testimonials: [],
                         latestPosts: [],
                         partners: []

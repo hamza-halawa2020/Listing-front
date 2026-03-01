@@ -3,26 +3,38 @@ import {
     HttpRequest,
     HttpHandlerFn,
     HttpEvent,
+    HttpErrorResponse,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
+import { Observable, catchError, throwError } from 'rxjs';
+import { AuthService } from './shared/services/auth.service';
+import { environment } from '../environments/environment';
 
 export const tokenInterceptor: HttpInterceptorFn = (
     req: HttpRequest<unknown>,
     next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-    const cookieService = inject(CookieService);
-    const token = cookieService.get('token');
+    const authService = inject(AuthService);
+    const token = authService.getToken();
 
-    if (token) {
-        const authReq = req.clone({
+    // Check if the request is for our API
+    if (req.url.startsWith(environment.backEndUrl) && token) {
+        req = req.clone({
             setHeaders: {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return next(authReq);
     }
 
-    return next(req);
+    return next(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                // Auto logout if 401 response returned from api
+                authService.logout();
+                // Optional: redirect to login or reload
+                // location.reload();
+            }
+            return throwError(() => error);
+        })
+    );
 };

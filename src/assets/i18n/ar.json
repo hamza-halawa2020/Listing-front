@@ -331,5 +331,6 @@
   "FAMILY_ZONE": "عائلي - منطقة",
   "FAMILY_GOVERNORATE": "عائلي - محافظة",
   "FAMILY_NATIONAL": "عائلي - قومي",
-  "NO_LISTINGS_FOUND": "لا توجد خدمات متاحة حالياً"
+  "NO_LISTINGS_FOUND": "لا توجد خدمات متاحة حالياً",
+  "Dont_have_account": "لا يوجد لديك حساب؟"
 }

@@ -13,8 +13,6 @@ export interface HomeStats {
 
 export interface HomeData {
   stats: HomeStats;
-  latestWorkSamples: any[];
-  teamMembers: any[];
   testimonials: any[];
   latestPosts: any[];
   partners: any[];
@@ -33,8 +31,6 @@ export class HomeService {
 
   getHomeData(): Observable<HomeData> {
     return forkJoin({
-      workSamples: this.getLatestWorkSamples(),
-      teamMembers: this.getTeamMembers(),
       testimonials: this.getTestimonials(),
       posts: this.getLatestPosts(),
       partners: this.getPartners(),
@@ -42,8 +38,6 @@ export class HomeService {
     }).pipe(
       map(data => ({
         stats: data.stats,
-        latestWorkSamples: data.workSamples,
-        teamMembers: data.teamMembers,
         testimonials: data.testimonials,
         latestPosts: data.posts,
         partners: data.partners
@@ -52,25 +46,7 @@ export class HomeService {
     );
   }
 
-  getLatestWorkSamples(): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/work-samples?limit=3`)
-      .pipe(
-        map(response => response.data || []),
-        catchError(error => {
-          return of([]);
-        })
-      );
-  }
 
-  getTeamMembers(): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/staff?limit=4`)
-      .pipe(
-        map(response => response.data || []),
-        catchError(error => {
-          return of([]);
-        })
-      );
-  }
 
   getTestimonials(): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/reviews?limit=3`)
