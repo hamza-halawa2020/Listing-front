@@ -7,13 +7,14 @@ import { environment } from '../../../../environments/environment';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ContentCardComponent } from '../../../shared/components/content-card/content-card.component';
 import { FormsModule } from '@angular/forms';
+import { SearchableSelectComponent } from '../../../shared/components/searchable-select/searchable-select.component';
 
 declare var L: any;
 
 @Component({
     selector: 'app-listings-list',
     standalone: true,
-    imports: [CommonModule, RouterLink, TranslateModule, PaginationComponent, ContentCardComponent, FormsModule],
+    imports: [CommonModule, RouterLink, TranslateModule, PaginationComponent, ContentCardComponent, FormsModule, SearchableSelectComponent],
     templateUrl: './listings-list.component.html',
     styleUrls: ['./listings-list.component.scss']
 })

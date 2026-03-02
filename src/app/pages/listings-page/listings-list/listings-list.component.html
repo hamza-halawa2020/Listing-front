@@ -41,11 +41,16 @@
                             <div class="col-md-3" *ngFor="let level of categoryLevels; let i = index">
                                 <div class="premium-select-group">
                                     <i class="fa-solid fa-layer-group"></i>
-                                    <select class="form-select" [(ngModel)]="selectedCategoryPath[i]"
-                                        (change)="onCategoryChange(i)">
-                                        <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
-                                        <option *ngFor="let cat of level" [value]="cat.id">{{ cat.name }}</option>
-                                    </select>
+                                    <app-searchable-select
+                                        [options]="level"
+                                        [value]="selectedCategoryPath[i]"
+                                        (valueChange)="selectedCategoryPath[i] = $event; onCategoryChange(i)"
+                                        [placeholder]="'ALL_CATEGORIES' | translate"
+                                        [allOptionLabel]="'ALL_CATEGORIES' | translate"
+                                        [searchPlaceholder]="'SEARCH_PLACEHOLDER' | translate"
+                                        [noResultsLabel]="'NO_LISTINGS_FOUND' | translate"
+                                        appearance="dark">
+                                    </app-searchable-select>
                                 </div>
                             </div>
 
@@ -53,11 +58,16 @@
                             <div class="col-md-3" *ngFor="let level of locationLevels; let i = index">
                                 <div class="premium-select-group">
                                     <i class="fa-solid fa-location-dot"></i>
-                                    <select class="form-select" [(ngModel)]="selectedLocationPath[i]"
-                                        (change)="onLocationChange(i)">
-                                        <option value="">{{ 'ALL_LOCATIONS' | translate }}</option>
-                                        <option *ngFor="let loc of level" [value]="loc.id">{{ loc.name }}</option>
-                                    </select>
+                                    <app-searchable-select
+                                        [options]="level"
+                                        [value]="selectedLocationPath[i]"
+                                        (valueChange)="selectedLocationPath[i] = $event; onLocationChange(i)"
+                                        [placeholder]="'ALL_LOCATIONS' | translate"
+                                        [allOptionLabel]="'ALL_LOCATIONS' | translate"
+                                        [searchPlaceholder]="'SEARCH_PLACEHOLDER' | translate"
+                                        [noResultsLabel]="'NO_LISTINGS_FOUND' | translate"
+                                        appearance="dark">
+                                    </app-searchable-select>
                                 </div>
                             </div>
                         </div>

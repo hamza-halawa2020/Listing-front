@@ -13,30 +13,44 @@
                     <div class="col-lg-2 search-input-col">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-layer-group px-1"></i>
-                            <select [(ngModel)]="selectedCategory" name="selectedCategory" class="form-select-premium">
-                                <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
-                                <option *ngFor="let cat of categoriesForHome" [value]="cat.id">{{ cat.name }}</option>
-                            </select>
+                            <app-searchable-select
+                                [options]="categoriesForHome"
+                                [value]="selectedCategory"
+                                (valueChange)="selectedCategory = $event"
+                                [placeholder]="'ALL_CATEGORIES' | translate"
+                                [allOptionLabel]="'ALL_CATEGORIES' | translate"
+                                [searchPlaceholder]="'SEARCH_BUTTON' | translate"
+                                [noResultsLabel]="'NO_LISTINGS_FOUND' | translate">
+                            </app-searchable-select>
                         </div>
                     </div>
                     <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-city px-1"></i>
-                            <select [(ngModel)]="selectedCity" name="selectedCity" class="form-select-premium"
-                                (change)="onCityChange()">
-                                <option value="">{{ 'CITY' | translate }}</option>
-                                <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
-                            </select>
+                            <app-searchable-select
+                                [options]="cities"
+                                [value]="selectedCity"
+                                (valueChange)="selectedCity = $event; onCityChange()"
+                                [placeholder]="'CITY' | translate"
+                                [allOptionLabel]="'CITY' | translate"
+                                [searchPlaceholder]="'SEARCH_BUTTON' | translate"
+                                [noResultsLabel]="'NO_LISTINGS_FOUND' | translate">
+                            </app-searchable-select>
                         </div>
                     </div>
                     <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-map-pin px-1"></i>
-                            <select [(ngModel)]="selectedArea" name="selectedArea" class="form-select-premium"
+                            <app-searchable-select
+                                [options]="areas"
+                                [value]="selectedArea"
+                                (valueChange)="selectedArea = $event"
+                                [placeholder]="'AREA' | translate"
+                                [allOptionLabel]="'AREA' | translate"
+                                [searchPlaceholder]="'SEARCH_BUTTON' | translate"
+                                [noResultsLabel]="'NO_LISTINGS_FOUND' | translate"
                                 [disabled]="!selectedCity">
-                                <option value="">{{ 'AREA' | translate }}</option>
-                                <option *ngFor="let area of areas" [value]="area.id">{{ area.name }}</option>
-                            </select>
+                            </app-searchable-select>
                         </div>
                     </div>
                     <div class="col-lg-4 search-input-col border-start-lg">

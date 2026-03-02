@@ -10,6 +10,7 @@ import { MainSlider } from '../../common/main-slider/main-slider.component';
 import { HomeService, HomeData } from './home.service';
 import { ListingsService } from '../../pages/listings-page/listings.service';
 import { FormsModule } from '@angular/forms';
+import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 
 @Component({
     selector: 'app-home-demo-one',
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
         FooterComponent,
         BackToTopComponent,
         FormsModule,
+        SearchableSelectComponent,
     ],
     templateUrl: './home-demo-one.component.html',
     styleUrl: './home-demo-one.component.scss',

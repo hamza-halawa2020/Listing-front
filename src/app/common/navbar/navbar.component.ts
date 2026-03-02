@@ -40,10 +40,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
             label: 'HOME',
             route: '/'
         },
-        {
-            label: 'About',
-            route: '/about'
-        },
         // {
         //     label: 'Posts',
         //     route: '/posts'
@@ -58,12 +54,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
         //     route: '/testimonials'
         // },
         {
+            label: 'CHECK_SUBSCRIPTION',
+            route: '/check-subscription'
+        },
+         
+        {
             label: 'PRICING',
             route: '/pricing'
         },
         {
-            label: 'CHECK_SUBSCRIPTION',
-            route: '/check-subscription'
+            label: 'About',
+            route: '/about'
         },
 
     ];
