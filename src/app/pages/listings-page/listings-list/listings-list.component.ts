@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { ListingsService } from '../listings.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
@@ -41,6 +41,11 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
     locationLevels: any[][] = []; // options for each cascading dropdown
     selectedLocationPath: string[] = []; // selected IDs at each level
 
+    // load flags and init guard
+    private categoriesLoaded: boolean = false;
+    private locationsLoaded: boolean = false;
+    private initialFiltersApplied: boolean = false;
+
     // Geolocation state
     isNearMeActive: boolean = false;
     isLocating: boolean = false;
@@ -49,7 +54,8 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private listingsService: ListingsService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -208,6 +214,8 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 // Initialize first level with root categories
                 this.categoryLevels = [this.categories];
                 this.selectedCategoryPath = [''];
+                this.categoriesLoaded = true;
+                this.processInitialFilters();
             },
             error: () => {
                 this.categories = [];
@@ -255,15 +263,145 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 const rawLocations = response.data || response;
                 this.locations = Array.isArray(rawLocations) ? rawLocations : [];
 
-                // Initialize first level with root locations
-                this.locationLevels = [this.locations];
+                // Use only top-level locations (governorates / parent_id null) for the first select
+                const rootLocations = this.locations.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
+
+                // Initialize first level with rootLocations (governorates)
+                this.locationLevels = [rootLocations];
                 this.selectedLocationPath = [''];
+                this.locationsLoaded = true;
+                this.processInitialFilters();
             },
             error: () => {
                 this.locations = [];
                 this.locationLevels = [];
             }
         });
+    }
+
+    private processInitialFilters() {
+        // Ensure we only process once and only after locations/categories loaded
+        if (this.initialFiltersApplied) return;
+        if (!this.locationsLoaded || !this.categoriesLoaded) return;
+
+        // Prefer navigation state
+        let stateFilters: any = null;
+        try {
+            const nav = this.router.getCurrentNavigation();
+            stateFilters = (nav && (nav.extras as any) && (nav.extras as any).state && (nav.extras as any).state['filters']) || (history && history.state && (history.state as any)['filters']) || null;
+        } catch (e) {
+            stateFilters = null;
+        }
+
+        // Fallback to query params
+        const qp = this.route.snapshot.queryParams || {};
+
+        // Fallback to localStorage
+        let saved: any = null;
+        try {
+            const raw = localStorage.getItem('listingFilters');
+            if (raw) saved = JSON.parse(raw);
+        } catch (e) {
+            saved = null;
+        }
+
+        const filters = stateFilters || (Object.keys(qp).length ? qp : (saved || null));
+
+        if (filters) {
+            if (filters.s || filters.search) this.searchQuery = filters.s || filters.search || '';
+
+            if (filters.category) {
+                this.setCategoryFromId(filters.category);
+            } else if (filters['listing-category']) {
+                this.setCategoryFromId(filters['listing-category']);
+            }
+
+            if (filters.location) {
+                this.setLocationFromId(filters.location);
+            } else if (filters.location_id) {
+                this.setLocationFromId(filters.location_id);
+            }
+
+            // finally fetch with applied filters
+            this.fetchListings();
+        } else {
+            // If no initial filters found, still fetch default listings
+            this.fetchListings();
+        }
+
+        this.initialFiltersApplied = true;
+    }
+
+    private findPath(tree: any[], targetId: any, path: string[] = []): string[] | null {
+        if (!tree || !tree.length) return null;
+        for (const node of tree) {
+            const idStr = String(node.id);
+            if (idStr === String(targetId)) {
+                return [...path, idStr];
+            }
+            if (node.children && node.children.length) {
+                const res = this.findPath(node.children, targetId, [...path, idStr]);
+                if (res) return res;
+            }
+        }
+        return null;
+    }
+
+    private setLocationFromId(locationId: any) {
+        if (!locationId) return;
+        const path = this.findPath(this.locations, locationId);
+        if (!path) {
+            // if not found, fallback to simple assignment
+            this.selectedLocation = String(locationId);
+            return;
+        }
+
+        // Build locationLevels and selectedLocationPath based on path
+        this.locationLevels = [this.locations];
+        this.selectedLocationPath = [];
+        let currentLevel = this.locations;
+        for (let i = 0; i < path.length; i++) {
+            const id = path[i];
+            this.selectedLocationPath[i] = id;
+            const node = currentLevel.find((n: any) => String(n.id) === String(id));
+            if (node && node.children && node.children.length) {
+                this.locationLevels[i + 1] = node.children;
+                currentLevel = node.children;
+                // ensure next selected slot exists
+                if (!this.selectedLocationPath[i + 1]) this.selectedLocationPath[i + 1] = '';
+            } else {
+                currentLevel = [];
+            }
+        }
+
+        this.selectedLocation = path[path.length - 1];
+    }
+
+    private setCategoryFromId(categoryId: any) {
+        if (!categoryId) return;
+        const path = this.findPath(this.categories, categoryId);
+        if (!path) {
+            this.selectedCategory = String(categoryId);
+            return;
+        }
+
+        this.categoryLevels = [this.categories];
+        this.selectedCategoryPath = [];
+        let currentLevel = this.categories;
+        for (let i = 0; i < path.length; i++) {
+            const id = path[i];
+            this.selectedCategoryPath[i] = id;
+            const node = currentLevel.find((n: any) => String(n.id) === String(id));
+            if (node && node.children && node.children.length) {
+                this.categoryLevels[i + 1] = node.children;
+                currentLevel = node.children;
+                if (!this.selectedCategoryPath[i + 1]) this.selectedCategoryPath[i + 1] = '';
+            } else {
+                currentLevel = [];
+            }
+        }
+
+        this.selectedCategory = path[path.length - 1];
     }
 
     onLocationChange(levelIndex: number) {

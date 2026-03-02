@@ -234,19 +234,26 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
     // navigate to listing search results
     searchListings() {
-        const params: any = {};
-        if (this.searchQuery) params.s = this.searchQuery;
-        // Sending category slug or ID to the search page instead of term name
-        if (this.selectedCategory) params['category'] = this.selectedCategory;
+        const filters: any = {};
+        if (this.searchQuery) filters.s = this.searchQuery;
+        if (this.selectedCategory) filters.category = this.selectedCategory;
 
-        // Pass specific area if selected, otherwise pass the city
+        // Pass specific area if selected, otherwise pass the city (area has priority)
         if (this.selectedArea) {
-            params['location'] = this.selectedArea;
+            filters.location = this.selectedArea;
         } else if (this.selectedCity) {
-            params['location'] = this.selectedCity;
+            filters.location = this.selectedCity;
         }
 
-        this.router.navigate(['/listings'], { queryParams: params });
+        // Persist filters so a page refresh can recover them
+        try {
+            localStorage.setItem('listingFilters', JSON.stringify(filters));
+        } catch (e) {
+            // ignore storage errors
+        }
+
+        // Navigate without query params and carry filters via navigation state
+        this.router.navigate(['/listings'], { state: { filters } });
     }
 
 

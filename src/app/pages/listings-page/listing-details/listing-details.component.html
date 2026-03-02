@@ -12,27 +12,13 @@
             </nav>
             <div class="header-main-info d-flex flex-wrap justify-content-between align-items-end">
                 <div class="title-area">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-success me-2">{{ mockData.status }}</span>
-                        <div class="rating-stars">
-                            <i class="fa-solid fa-star text-amber" *ngFor="let star of [1,2,3,4,5]"></i>
-                            <span class="ms-2 text-white">({{ mockData.reviewsCount }} {{ 'REVIEWS' | translate
-                                }})</span>
-                        </div>
-                    </div>
+                    
                     <h1 class="fsresp fw-bold text-white mb-2">{{ listing.name || listing.title?.rendered }}</h1>
                     <p class="text-white-50 fs-5 mb-0">
                         <i class="fa-solid fa-location-dot me-2"></i> {{ mockData.address }}
                     </p>
                 </div>
-                <div class="action-buttons mt-4 mt-lg-0 d-flex gap-2">
-                    <button class="btn btn-glass"><i class="fa-regular fa-heart me-2"></i> {{ 'SAVE' | translate
-                        }}</button>
-                    <button class="btn btn-glass"><i class="fa-solid fa-share-nodes me-2"></i> {{ 'SHARE' | translate
-                        }}</button>
-                    <button class="btn btn-secondary px-4"><i class="fa-solid fa-star me-2"></i> {{ 'WRITE_REVIEW' |
-                        translate }}</button>
-                </div>
+                
             </div>
         </div>
     </header>
@@ -72,18 +58,7 @@
                     </div>
                 </div>
 
-                <!-- Reviews Placeholder -->
-                <div class="content-box mb-5">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="fw-bold mb-0">{{ 'REVIEWS' | translate }}</h3>
-                        <div class="overall-rating fs-4 fw-bold">
-                            {{ mockData.rating }} <i class="fa-solid fa-star text-amber"></i>
-                        </div>
-                    </div>
-                    <div class="alert alert-light border">
-                        {{ 'NO_REVIEWS_YET' | translate }}
-                    </div>
-                </div>
+            
             </div>
 
             <!-- Sidebar (4 cols) -->
@@ -95,8 +70,7 @@
                         <div class="p-3 bg-white border-top">
                             <p class="mb-2"><i class="fa-solid fa-location-dot text-indigo me-2"></i> {{
                                 mockData.address }}</p>
-                            <a href="javascript:void(0)" class="text-indigo fw-semibold">{{ 'GET_DIRECTIONS' | translate
-                                }}</a>
+
                         </div>
                     </div>
 
@@ -146,22 +120,6 @@
                                 {{ offer.discount_percentage }}% {{ 'DISCOUNT' | translate }}
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Quick Contact Form -->
-                    <div class="sidebar-card p-4 bg-white">
-                        <h5 class="fw-bold mb-4">{{ 'SEND_MESSAGE' | translate }}</h5>
-                        <form (ngSubmit)="submitContactForm()">
-                            <input type="text" class="form-control mb-3" placeholder="{{ 'YOUR_NAME' | translate }}"
-                                required>
-                            <input type="email" class="form-control mb-3"
-                                placeholder="{{ 'EMAIL_ADDRESS' | translate }}" required>
-                            <textarea class="form-control mb-3" rows="4" placeholder="{{ 'YOUR_MESSAGE' | translate }}"
-                                required></textarea>
-                            <button type="submit" class="btn btn-secondary w-100 py-3 fw-bold">
-                                {{ 'SUBMIT_REQUEST' | translate }} <i class="fa-solid fa-paper-plane ms-2"></i>
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
