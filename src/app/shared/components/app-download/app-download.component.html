@@ -1,0 +1,24 @@
+<div class="app-download-container">
+    <div class="download-content">
+        <h3 class="download-title">{{ title }}</h3>
+        <p class="download-description">{{ description }}</p>
+        
+        <div class="download-buttons">
+            <button class="download-btn app-store" (click)="openAppStore()">
+                <i class="fa-brands fa-apple"></i>
+                <div class="btn-text">
+                    <span class="small-text">{{ 'DOWNLOAD_ON' | translate }}</span>
+                    <span class="large-text">App Store</span>
+                </div>
+            </button>
+            
+            <button class="download-btn google-play" (click)="openGooglePlay()">
+                <i class="fa-brands fa-google-play"></i>
+                <div class="btn-text">
+                    <span class="small-text">{{ 'GET_IT_ON' | translate }}</span>
+                    <span class="large-text">Google Play</span>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>

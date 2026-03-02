@@ -12,18 +12,18 @@
                         </div>
 
                         <div *ngIf="!isLoading && plan">
-                            <!-- Plan Summary -->
                             <div class="plan-summary mb-5 p-4 bg-light rounded-4">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h4 class="fw-bold mb-0">{{ plan.name }}</h4>
-                                    <span class="badge bg-primary px-3 py-2">{{ plan.price | number }} {{ 'EGP' |
-                                        translate }}</span>
+                                    <span class="badge bg-primary px-3 py-2">{{ plan.price | number }} {{ 'EGP' | translate }}</span>
                                 </div>
-                                <p class="text-muted mb-0">{{ plan.duration_days }} {{ 'DAYS' | translate }} - {{
-                                    plan.coverage_type | uppercase }}</p>
+                                <p class="text-muted mb-0">{{ plan.duration_days }} {{ 'DAYS' | translate }} - {{ plan.coverage_type | uppercase }}</p>
+                                <div class="checkout-total-row mt-3 pt-3 border-top">
+                                    <span>{{ 'CHECKOUT_TOTAL' | translate }}</span>
+                                    <strong>{{ totalAmount | number }} {{ 'EGP' | translate }}</strong>
+                                </div>
                             </div>
 
-                            <!-- Success/Error Messages -->
                             <div *ngIf="successMessage" class="alert alert-success mb-4 p-3 rounded-3">
                                 <i class="fa-solid fa-circle-check me-2"></i> {{ successMessage | translate }}
                             </div>
@@ -31,48 +31,138 @@
                                 <i class="fa-solid fa-circle-exclamation me-2"></i> {{ errorMessage | translate }}
                             </div>
 
-                            <!-- Payment Form -->
                             <form (ngSubmit)="onSubmit()" #checkoutForm="ngForm">
                                 <div class="row g-4">
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">{{ 'PAYMENT_METHOD' | translate }}</label>
-                                        <div class="py-3 px-4 bg-light border-0 rounded-3 fw-bold text-primary">
-                                            <i class="fa-solid fa-mobile-screen-button me-2"></i> {{ 'INSTAPAY_ONLINE' |
-                                            translate }}
+                                        <div class="payment-methods-grid">
+                                            <button
+                                                type="button"
+                                                *ngFor="let method of paymentMethods"
+                                                class="payment-method-card"
+                                                [class.is-active]="paymentData.payment_method === method.value"
+                                                (click)="selectPaymentMethod(method.value)">
+                                                <span class="payment-method-card__icon">
+                                                    <i class="fa-solid" [ngClass]="method.icon"></i>
+                                                </span>
+                                                <span class="payment-method-card__content">
+                                                    <strong>{{ method.labelKey | translate }}</strong>
+                                                    <small class="text-muted d-block">{{ method.phone }}</small>
+                                                </span>
+                                            </button>
                                         </div>
-                                        <input type="hidden" name="payment_method"
-                                            [(ngModel)]="paymentData.payment_method">
+                                        <input type="hidden" name="payment_method" [(ngModel)]="paymentData.payment_method">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">{{ 'TRANSACTION_REFERENCE' | translate
-                                            }}</label>
-                                        <input type="text" class="form-control py-3 bg-light border-0"
-                                            name="transaction_reference" [(ngModel)]="paymentData.transaction_reference"
-                                            placeholder="{{ 'REF_PLACEHOLDER' | translate }}">
-                                    </div>
+
                                     <div class="col-12">
-                                        <label class="form-label fw-bold">{{ 'ATTACHMENT' | translate }} ({{ 'OPTIONAL'
-                                            | translate }})</label>
-                                        <input type="file" class="form-control py-3 bg-light border-0"
-                                            (change)="onFileSelected($event)" accept="image/*,application/pdf">
-                                        <small class="text-muted mt-2 d-block">{{ 'ATTACHMENT_HINT' | translate
-                                            }}</small>
+                                        <div class="delivery-toggle">
+                                            <label class="delivery-toggle__label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="needs_delivery"
+                                                    [(ngModel)]="paymentData.needs_delivery"
+                                                    (ngModelChange)="onDeliveryToggle()">
+                                                <span>{{ 'DELIVERY_TO_MY_ADDRESS' | translate }}</span>
+                                            </label>
+                                            <small class="text-muted d-block mt-2">
+                                                {{ 'DELIVERY_HINT' | translate }}
+                                            </small>
+                                        </div>
                                     </div>
+
+                                    <ng-container *ngIf="paymentData.needs_delivery">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">{{ 'GOVERNORATE' | translate }}</label>
+                                            <app-searchable-select
+                                                [options]="governorates"
+                                                [value]="paymentData.location_id"
+                                                (valueChange)="paymentData.location_id = $event; onGovernorateChange()"
+                                                [placeholder]="'SELECT_GOVERNORATE' | translate"
+                                                [allOptionLabel]="'SELECT_GOVERNORATE' | translate"
+                                                [searchPlaceholder]="'SEARCH_GOVERNORATE' | translate"
+                                                [noResultsLabel]="'NO_RESULTS_FOUND' | translate"
+                                                appearance="dark">
+                                            </app-searchable-select>
+                                            <input
+                                                type="hidden"
+                                                name="location_id"
+                                                [(ngModel)]="paymentData.location_id"
+                                                required>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">{{ 'SHIPPING_COST' | translate }}</label>
+                                            <div class="shipping-fee-box">
+                                                <span>{{ getSelectedGovernorateName() || ('NO_GOVERNORATE_SELECTED' | translate) }}</span>
+                                                <strong>{{ paymentData.shipping_cost | number }} {{ 'EGP' | translate }}</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">{{ 'RECIPIENT_NAME' | translate }}</label>
+                                            <input
+                                                type="text"
+                                                class="form-control py-3 bg-light border-0"
+                                                name="delivery_name"
+                                                [(ngModel)]="paymentData.delivery_name"
+                                                required
+                                                [placeholder]="'RECIPIENT_NAME_PLACEHOLDER' | translate">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">{{ 'RECIPIENT_PHONE' | translate }}</label>
+                                            <input
+                                                type="text"
+                                                class="form-control py-3 bg-light border-0"
+                                                name="delivery_phone"
+                                                [(ngModel)]="paymentData.delivery_phone"
+                                                required
+                                                [placeholder]="'RECIPIENT_PHONE_PLACEHOLDER' | translate">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold">{{ 'DETAILED_ADDRESS' | translate }}</label>
+                                            <textarea
+                                                class="form-control py-3 bg-light border-0"
+                                                rows="3"
+                                                name="delivery_address"
+                                                [(ngModel)]="paymentData.delivery_address"
+                                                required
+                                                [placeholder]="'DETAILED_ADDRESS_PLACEHOLDER' | translate"></textarea>
+                                        </div>
+                                    </ng-container>
+
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold">{{ 'ATTACHMENT' | translate }} ({{ 'OPTIONAL' | translate }})</label>
+                                        <input type="file" class="form-control py-3 bg-light border-0" (change)="onFileSelected($event)" accept="image/*,application/pdf">
+                                        <small class="text-muted mt-2 d-block">{{ 'ATTACHMENT_HINT' | translate }}</small>
+                                    </div>
+
                                     <div class="col-12">
                                         <label class="form-label fw-bold">{{ 'NOTES' | translate }}</label>
-                                        <textarea class="form-control py-3 bg-light border-0" rows="4" name="notes"
+                                        <textarea
+                                            class="form-control py-3 bg-light border-0"
+                                            rows="4"
+                                            name="notes"
                                             [(ngModel)]="paymentData.notes"
                                             placeholder="{{ 'NOTES_PLACEHOLDER' | translate }}"></textarea>
                                     </div>
+
                                     <div class="col-12 mt-5">
-                                        <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold"
-                                            [disabled]="isSubmitting || !checkoutForm.valid">
-                                            <span *ngIf="!isSubmitting">{{ 'SUBMIT_PAYMENT' | translate }}</span>
-                                            <span *ngIf="isSubmitting"
-                                                class="spinner-border spinner-border-sm me-2"></span>
-                                        </button>
-                                        <a routerLink="/pricing" class="btn btn-link w-100 mt-3 text-muted">{{ 'CANCEL'
-                                            | translate }}</a>
+                                        <div class="checkout-actions">
+                                            <button
+                                                type="submit"
+                                                class="checkout-btn checkout-btn--primary"
+                                                [disabled]="isSubmitting || !checkoutForm.valid">
+                                                <i class="fa-solid fa-paper-plane" *ngIf="!isSubmitting"></i>
+                                                <span *ngIf="!isSubmitting">{{ 'SUBMIT_PAYMENT' | translate }}</span>
+                                                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm"></span>
+                                            </button>
+                                            <a routerLink="/pricing" class="checkout-btn checkout-btn--secondary">
+                                                <i class="fa-solid fa-arrow-left"></i>
+                                                <span>{{ 'CANCEL' | translate }}</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
