@@ -75,6 +75,7 @@ body {
     padding: 0;
     padding-top: 70px;
     /* Add padding for fixed navbar */
+    overflow-x: hidden;
     color: var(--primaryColor);
     background-color: var(--creamBg);
     font-family: var(--fontFamily);
