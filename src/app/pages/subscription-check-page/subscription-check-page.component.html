@@ -1,13 +1,16 @@
 <div class="sub-check-wrapper py-5 mt-5">
+    <div class="sub-check-orb sub-check-orb--one"></div>
+    <div class="sub-check-orb sub-check-orb--two"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="section-header text-center mb-5">
+                <div class="sub-check-hero text-center mb-5">
+                    <span class="sub-check-kicker">{{ 'CHECK_SUBSCRIPTION' | translate }}</span>
                     <h2 class="fw-bold">{{ 'CHECK_SUBSCRIPTION_TITLE' | translate }}</h2>
-                    <p class="text-muted">{{ 'CHECK_SUBSCRIPTION_DESC' | translate }}</p>
+                    <p class="mb-0">{{ 'CHECK_SUBSCRIPTION_DESC' | translate }}</p>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-5">
+                <div class="card subscription-check-card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-5">
                     <form (ngSubmit)="onSubmit()" #checkForm="ngForm">
                         <div class="mb-4">
                             <label class="form-label fw-bold">{{ 'NATIONAL_ID' | translate }}</label>
@@ -31,10 +34,11 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold"
+                        <button type="submit" class="check-submit-btn w-100"
                             [disabled]="isLoading || !checkForm.valid">
+                            <i class="fa-solid fa-magnifying-glass" *ngIf="!isLoading"></i>
                             <span *ngIf="!isLoading">{{ 'CHECK_NOW' | translate }}</span>
-                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
                         </button>
                     </form>
                 </div>

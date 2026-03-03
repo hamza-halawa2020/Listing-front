@@ -143,6 +143,8 @@
   "LOGIN": "تسجيل الدخول",
   "SIGN_UP": "التسجيل",
   "PROFILE": "الملف الشخصي",
+  "QUICK_LINKS": "روابط سريعة",
+  "PROFILE_LOGIN_HINT": "يرجى تسجيل الدخول لعرض بيانات الملف الشخصي.",
   "LOGOUT": "تسجيل الخروج",
   "SUBMISSION_SUCCESS": "تم إرسال الرسالة بنجاح!",
   "CONTACT_US_PAGE_TITLE": "اتصل بنا",

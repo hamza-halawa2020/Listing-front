@@ -46,15 +46,18 @@
                 </ng-container>
 
                 <ng-container *ngIf="authService.isLoggedIn()">
-                    <div class="user-info d-flex align-items-center me-3 border-end pe-3">
-                        <div class="user-avatar-sm me-2">
-                            <i class="fa-solid fa-circle-user text-indigo"></i>
+                    <a routerLink="/profile" class="user-info me-3" (click)="closeMobileMenu()">
+                        <div class="user-avatar-sm">
+                            <i class="fa-solid fa-user"></i>
                         </div>
-                        <span class="user-name small fw-bold text-muted">{{ currentUser?.displayName }}</span>
-                        <button class="btn btn-logout-sm ms-3" (click)="logout()" title="{{ 'Log Out' | translate }}">
+                        <div class="user-meta">
+                            <span class="user-label">{{ 'PROFILE' | translate }}</span>
+                            <span class="user-name">{{ getUserDisplayName() }}</span>
+                        </div>
+                        <button class="btn btn-logout-sm" (click)="logout(); $event.preventDefault(); $event.stopPropagation()" title="{{ 'Log Out' | translate }}">
                             <i class="fa-solid fa-power-off"></i>
                         </button>
-                    </div>
+                    </a>
                 </ng-container>
 
                 <a routerLink="/contacts" class="btn btn-outline" (click)="closeMobileMenu()">

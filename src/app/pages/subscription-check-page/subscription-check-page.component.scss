@@ -3,42 +3,150 @@
 }
 
 .sub-check-wrapper {
-    background: #f8fafc;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.12) 0%, transparent 340px),
+        radial-gradient(circle at 10% 24%, rgba(241, 90, 36, 0.08) 0%, transparent 240px),
+        linear-gradient(180deg, #eef5ff 0%, #f8fbff 42%, #f8fafc 100%);
     min-height: 90vh;
-    background-image: radial-gradient(circle at top right, rgba(30, 64, 175, 0.05) 0%, transparent 400px);
+
+    .container,
+    .results-container {
+        position: relative;
+        z-index: 2;
+    }
 
     .card {
         transition: all 0.3s ease;
     }
+}
 
+.sub-check-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(18px);
+    pointer-events: none;
+
+    &.sub-check-orb--one {
+        top: 90px;
+        right: -30px;
+        width: 170px;
+        height: 170px;
+        background: rgba(37, 99, 235, 0.14);
+    }
+
+    &.sub-check-orb--two {
+        top: 320px;
+        left: -50px;
+        width: 210px;
+        height: 210px;
+        background: rgba(241, 90, 36, 0.08);
+    }
+}
+
+.sub-check-hero {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: 38px 28px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.96) 0%, rgba(29, 78, 216, 0.92) 58%, rgba(31, 63, 178, 0.9) 100%);
+    color: #fff;
+    box-shadow: 0 24px 60px rgba(37, 99, 235, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    h2 {
+        color: #fff;
+        margin-bottom: 12px;
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.84);
+    }
+}
+
+.sub-check-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.subscription-check-card {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.14) !important;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06) !important;
+    backdrop-filter: blur(10px);
+}
+
+.sub-check-wrapper {
     .input-group-text {
         color: #94a3b8;
+        border-radius: 1rem 0 0 1rem !important;
+    }
+
+    .form-control {
+        border-radius: 0 1rem 1rem 0 !important;
     }
 
     .form-control:focus {
         background-color: #fff !important;
-        box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1) !important;
-    }
-
-    .btn-primary {
-        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.2);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+        border-color: transparent !important;
     }
 
     .subscription-item {
-        border: 1px solid rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(37, 99, 235, 0.06);
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 
         &:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 18px 34px rgba(37, 99, 235, 0.08) !important;
         }
     }
 
     .bg-indigo-light {
-        background-color: rgba(99, 102, 241, 0.1);
+        background-color: rgba(37, 99, 235, 0.1);
     }
 
     .text-indigo {
-        color: #4f46e5;
+        color: #2563eb;
+    }
+}
+
+.check-submit-btn {
+    min-height: 58px;
+    border: 0;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #1e40af 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0.95rem 1.2rem;
+    font-weight: 800;
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.22);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 36px rgba(37, 99, 235, 0.28);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        box-shadow: none;
     }
 }
 
@@ -52,5 +160,16 @@
         .form-control {
             border-radius: 1rem 0 0 1rem !important;
         }
+    }
+}
+
+@media (max-width: 767px) {
+    .results-container {
+        max-width: 100%;
+    }
+
+    .sub-check-hero {
+        padding: 30px 20px;
+        border-radius: 22px;
     }
 }

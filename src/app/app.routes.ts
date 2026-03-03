@@ -27,6 +27,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/pricing-page/pricing-page.component').then(m => m.PricingPageComponent)
     },
     {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'checkout/:planId',
         loadComponent: () => import('./pages/checkout-page/checkout-page.component').then(m => m.CheckoutPageComponent),
         canActivate: [AuthGuard]

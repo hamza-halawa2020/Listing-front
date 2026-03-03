@@ -116,6 +116,8 @@
   "LOGIN": "Login",
   "SIGN_UP": "Sign Up",
   "PROFILE": "Profile",
+  "QUICK_LINKS": "Quick Links",
+  "PROFILE_LOGIN_HINT": "Please log in to view your profile details.",
   "LOGOUT": "Logout",
   "SUBMISSION_SUCCESS": "Message sent successfully!",
   "CONTACT_US_PAGE_TITLE": "Contact Us",

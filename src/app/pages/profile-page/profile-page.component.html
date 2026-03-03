@@ -1,0 +1,76 @@
+<section class="profile-page section-padding">
+    <div class="profile-orb profile-orb--one"></div>
+    <div class="profile-orb profile-orb--two"></div>
+
+    <div class="container">
+        <div class="profile-shell" *ngIf="currentUser">
+            <div class="profile-hero">
+                <div class="profile-avatar">{{ getInitial() }}</div>
+                <div class="profile-hero__content">
+                    <span class="profile-kicker">{{ 'PROFILE' | translate }}</span>
+                    <h1>{{ getDisplayName() }}</h1>
+                    <p>{{ currentUser.email || currentUser.phone || currentUser.national_id || ('PROFILE' | translate) }}</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="profile-card">
+                        <h3 class="profile-card__title">{{ 'PROFILE' | translate }}</h3>
+
+                        <div class="profile-grid">
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'FULL_NAME' | translate }}</span>
+                                <strong>{{ currentUser.name || currentUser.full_name || currentUser.fullName || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'EMAIL_ADDRESS' | translate }}</span>
+                                <strong>{{ currentUser.email || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'PHONE' | translate }}</span>
+                                <strong>{{ currentUser.phone || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'NATIONAL_ID' | translate }}</span>
+                                <strong>{{ currentUser.national_id || '-' }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="profile-card profile-card--side">
+                        <h3 class="profile-card__title">{{ 'QUICK_LINKS' | translate }}</h3>
+
+                        <div class="profile-actions">
+                            <a routerLink="/listings" class="profile-action-link">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <span>{{ 'LISTINGS' | translate }}</span>
+                            </a>
+
+                            <a routerLink="/pricing" class="profile-action-link">
+                                <i class="fa-solid fa-credit-card"></i>
+                                <span>{{ 'PRICING' | translate }}</span>
+                            </a>
+
+                            <button type="button" class="profile-action-link is-logout" (click)="logout()">
+                                <i class="fa-solid fa-power-off"></i>
+                                <span>{{ 'LOGOUT' | translate }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-empty" *ngIf="!currentUser">
+            <h2>{{ 'PROFILE' | translate }}</h2>
+            <p>{{ 'PROFILE_LOGIN_HINT' | translate }}</p>
+            <a routerLink="/login" class="profile-login-link">{{ 'LOGIN' | translate }}</a>
+        </div>
+    </div>
+</section>

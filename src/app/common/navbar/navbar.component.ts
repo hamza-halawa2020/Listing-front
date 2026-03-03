@@ -196,4 +196,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.router.navigate(['/login']);
         this.isCollapsed = true;
     }
+
+    getUserDisplayName(): string {
+        if (!this.currentUser) {
+            return '';
+        }
+
+        return (
+            this.currentUser.displayName ||
+            this.currentUser.name ||
+            this.currentUser.full_name ||
+            this.currentUser.fullName ||
+            this.currentUser.username ||
+            this.currentUser.email ||
+            this.currentUser.phone ||
+            ''
+        );
+    }
 }
