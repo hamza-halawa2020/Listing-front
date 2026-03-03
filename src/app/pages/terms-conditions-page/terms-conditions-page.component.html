@@ -2,12 +2,9 @@
     <div class="">
         <div class="section-title text-center mt-5">
             <h2>{{ 'TERMS_OF_SERVICE' | translate }}</h2>
-            <p class="mt-5">{{ 'TERMS_OF_SERVICE' | translate }}</p>
+            <p class="mt-5">{{ 'TERMS_PAGE_SUBTITLE' | translate }}</p>
         </div>
 
-
-
-        <!-- Terms & Conditions Content -->
         <section class="policy-content-section section-padding">
             <div class="">
                 <div class="row">
@@ -15,68 +12,77 @@
                         <div class="policy-content">
                             <div class="policy-header">
                                 <h2>{{ 'TERMS_OF_SERVICE' | translate }}</h2>
-                                <p class="last-updated">{{ 'LAST_UPDATED' | translate }}: 25 {{ 'JANUARY' | translate }}
-                                    2024</p>
+                                <p class="last-updated">{{ 'POLICY_LAST_UPDATED' | translate }}</p>
                             </div>
 
                             <div class="policy-section">
+                                <h3>{{ 'TERMS_ACCEPTANCE_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_ACCEPTANCE_TEXT' | translate }}</p>
                             </div>
 
-                            <div *ngIf="settings.terms_conditions" [innerHTML]="settings.terms_conditions"></div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_SERVICE_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_SERVICE_TEXT' | translate }}</p>
+                            </div>
 
-                            <div *ngIf="!settings.terms_conditions">
-                                <div class="policy-section">
-                                    <h3>{{ 'TERMS_OVERVIEW' | translate }}</h3>
-                                    <p>{{ 'TERMS_INTRO' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_ACCOUNT_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_ACCOUNT_LEAD' | translate }}</p>
+                                <ul class="policy-list">
+                                    <li>{{ 'TERMS_ACCOUNT_ITEM_1' | translate }}</li>
+                                    <li>{{ 'TERMS_ACCOUNT_ITEM_2' | translate }}</li>
+                                    <li>{{ 'TERMS_ACCOUNT_ITEM_3' | translate }}</li>
+                                    <li>{{ 'TERMS_ACCOUNT_ITEM_4' | translate }}</li>
+                                </ul>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'GENERAL_PERMISSION_TITLE' | translate }}</h3>
-                                    <p>{{ 'GENERAL_PERMISSION_DESC' | translate }}</p>
-                                    <p>{{ 'SHIPPING_OPTIONS' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_CONTENT_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_CONTENT_TEXT' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'CONFIDENTIAL_INFO_TITLE' | translate }}</h3>
-                                    <ul class="policy-list">
-                                        <li>{{ 'CREDIT_CARD_TERMS' | translate }}</li>
-                                        <li>{{ 'FAST_CHECKOUT_TERMS' | translate }}</li>
-                                        <li>{{ 'PAYPAL_TERMS' | translate }}</li>
-                                    </ul>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_SUBSCRIPTIONS_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_SUBSCRIPTIONS_TEXT_1' | translate }}</p>
+                                <p>{{ 'TERMS_SUBSCRIPTIONS_TEXT_2' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'LINKING_TITLE' | translate }}</h3>
-                                    <p>{{ 'RETURN_POLICY_TERMS' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_PROHIBITED_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_PROHIBITED_LEAD' | translate }}</p>
+                                <ol class="policy-list numbered">
+                                    <li>{{ 'TERMS_PROHIBITED_ITEM_1' | translate }}</li>
+                                    <li>{{ 'TERMS_PROHIBITED_ITEM_2' | translate }}</li>
+                                    <li>{{ 'TERMS_PROHIBITED_ITEM_3' | translate }}</li>
+                                    <li>{{ 'TERMS_PROHIBITED_ITEM_4' | translate }}</li>
+                                </ol>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'INTELLECTUAL_PROPERTY_TITLE' | translate }}</h3>
-                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC' | translate }}</p>
-                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC_2' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_IP_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_IP_TEXT' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'SECURITY_STORAGE_TITLE' | translate }}</h3>
-                                    <p>{{ 'SECURITY_STORAGE_DESC' | translate }}</p>
-                                    <ol class="policy-list numbered">
-                                        <li>{{ 'CREDIT_CARD_TERMS' | translate }}</li>
-                                        <li>{{ 'FAST_CHECKOUT_TERMS' | translate }}</li>
-                                        <li>{{ 'PAYPAL_TERMS' | translate }}</li>
-                                    </ol>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_SUSPENSION_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_SUSPENSION_TEXT' | translate }}</p>
+                            </div>
+
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_LIABILITY_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_LIABILITY_TEXT' | translate }}</p>
+                            </div>
+
+                            <div class="policy-section">
+                                <h3>{{ 'TERMS_UPDATES_TITLE' | translate }}</h3>
+                                <p>{{ 'TERMS_UPDATES_TEXT' | translate }}</p>
                             </div>
 
                             <div class="policy-footer">
                                 <div class="contact-info">
-                                    <h4>{{ 'CONTACT_US' | translate }}</h4>
-                                    <p>{{ 'TERMS_CONTACT_DESC' | translate }}</p>
-                                    <div class="contact-details">
-                                        <p *ngIf="settings.email"><strong>{{ 'EMAIL' | translate }}:</strong> <a
-                                                href="mailto:{{ settings.email }}">{{ settings.email }}</a></p>
-                                        <p *ngIf="settings.phone"><strong>{{ 'PHONE' | translate }}:</strong> <a
-                                                href="tel:{{ settings.phone }}">{{ settings.phone }}</a></p>
-                                    </div>
+                                    <h4>{{ 'TERMS_CONTACT_TITLE' | translate }}</h4>
+                                    <p>{{ 'TERMS_CONTACT_TEXT' | translate }}</p>
+                                    <a routerLink="/contacts" class="default-btn">{{ 'TERMS_CONTACT_BUTTON' | translate }}</a>
                                 </div>
                             </div>
                         </div>

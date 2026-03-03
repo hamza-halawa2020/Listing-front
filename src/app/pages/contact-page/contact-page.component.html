@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="info-content">
                                     <h4>{{ 'OUR_LOCATION' | translate }}</h4>
-                                    <p>{{ settings.address || ('LOCATION_ADDRESS' | translate) }}</p>
+                                    <p>{{ 'OFFICE_ADDRESS' | translate }}</p>
                                 </div>
                             </div>
 
@@ -45,9 +45,9 @@
                                 <div class="info-content">
                                     <h4>{{ 'TELEPHONE' | translate }}</h4>
                                     <p dir="ltr" class="phone-list">
-                                        <a href="tel:{{ settings.phone }}" *ngIf="settings.phone">{{ settings.phone
+                                        <a href="tel:{{ settings.phone }}" *ngIf="phone">{{ phone
                                             }}</a>
-                                        <a href="tel:{{ settings.whatsapp }}" *ngIf="settings.whatsapp">{{
+                                        <a href="tel:{{ whatsapp }}" *ngIf="whatsapp">{{
                                             settings.whatsapp }}</a>
                                     </p>
                                 </div>
@@ -60,8 +60,8 @@
                                 <div class="info-content">
                                     <h4>{{ 'SEND_EMAIL' | translate }}</h4>
                                     <p>
-                                        <a href="mailto:{{ settings.email || 'info@careandshare.com' }}">
-                                            {{ settings.email || 'info@careandshare.com' }}
+                                        <a href="mailto:{{ email }}">
+                                            {{ email }}
                                         </a>
                                     </p>
                                 </div>

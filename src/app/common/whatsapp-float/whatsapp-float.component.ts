@@ -2,17 +2,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-whatsapp-float',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TranslateModule],
     templateUrl: './whatsapp-float.component.html',
     styleUrls: ['./whatsapp-float.component.scss']
 })
 export class WhatsappFloatComponent implements OnInit, OnDestroy {
-    phone: string = '201018759455'; // Default WhatsApp
+    phone: string = '201030032281'; // Default WhatsApp
     private subscription: Subscription = new Subscription();
 
     constructor(

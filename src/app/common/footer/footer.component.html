@@ -12,10 +12,10 @@
             <!-- Brand & About -->
             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <div class="footer-card brand-card">
-                    <img [src]="settings.logo_url || '/assets/images/logo.svg'" alt="care & share"
+                    <img [src]="settings.logo_url || '/assets/images/logo.svg'" [attr.alt]="'SITE_NAME' | translate"
                         class="footer-logo mb-4">
-                    <p class="brand-desc" *ngIf="settings.about_us_footer || settings.about_us">
-                        {{ settings.about_us_footer || settings.about_us }}
+                    <p class="brand-desc">
+                        {{ 'FOOTER_BRAND_DESC' | translate }}
                     </p>
                     <div class="social-circles mt-4">
                         <a *ngIf="settings.facebook" [href]="settings.facebook" target="_blank" class="circle-btn fb"><i
@@ -66,15 +66,15 @@
                     <h4 class="footer-title">{{ 'LOCATION' | translate }}</h4>
                     <div class="hub-item mb-3">
                         <div class="hub-icon"><i class="fa-solid fa-location-dot"></i></div>
-                        <div class="hub-text">{{ settings.address || ("NEW_CAIRO" | translate) }}</div>
+                        <div class="hub-text">{{ 'OFFICE_ADDRESS' | translate }}</div>
                     </div>
-                    <div class="hub-item mb-3" *ngIf="settings.email">
+                    <div class="hub-item mb-3" *ngIf="email">
                         <div class="hub-icon"><i class="fa-solid fa-at"></i></div>
-                        <div class="hub-text"><a href="mailto:{{ settings.email }}">{{ settings.email }}</a></div>
+                        <div class="hub-text"><a href="mailto:{{ email }}">{{ email }}</a></div>
                     </div>
-                    <div class="hub-item mb-3" *ngIf="settings.phone">
+                    <div class="hub-item mb-3" *ngIf="phone">
                         <div class="hub-icon"><i class="fa-solid fa-headset"></i></div>
-                        <div class="hub-text"><a dir="ltr" href="tel:{{ settings.phone }}">{{ settings.phone }}</a>
+                        <div class="hub-text"><a dir="ltr" href="tel:{{ phone }}">{{ phone }}</a>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
         <!-- Copyright Bar -->
         <div class="footer-bar pt-4 mt-5">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <p class="copyright-text mb-0">© {{ 2024 }} **Care & Share**. {{ 'ALL_RIGHTS_RESERVED' | translate }}
+                <p class="copyright-text mb-0">&copy; 2024 {{ 'SITE_NAME' | translate }}. {{ 'ALL_RIGHTS_RESERVED' | translate }}
                 </p>
                 <div class="legal-mini-links">
                     <a routerLink="/privacy-policy">{{ 'PRIVACY' | translate }}</a>

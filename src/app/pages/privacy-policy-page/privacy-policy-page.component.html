@@ -2,12 +2,9 @@
     <div class="">
         <div class="section-title text-center mt-5">
             <h2>{{ 'PRIVACY_POLICY' | translate }}</h2>
-            <p class="mt-5">{{ 'PRIVACY_POLICY' | translate }}</p>
+            <p class="mt-5">{{ 'PRIVACY_PAGE_SUBTITLE' | translate }}</p>
         </div>
 
-
-
-        <!-- Privacy Policy Content -->
         <section class="policy-content-section section-padding">
             <div class="">
                 <div class="row">
@@ -15,63 +12,73 @@
                         <div class="policy-content">
                             <div class="policy-header">
                                 <h2>{{ 'PRIVACY_POLICY' | translate }}</h2>
+                                <p class="last-updated">{{ 'POLICY_LAST_UPDATED' | translate }}</p>
                             </div>
 
-                            <div *ngIf="settings.privacy_policy" [innerHTML]="settings.privacy_policy"></div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_INTRO_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_INTRO_TEXT' | translate }}</p>
+                            </div>
 
-                            <div *ngIf="!settings.privacy_policy">
-                                <div class="policy-section">
-                                    <h3>{{ 'PRIVACY_OVERVIEW' | translate }}</h3>
-                                    <p>{{ 'PRIVACY_INTRO' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_DATA_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_DATA_LEAD' | translate }}</p>
+                                <ul class="policy-list">
+                                    <li>{{ 'PRIVACY_DATA_ITEM_1' | translate }}</li>
+                                    <li>{{ 'PRIVACY_DATA_ITEM_2' | translate }}</li>
+                                    <li>{{ 'PRIVACY_DATA_ITEM_3' | translate }}</li>
+                                    <li>{{ 'PRIVACY_DATA_ITEM_4' | translate }}</li>
+                                </ul>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'GENERAL_PERMISSION_TITLE' | translate }}</h3>
-                                    <p>{{ 'GENERAL_PERMISSION_DESC' | translate }}</p>
-                                    <p>{{ 'SHIPPING_OPTIONS' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_USAGE_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_USAGE_LEAD' | translate }}</p>
+                                <ul class="policy-list">
+                                    <li>{{ 'PRIVACY_USAGE_ITEM_1' | translate }}</li>
+                                    <li>{{ 'PRIVACY_USAGE_ITEM_2' | translate }}</li>
+                                    <li>{{ 'PRIVACY_USAGE_ITEM_3' | translate }}</li>
+                                    <li>{{ 'PRIVACY_USAGE_ITEM_4' | translate }}</li>
+                                    <li>{{ 'PRIVACY_USAGE_ITEM_5' | translate }}</li>
+                                </ul>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'CONFIDENTIAL_INFO_TITLE' | translate }}</h3>
-                                    <ul class="policy-list">
-                                        <li>{{ 'CREDIT_CARD_PRIVACY' | translate }}</li>
-                                        <li>{{ 'FAST_CHECKOUT_PRIVACY' | translate }}</li>
-                                        <li>{{ 'PAYPAL_PRIVACY' | translate }}</li>
-                                    </ul>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_SHARING_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_SHARING_TEXT' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'LINKING_TITLE' | translate }}</h3>
-                                    <p>{{ 'RETURN_POLICY_PRIVACY' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_COOKIES_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_COOKIES_TEXT' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'INTELLECTUAL_PROPERTY_TITLE' | translate }}</h3>
-                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC' | translate }}</p>
-                                    <p>{{ 'INTELLECTUAL_PROPERTY_DESC_2' | translate }}</p>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_SECURITY_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_SECURITY_TEXT' | translate }}</p>
+                            </div>
 
-                                <div class="policy-section">
-                                    <h3>{{ 'SECURITY_STORAGE_TITLE' | translate }}</h3>
-                                    <p>{{ 'SECURITY_STORAGE_DESC' | translate }}</p>
-                                    <ol class="policy-list numbered">
-                                        <li>{{ 'CREDIT_CARD_PRIVACY' | translate }}</li>
-                                        <li>{{ 'FAST_CHECKOUT_PRIVACY' | translate }}</li>
-                                        <li>{{ 'PAYPAL_PRIVACY' | translate }}</li>
-                                    </ol>
-                                </div>
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_RIGHTS_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_RIGHTS_LEAD' | translate }}</p>
+                                <ol class="policy-list numbered">
+                                    <li>{{ 'PRIVACY_RIGHTS_ITEM_1' | translate }}</li>
+                                    <li>{{ 'PRIVACY_RIGHTS_ITEM_2' | translate }}</li>
+                                    <li>{{ 'PRIVACY_RIGHTS_ITEM_3' | translate }}</li>
+                                    <li>{{ 'PRIVACY_RIGHTS_ITEM_4' | translate }}</li>
+                                </ol>
+                            </div>
+
+                            <div class="policy-section">
+                                <h3>{{ 'PRIVACY_UPDATES_TITLE' | translate }}</h3>
+                                <p>{{ 'PRIVACY_UPDATES_TEXT' | translate }}</p>
                             </div>
 
                             <div class="policy-footer">
                                 <div class="contact-info">
-                                    <h4>{{ 'CONTACT_US' | translate }}</h4>
-                                    <p>{{ 'PRIVACY_CONTACT_DESC' | translate }}</p>
-                                    <div class="contact-details">
-                                        <p *ngIf="settings.email"><strong>{{ 'EMAIL' | translate }}:</strong> <a
-                                                href="mailto:{{ settings.email }}">{{ settings.email }}</a></p>
-                                        <p *ngIf="settings.phone"><strong>{{ 'PHONE' | translate }}:</strong> <a
-                                                href="tel:{{ settings.phone }}">{{ settings.phone }}</a></p>
-                                    </div>
+                                    <h4>{{ 'PRIVACY_CONTACT_TITLE' | translate }}</h4>
+                                    <p>{{ 'PRIVACY_CONTACT_TEXT' | translate }}</p>
+                                    <a routerLink="/contacts" class="default-btn">{{ 'PRIVACY_CONTACT_BUTTON' | translate }}</a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +86,5 @@
                 </div>
             </div>
         </section>
-
-
     </div>
 </section>
