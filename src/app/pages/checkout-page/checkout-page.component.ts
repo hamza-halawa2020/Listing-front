@@ -84,7 +84,7 @@ export class CheckoutPageComponent implements OnInit {
                 this.isLoading = false;
             },
             error: (err) => {
-                console.error('Error fetching plan details:', err);
+                // console.error('Error fetching plan details:', err);
                 this.router.navigate(['/pricing']);
             }
         });
@@ -106,7 +106,7 @@ export class CheckoutPageComponent implements OnInit {
                 this.governorates = allLocations.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
             },
             error: (err) => {
-                console.error('Error fetching governorates:', err);
+                // console.error('Error fetching governorates:', err);
                 this.governorates = [];
             }
         });
@@ -162,7 +162,7 @@ export class CheckoutPageComponent implements OnInit {
     onFileSelected(event: any) {
         const file = event.target.files[0];
         if (file) {
-            console.log('File selected:', file.name, file.type, file.size);
+            // console.log('File selected:', file.name, file.type, file.size);
             this.attachment = file;
         }
     }
@@ -190,10 +190,10 @@ export class CheckoutPageComponent implements OnInit {
 
         if (this.attachment) {
             (data as any).attachment = this.attachment;
-            console.log('Attachment added to data:', this.attachment.name);
+            // console.log('Attachment added to data:', this.attachment.name);
         }
 
-        console.log('Final data before sending:', data);
+        // console.log('Final data before sending:', data);
 
         this.paymentService.createPayment(data).subscribe({
             next: (response) => {
@@ -204,7 +204,7 @@ export class CheckoutPageComponent implements OnInit {
                 }, 3000);
             },
             error: (err) => {
-                console.error('Payment error response:', err);
+                // console.error('Payment error response:', err);
                 this.errorMessage = err.error?.message || 'PAYMENT_FAILED';
                 this.isSubmitting = false;
             }

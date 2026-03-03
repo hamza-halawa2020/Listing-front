@@ -76,7 +76,7 @@ export class SignupPageComponent implements OnInit {
                 } else {
                     this.errorMessage = 'REGISTRATION_FAILED';
                 }
-                console.error('Registration error:', err);
+                // console.error('Registration error:', err);
             }
         });
     }

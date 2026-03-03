@@ -38,7 +38,7 @@ export class PricingPageComponent implements OnInit {
                 this.isLoading = false;
             },
             error: (err) => {
-                console.error('Error fetching plans:', err);
+                // console.error('Error fetching plans:', err);
                 this.error = 'FAILED_TO_LOAD_PLANS';
                 this.isLoading = false;
             }

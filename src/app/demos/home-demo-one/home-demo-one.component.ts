@@ -176,7 +176,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }));
             },
             error: (err: any) => {
-                console.error('Error fetching categories for home:', err);
+                // console.error('Error fetching categories for home:', err);
             }
         });
     }
@@ -197,7 +197,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 this.cities = data.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
             },
             error: (err: any) => {
-                console.error('Error fetching locations:', err);
+                // console.error('Error fetching locations:', err);
             }
         });
     }
@@ -297,7 +297,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }, 500);
             },
             error: (error) => {
-                console.error('Error loading home data:', error);
+                // console.error('Error loading home data:', error);
                 if (!this.homeData) {
                     this.homeData = {
                         stats: this.defaultStats,

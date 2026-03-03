@@ -59,7 +59,7 @@ export class LoginPageComponent implements OnInit {
             error: (err) => {
                 this.isLoading = false;
                 this.errorMessage = 'INVALID_CREDENTIALS';
-                console.error('Login error:', err);
+                // console.error('Login error:', err);
             }
         });
     }

@@ -31,7 +31,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
                     this.settings = data;
                 },
                 error: (error: any) => {
-                    console.error('Error fetching settings:', error);
+                    // console.error('Error fetching settings:', error);
                 }
             })
         );

@@ -177,12 +177,11 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 this.map.invalidateSize();
             }, 200);
         } catch (e) {
-            console.error('Error initializing Leaflet map:', e);
+            // console.error('Error initializing Leaflet map:', e);
         }
     }
 
     submitContactForm() {
-        console.log('Contact form submitted');
         alert('Thank you! Your message has been sent.');
     }
 }

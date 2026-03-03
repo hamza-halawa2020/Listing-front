@@ -227,7 +227,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onCategoryChange(levelIndex: number) {
         const selectedId = this.selectedCategoryPath[levelIndex];
-        console.log(`Category changed at level ${levelIndex} to ID: ${selectedId}`);
+        
 
         // Remove all subsequent levels
         this.categoryLevels = this.categoryLevels.slice(0, levelIndex + 1);
@@ -242,7 +242,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             const selectedCat = currentLevelOptions.find((cat: any) => String(cat.id) === String(selectedId));
 
             if (selectedCat && selectedCat.children && selectedCat.children.length > 0) {
-                console.log(`Adding Category Level ${levelIndex + 1} with ${selectedCat.children.length} children`);
+                
                 this.categoryLevels = [...this.categoryLevels, selectedCat.children];
                 this.selectedCategoryPath = [...this.selectedCategoryPath, ''];
             }
@@ -407,7 +407,6 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onLocationChange(levelIndex: number) {
         const selectedId = this.selectedLocationPath[levelIndex];
-        console.log(`Location changed at level ${levelIndex} to ID: ${selectedId}`);
 
         // Remove all subsequent levels (use slice to create a new array reference for reactivity)
         this.locationLevels = this.locationLevels.slice(0, levelIndex + 1);
@@ -421,15 +420,15 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             const currentLevelOptions = this.locationLevels[levelIndex];
             const selectedLoc = currentLevelOptions.find((loc: any) => String(loc.id) === String(selectedId));
 
-            console.log('Selected Location Object:', selectedLoc);
+
 
             if (selectedLoc && selectedLoc.children && selectedLoc.children.length > 0) {
-                console.log(`Adding Level ${levelIndex + 1} with ${selectedLoc.children.length} children`);
+
                 // Use spread to trigger change detection
                 this.locationLevels = [...this.locationLevels, selectedLoc.children];
                 this.selectedLocationPath = [...this.selectedLocationPath, ''];
             } else {
-                console.log('No children found for this location');
+
             }
         } else {
             // If "All" selected at this level, use parent level's ID if exists
@@ -474,10 +473,10 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
             params.distance = 105;
         }
 
-        console.log('Fetching Listings with params:', params);
+
         this.listingsService.getListings(page, params).subscribe({
             next: (response: any) => {
-                console.log('Listings API Success:', response);
+
                 // Laravel JsonResource wraps data and provides meta for pagination
                 let results = response.data || (Array.isArray(response) ? response : []);
 
@@ -544,7 +543,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.map.invalidateSize();
             }, 500);
         } catch (e) {
-            console.error('Leaflet not loaded or container not found', e);
+            // console.error('Leaflet not loaded or container not found', e);
         }
     }
 
