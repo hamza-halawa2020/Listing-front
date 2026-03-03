@@ -87,6 +87,7 @@ import { FormsModule } from '@angular/forms';
             padding: 12px 18px 12px 45px;
             text-align: start;
             box-shadow: none;
+            background: linear-gradient(135deg, #f97316 0%, #f15a24 55%, #ea580c 100%) !important;
             cursor: pointer;
         }
 
@@ -177,6 +178,10 @@ import { FormsModule } from '@angular/forms';
             color: #0f172a;
             background: #ffffff;
             border-color: #cbd5e1;
+        }
+
+        .searchable-select.is-dark .searchable-select__label {
+            color: #0f172a;
         }
 
         .searchable-select.is-dark .searchable-select__label.is-placeholder,

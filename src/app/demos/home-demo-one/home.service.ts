@@ -8,14 +8,12 @@ export interface HomeStats {
   completedStudies: number;
   satisfiedClients: number;
   yearsExperience: number;
-  successPartners: number;
 }
 
 export interface HomeData {
   stats: HomeStats;
   testimonials: any[];
   latestPosts: any[];
-  partners: any[];
 }
 
 @Injectable({
@@ -33,14 +31,12 @@ export class HomeService {
     return forkJoin({
       testimonials: this.getTestimonials(),
       posts: this.getLatestPosts(),
-      partners: this.getPartners(),
       stats: this.getStats()
     }).pipe(
       map(data => ({
         stats: data.stats,
         testimonials: data.testimonials,
         latestPosts: data.posts,
-        partners: data.partners
       })),
 
     );
@@ -77,31 +73,13 @@ export class HomeService {
       );
   }
 
-  getPartners(): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/success-partners`)
-      .pipe(
-        map(response => {
-          const partners = response.data || [];
-          return partners.map((partner: any) => ({
-            id: partner.id,
-            name: partner.name,
-            logo_url: partner.image_url,
-            link: partner.link,
-            status: partner.status
-          }));
-        }),
-        catchError(error => {
-          return of([]);
-        })
-      );
-  }
+
 
   getStats(): Observable<HomeStats> {
     return of({
       completedStudies: 250,
       satisfiedClients: 800,
       yearsExperience: 20,
-      successPartners: 75
     });
   }
 

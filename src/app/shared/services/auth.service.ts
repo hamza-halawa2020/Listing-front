@@ -61,8 +61,8 @@ export class AuthService {
     }
 
     logout(): void {
-        this.cookieService.delete(this.TOKEN_KEY, '/');
-        localStorage.removeItem(this.USER_KEY);
+        this.cookieService.deleteAll('/');
+        localStorage.clear();
         this.currentUserSubject.next(null);
     }
 

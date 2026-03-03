@@ -70,7 +70,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         completedStudies: 0,
         satisfiedClients: 0,
         yearsExperience: 0,
-        successPartners: 0
     };
 
     hasAnimated = false;
@@ -79,7 +78,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         completedStudies: 250,
         satisfiedClients: 800,
         yearsExperience: 20,
-        successPartners: 75
     };
 
     defaultServices: any[] = [];
@@ -270,7 +268,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                         stats: this.defaultStats,
                         testimonials: [],
                         latestPosts: [],
-                        partners: []
                     };
                 }
 
@@ -279,9 +276,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }
                 if (data.testimonials && data.testimonials.length > 0) {
                     this.homeData.testimonials = data.testimonials;
-                }
-                if (data.partners && data.partners.length > 0) {
-                    this.homeData.partners = data.partners;
                 }
 
                 if (data.latestPosts && data.latestPosts.length > 0) {
@@ -309,7 +303,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                         stats: this.defaultStats,
                         testimonials: [],
                         latestPosts: [],
-                        partners: []
                     };
                 }
                 this.isLoading = false;
@@ -372,16 +365,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
     private updateCarouselOptions(): void {
         if (this.homeData) {
-            const partnersCount = this.homeData.partners?.length || 0;
-            if (partnersCount > 0) {
-                this.partnersCarouselOptions = {
-                    ...this.partnersCarouselOptions,
-                    loop: partnersCount > 1,
-                    autoplay: partnersCount > 1,
-                    dots: partnersCount > 1
-                };
-            }
-
+ 
             const testimonialsCount = this.homeData.testimonials?.length || 0;
             if (testimonialsCount > 0) {
                 this.testimonialsCarouselOptions = {
@@ -454,7 +438,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         this.animateCounter('completedStudies', stats.completedStudies, 2000);
         this.animateCounter('satisfiedClients', stats.satisfiedClients, 2500);
         this.animateCounter('yearsExperience', stats.yearsExperience, 1500);
-        this.animateCounter('successPartners', stats.successPartners, 2200);
     }
 
     testCounter(): void {
@@ -470,7 +453,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
             completedStudies: 0,
             satisfiedClients: 0,
             yearsExperience: 0,
-            successPartners: 0
         };
     }
     private animateCounter(property: keyof typeof this.animatedStats, targetValue: number, duration: number): void {
