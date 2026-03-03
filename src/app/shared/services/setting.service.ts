@@ -35,7 +35,7 @@ export class SettingService {
             map(response => {
                 const data = response.data || {};
                 // Force new logo URL as requested
-                data.logo_url = 'https://admin.careandshare-eg.com/wp-content/uploads/2026/02/logocare.png';
+                data.logo_url = 'assets/images/logo.svg';
                 return data;
             })
         );

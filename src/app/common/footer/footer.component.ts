@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class FooterComponent implements OnInit, OnDestroy {
     settings: Settings = {
-        logo_url: 'https://admin.careandshare-eg.com/wp-content/uploads/2026/02/logocare.png'
+        logo_url: 'assets/images/logo.svg',
     };
     private subscription: Subscription = new Subscription();
 

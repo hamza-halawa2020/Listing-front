@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isSticky: boolean = false;
     currentLanguage: string = 'en';
     settings: Settings = {
-        logo_url: 'https://admin.careandshare-eg.com/wp-content/uploads/2026/02/logocare.png'
+        logo_url: 'assets/images/logo.svg'
     };
     currentUser: any = null;
     private subscriptions = new Subscription();

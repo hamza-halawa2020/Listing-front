@@ -325,4 +325,17 @@
   "CHECK_SUBSCRIPTION": "Check Subscription",
   "DOWNLOAD_ON": "Download on",
   "GET_IT_ON": "Get it on"
+,
+  "ADDRESS": "Address",
+  "BIRTH_DATE": "Birth Date",
+  "GENDER": "Gender",
+  "ROLE_LABEL": "Role",
+  "MEMBER_SINCE": "Member Since",
+  "SUBSCRIPTIONS": "Subscriptions",
+  "FAMILY_MEMBERS": "Family Members",
+  "NO_DATA": "No data",
+  "NO_SUBSCRIPTIONS_AVAILABLE": "No subscriptions available yet.",
+  "NO_FAMILY_MEMBERS": "No family members found.",
+  "MALE": "Male",
+  "FEMALE": "Female"
 }

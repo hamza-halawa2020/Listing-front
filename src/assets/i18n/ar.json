@@ -400,4 +400,17 @@
   "DOWNLOAD_ON": "حمل من",
   "GET_IT_ON": "احصل عليه من",
   "CONTACT_SUCCESS_MESSAGE": "تم إرسال رسالتك بنجاح!"
+,
+  "ADDRESS": "العنوان",
+  "BIRTH_DATE": "تاريخ الميلاد",
+  "GENDER": "النوع",
+  "ROLE_LABEL": "الدور",
+  "MEMBER_SINCE": "عضو منذ",
+  "SUBSCRIPTIONS": "الاشتراكات",
+  "FAMILY_MEMBERS": "أفراد العائلة",
+  "NO_DATA": "لا توجد بيانات",
+  "NO_SUBSCRIPTIONS_AVAILABLE": "لا توجد اشتراكات متاحة حتى الآن.",
+  "NO_FAMILY_MEMBERS": "لا يوجد أفراد عائلة مضافون.",
+  "MALE": "ذكر",
+  "FEMALE": "أنثى"
 }

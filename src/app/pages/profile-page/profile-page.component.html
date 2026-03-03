@@ -10,6 +10,17 @@
                     <span class="profile-kicker">{{ 'PROFILE' | translate }}</span>
                     <h1>{{ getDisplayName() }}</h1>
                     <p>{{ currentUser.email || currentUser.phone || currentUser.national_id || ('PROFILE' | translate) }}</p>
+                    <div class="profile-hero__meta">
+                        <span class="profile-meta-pill">
+                            <i class="fa-solid fa-id-card"></i>
+                            {{ getSubscriptions().length }} {{ 'SUBSCRIPTIONS' | translate }}
+                        </span>
+
+                        <span class="profile-meta-pill">
+                            <i class="fa-solid fa-users"></i>
+                            {{ getFamilyMembers().length }} {{ 'FAMILY_MEMBERS' | translate }}
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -38,7 +49,117 @@
                                 <span class="profile-field__label">{{ 'NATIONAL_ID' | translate }}</span>
                                 <strong>{{ currentUser.national_id || '-' }}</strong>
                             </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'ADDRESS' | translate }}</span>
+                                <strong>{{ currentUser.address || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'LOCATION' | translate }}</span>
+                                <strong>{{ getLocationLabel() }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'BIRTH_DATE' | translate }}</span>
+                                <strong>{{ currentUser.birth_date || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'GENDER' | translate }}</span>
+                                <strong>{{ getGenderKey(currentUser.gender) | translate }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'ROLE_LABEL' | translate }}</span>
+                                <strong>{{ currentUser.role || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'MEMBER_SINCE' | translate }}</span>
+                                <strong>{{ currentUser.created_at || '-' }}</strong>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="profile-card" *ngIf="getSubscriptions().length">
+                        <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
+
+                        <div class="profile-stack">
+                            <div class="subscription-card" *ngFor="let subscription of getSubscriptions()">
+                                <div class="subscription-card__head">
+                                    <div>
+                                        <h4>{{ getPlanName(subscription) }}</h4>
+                                        <p>{{ 'MEMBERSHIP_CARD_NUMBER' | translate }}: {{ subscription.membership_card_number || '-' }}</p>
+                                    </div>
+
+                                    <span class="status-badge" [ngClass]="getStatusClass(subscription.status)">
+                                        {{ getStatusKey(subscription.status) | translate }}
+                                    </span>
+                                </div>
+
+                                <div class="subscription-card__grid">
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'STARTS_AT' | translate }}</span>
+                                        <strong>{{ subscription.starts_at || '-' }}</strong>
+                                    </div>
+
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'ENDS_AT' | translate }}</span>
+                                        <strong>{{ subscription.ends_at || '-' }}</strong>
+                                    </div>
+
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'PAYMENT_METHOD' | translate }}</span>
+                                        <strong>{{ getPaymentMethodKey(subscription.payment_method) | translate }}</strong>
+                                    </div>
+
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'NOTES' | translate }}</span>
+                                        <strong>{{ subscription.notes || ('NO_DATA' | translate) }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" *ngIf="!getSubscriptions().length">
+                        <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
+                        <p class="profile-empty-state">{{ 'NO_SUBSCRIPTIONS_AVAILABLE' | translate }}</p>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3 class="profile-card__title">{{ 'FAMILY_MEMBERS' | translate }}</h3>
+
+                        <div class="profile-stack" *ngIf="getFamilyMembers().length; else noFamilyMembers">
+                            <div class="family-card" *ngFor="let member of getFamilyMembers()">
+                                <div class="family-card__head">
+                                    <h4>{{ member.name || '-' }}</h4>
+                                    <span class="family-card__relation">{{ member.relation || ('NO_DATA' | translate) }}</span>
+                                </div>
+
+                                <div class="subscription-card__grid">
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'NATIONAL_ID' | translate }}</span>
+                                        <strong>{{ member.national_id || '-' }}</strong>
+                                    </div>
+
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'BIRTH_DATE' | translate }}</span>
+                                        <strong>{{ member.birth_date || '-' }}</strong>
+                                    </div>
+
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'GENDER' | translate }}</span>
+                                        <strong>{{ getGenderKey(member.gender) | translate }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-template #noFamilyMembers>
+                            <p class="profile-empty-state">{{ 'NO_FAMILY_MEMBERS' | translate }}</p>
+                        </ng-template>
                     </div>
                 </div>
 
