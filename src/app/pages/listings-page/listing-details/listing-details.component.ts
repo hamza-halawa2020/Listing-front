@@ -19,6 +19,7 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     isLoading: boolean = true;
     featuredImageUrl: string = '';
     taxonomyNames: string[] = [];
+    workingHours: any[] = [];
 
     private map: any;
 
@@ -130,6 +131,8 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                     this.mockData.status = (this.listing.is_active === true || this.listing.open_status === 'open') ? 'OPEN' : 'CLOSED';
                 }
 
+                this.workingHours = this.normalizeWorkingHours(this.listing.working_hours);
+
                 this.isLoading = false;
 
                 // Initialize map after data is loaded and DOM refreshed
@@ -183,5 +186,90 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
     submitContactForm() {
         alert('Thank you! Your message has been sent.');
+    }
+
+    getDayLabel(day: string | number): string {
+        const normalized = String(day ?? '').trim().toLowerCase();
+
+        const dayMap: Record<string, string> = {
+            '0': 'SUNDAY',
+            'sun': 'SUNDAY',
+            'sunday': 'SUNDAY',
+            '1': 'MONDAY',
+            'mon': 'MONDAY',
+            'monday': 'MONDAY',
+            '2': 'TUESDAY',
+            'tue': 'TUESDAY',
+            'tues': 'TUESDAY',
+            'tuesday': 'TUESDAY',
+            '3': 'WEDNESDAY',
+            'wed': 'WEDNESDAY',
+            'wednesday': 'WEDNESDAY',
+            '4': 'THURSDAY',
+            'thu': 'THURSDAY',
+            'thur': 'THURSDAY',
+            'thursday': 'THURSDAY',
+            '5': 'FRIDAY',
+            'fri': 'FRIDAY',
+            'friday': 'FRIDAY',
+            '6': 'SATURDAY',
+            'sat': 'SATURDAY',
+            'saturday': 'SATURDAY',
+        };
+
+        return dayMap[normalized] || String(day || '');
+    }
+
+    formatWorkingTime(time: string | null | undefined): string {
+        if (!time) {
+            return '--';
+        }
+
+        const [hours, minutes] = String(time).split(':');
+        if (hours === undefined || minutes === undefined) {
+            return String(time);
+        }
+
+        return `${hours}:${minutes}`;
+    }
+
+    private normalizeWorkingHours(hours: any): any[] {
+        if (!Array.isArray(hours)) {
+            return [];
+        }
+
+        const orderMap: Record<string, number> = {
+            sunday: 0,
+            sun: 0,
+            '0': 0,
+            monday: 1,
+            mon: 1,
+            '1': 1,
+            tuesday: 2,
+            tue: 2,
+            tues: 2,
+            '2': 2,
+            wednesday: 3,
+            wed: 3,
+            '3': 3,
+            thursday: 4,
+            thu: 4,
+            thur: 4,
+            '4': 4,
+            friday: 5,
+            fri: 5,
+            '5': 5,
+            saturday: 6,
+            sat: 6,
+            '6': 6,
+        };
+
+        return [...hours].sort((a, b) => {
+            const aKey = String(a?.day ?? '').trim().toLowerCase();
+            const bKey = String(b?.day ?? '').trim().toLowerCase();
+            const aOrder = orderMap[aKey] ?? 99;
+            const bOrder = orderMap[bKey] ?? 99;
+            return aOrder - bOrder;
+        });
     }
 }

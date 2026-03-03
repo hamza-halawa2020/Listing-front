@@ -126,6 +126,62 @@
     }
 }
 
+.working-hours-list {
+    display: grid;
+    gap: 10px;
+}
+
+.working-hour-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+}
+
+.working-hour-row__day {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.working-hour-row__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.working-hour-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+
+    &.is-open {
+        background: rgba(34, 197, 94, 0.12);
+        color: #16a34a;
+    }
+
+    &.is-closed {
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626;
+    }
+}
+
+.working-hour-time {
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+}
+
 .social-btn {
     width: 40px;
     height: 40px;
@@ -231,6 +287,15 @@
 
     .sidebar-card {
         border-radius: 14px;
+    }
+
+    .working-hour-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .working-hour-row__content {
+        justify-content: flex-start;
     }
 
     // Contact form full-width on mobile

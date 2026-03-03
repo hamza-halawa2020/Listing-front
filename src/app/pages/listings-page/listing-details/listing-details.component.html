@@ -58,6 +58,31 @@
                     </div>
                 </div>
 
+                <!-- Working Hours -->
+                <div class="content-box mb-5" *ngIf="workingHours.length > 0">
+                    <h3 class="fw-bold mb-4">{{ 'WORKING_HOURS' | translate }}</h3>
+                    <div class="working-hours-list">
+                        <div class="working-hour-row" *ngFor="let item of workingHours">
+                            <div class="working-hour-row__day">
+                                {{ getDayLabel(item.day) | translate }}
+                            </div>
+
+                            <div class="working-hour-row__content" *ngIf="!item.is_closed; else closedDayMain">
+                                <span class="working-hour-badge is-open">{{ 'OPEN' | translate }}</span>
+                                <span class="working-hour-time">
+                                    {{ formatWorkingTime(item.open_time) }} - {{ formatWorkingTime(item.close_time) }}
+                                </span>
+                            </div>
+
+                            <ng-template #closedDayMain>
+                                <div class="working-hour-row__content">
+                                    <span class="working-hour-badge is-closed">{{ 'CLOSED' | translate }}</span>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
             
             </div>
 
