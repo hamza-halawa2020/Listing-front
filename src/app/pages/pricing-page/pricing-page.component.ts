@@ -53,4 +53,41 @@ export class PricingPageComponent implements OnInit {
             this.router.navigate(['/login'], { queryParams: { returnUrl: `/checkout/${plan.id}` } });
         }
     }
+
+    getPlanNameLabel(plan: any): string {
+        const mappedKey = this.getPlanNameKey(plan);
+        return mappedKey || plan?.name || '';
+    }
+
+    getCoverageLabel(plan: any): string {
+        const coverage = String(plan?.coverage_type || '').trim().toLowerCase();
+
+        switch (coverage) {
+            case 'zone':
+                return 'ZONE';
+            case 'governorate':
+                return 'GOVERNORATE';
+            case 'national':
+                return 'NATIONAL';
+            default:
+                return String(plan?.coverage_type || '').trim().toUpperCase();
+        }
+    }
+
+    private getPlanNameKey(plan: any): string {
+        const type = String(plan?.type || '').trim().toUpperCase();
+        const coverage = String(plan?.coverage_type || '').trim().toUpperCase();
+        const key = `${type}_${coverage}`;
+
+        const supportedKeys = new Set([
+            'INDIVIDUAL_ZONE',
+            'INDIVIDUAL_GOVERNORATE',
+            'INDIVIDUAL_NATIONAL',
+            'FAMILY_ZONE',
+            'FAMILY_GOVERNORATE',
+            'FAMILY_NATIONAL'
+        ]);
+
+        return supportedKeys.has(key) ? key : '';
+    }
 }

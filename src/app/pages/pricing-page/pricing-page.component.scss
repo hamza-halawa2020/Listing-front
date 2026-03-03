@@ -9,6 +9,7 @@
 
     .container {
         position: relative;
+        
         z-index: 2;
     }
 }
@@ -104,80 +105,114 @@
 }
 
 .pricing-card {
-    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    border-radius: 24px;
-    border: 1px solid rgba(37, 99, 235, 0.08);
+    background: transparent;
+    border-radius: 28px;
+    border: 0;
     transition: all 0.3s ease;
     height: 100%;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06);
+    overflow: visible;
+    box-shadow: none;
 
     &:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 26px 48px rgba(37, 99, 235, 0.12);
+        transform: translateY(-8px);
     }
 
     &.featured {
-        border: 2px solid var(--primary-color, #2563eb);
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, transparent 50%, rgba(37, 99, 235, 0.08) 50%);
-            z-index: 0;
-        }
+        transform: scale(1.01);
     }
 }
 
-.bg-indigo-light {
-    background-color: rgba(37, 99, 235, 0.1);
+.pricing-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 10px;
+    margin-bottom: 12px;
+
+    h4 {
+        margin: 0;
+        color: #1e3a8a;
+        font-size: 1.2rem;
+        font-weight: 800;
+        line-height: 1.3;
+    }
 }
 
-.text-indigo {
-    color: #2563eb;
+.pricing-card__footer {
+    margin-top: 14px;
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.05);
+    text-align: start;
+
+    p {
+        margin: 0;
+        color: #64748b;
+        font-size: 0.92rem;
+        font-weight: 600;
+    }
 }
 
-.plan-header,
-.plan-price,
-.plan-features,
-.plan-cta {
+.pricing-card__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.pricing-card__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    font-size: 0.78rem;
+    font-weight: 800;
+    border: 1px solid rgba(37, 99, 235, 0.08);
+}
+
+.plan-popular-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 12px;
+    border-radius: 999px;
+    background: rgba(241, 90, 36, 0.92);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 10px 20px rgba(241, 90, 36, 0.22);
+}
+
+.plan-popular-tag--footer {
+    position: static;
+    flex-shrink: 0;
+    box-shadow: none;
+}
+
+.pricing-card__surface {
     position: relative;
-    z-index: 1;
-}
-
-.plan-price h2 {
-    color: #0f172a;
-}
-
-.plan-features {
-    li {
-        font-size: 1.05rem;
-        display: flex;
-        align-items: center;
-        color: #334155;
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(248, 250, 252, 0.9);
-
-        &:not(:last-child) {
-            margin-bottom: 12px !important;
-        }
-
-        i {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(34, 197, 94, 0.12);
-        }
-    }
+    min-height: 420px;
+    border-radius: 28px;
+    overflow: hidden;
+    background-image:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.03)),
+        url('/assets/images/IG_card.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 20px 42px rgba(15, 23, 42, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .badge {
@@ -187,20 +222,23 @@
 }
 
 .plan-subscribe-btn {
-    min-height: 58px;
-    border: 1px solid rgba(37, 99, 235, 0.18);
-    border-radius: 18px;
-    background: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%);
-    color: #1e3a8a;
+    position: static;
+    margin-top: 14px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.96) 0%, rgba(29, 78, 216, 0.96) 100%);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.7rem;
-    padding: 0.95rem 1.2rem;
+    padding: 0.75rem 1rem;
     font-weight: 800;
     width: 100%;
-    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    font-size: 0.85rem;
 
     i {
         transition: transform 0.25s ease;
@@ -216,10 +254,8 @@
     }
 
     &.is-featured {
-        border-color: transparent;
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #1e40af 100%);
-        color: #fff;
-        box-shadow: 0 16px 32px rgba(37, 99, 235, 0.22);
+        background: linear-gradient(135deg, rgba(241, 90, 36, 0.96) 0%, rgba(234, 88, 12, 0.96) 100%);
+        box-shadow: 0 14px 28px rgba(241, 90, 36, 0.22);
     }
 
     &:focus-visible {
@@ -248,11 +284,28 @@ html[dir="rtl"] {
     .section-subtitle {
         font-size: 1.55rem;
     }
-}
 
-html[dir="rtl"] {
-    .plan-features li i {
-        margin-right: 0 !important;
-        margin-left: 0.5rem;
+    .pricing-card__surface {
+        min-height: 500px;
+        background-position: 62% center;
+    }
+
+    .pricing-card__footer {
+        padding: 14px;
+    }
+
+    .pricing-card__top {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 4px;
+    }
+
+    .pricing-card__chips {
+        justify-content: flex-start;
+    }
+
+    .plan-subscribe-btn {
+        font-size: 0.8rem;
+        min-height: 42px;
     }
 }

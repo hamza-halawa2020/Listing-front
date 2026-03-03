@@ -377,6 +377,8 @@
   "FAILED_TO_LOAD_PLANS": "فشل تحميل الباقات، يرجى المحاولة مرة أخرى",
   "INDIVIDUAL_PLANS": "باقات الأفراد",
   "FAMILY_PLANS": "باقات العائلة",
+  "ZONE": "منطقة",
+  "NATIONAL": "قومي",
   "INDIVIDUAL_ZONE": "فردي - منطقة",
   "INDIVIDUAL_GOVERNORATE": "فردي - محافظة",
   "INDIVIDUAL_NATIONAL": "فردي - قومي",

@@ -1,7 +1,7 @@
 <section class="pricing-section section-padding">
     <div class="pricing-orb pricing-orb--one"></div>
     <div class="pricing-orb pricing-orb--two"></div>
-    <div class="container">
+    <div class="container-fulid">
         <div class="pricing-hero text-center mb-5" data-aos="fade-up">
             <span class="pricing-kicker">{{ 'PRICING' | translate }}</span>
             <h2 class="display-5 fw-bold">{{ 'PRICING_TITLE' | translate }}</h2>
@@ -51,45 +51,35 @@
 <!-- Reusable Plan Card Template -->
 <ng-template #planCard let-plan="plan">
     <div class="pricing-card" [class.featured]="plan.coverage_type === 'national'">
-        <div class="card-body p-5">
-            <div class="plan-header mb-4">
-                <span class="badge bg-indigo-light text-indigo mb-2" *ngIf="plan.coverage_type === 'national'">{{
-                    'POPULAR' | translate }}</span>
-                <h2 class="fw-bold mb-1 fs-3">{{ plan.name }}</h2>
-                <p class="text-muted small">{{ plan.code }}</p>
+        <div class="pricing-card__top">
+            <h4>{{ getPlanNameLabel(plan) | translate }}</h4>
+            <span class="plan-popular-tag plan-popular-tag--footer" *ngIf="plan.coverage_type === 'national'">
+                {{ 'POPULAR' | translate }}
+            </span>
+        </div>
+
+        <div class="pricing-card__surface">
+        </div>
+
+        <div class="pricing-card__footer">
+            <p>{{ 'COVERAGE' | translate }}: {{ getCoverageLabel(plan) | translate }}</p>
+
+            <div class="pricing-card__chips">
+                <span class="pricing-card__chip">ID: {{ plan.code }}</span>
+                <span class="pricing-card__chip">{{ plan.price }} {{ 'EGP' | translate }}</span>
+                <span class="pricing-card__chip">{{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
+                <span class="pricing-card__chip" *ngIf="plan.max_family_members > 0">
+                    {{ 'MAX_MEMBERS' | translate }}: {{ plan.max_family_members }}
+                </span>
             </div>
 
-            <div class="plan-price mb-4">
-                <h2 class="display-5 fw-bold mb-0">
-                    {{ plan.price }}
-                    <span class="fs-4 fw-normal text-muted">/ {{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
-                </h2>
-            </div>
-
-            <ul class="plan-features list-unstyled mb-5">
-                <li class="mb-3">
-                    <i class="fa-solid fa-check text-success me-2"></i>
-                    <span>{{ 'COVERAGE' | translate }}: {{ plan.coverage_type | uppercase }}</span>
-                </li>
-                <li class="mb-3" *ngIf="plan.max_family_members > 0">
-                    <i class="fa-solid fa-check text-success me-2"></i>
-                    <span>{{ 'MAX_MEMBERS' | translate }}: {{ plan.max_family_members }}</span>
-                </li>
-                <li class="mb-3">
-                    <i class="fa-solid fa-check text-success me-2"></i>
-                    <span>{{ 'DURATION' | translate }}: {{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
-                </li>
-            </ul>
-
-            <div class="plan-cta">
-                <button
-                    class="plan-subscribe-btn w-100"
-                    [class.is-featured]="plan.coverage_type === 'national'"
-                    (click)="onPlanSelected(plan)">
-                    <span>{{ 'GET_STARTED' | translate }}</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
+            <button
+                class="plan-subscribe-btn w-100"
+                [class.is-featured]="plan.coverage_type === 'national'"
+                (click)="onPlanSelected(plan)">
+                <span>{{ 'GET_STARTED' | translate }}</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
     </div>
 </ng-template>
