@@ -40,8 +40,10 @@ body.loaded #loading-screen {
 }
 
 :root {
-    --primaryColor: #2b3990;
-    /* Brand Navy - Matches Logo Blue */
+    --primaryColor: #2563eb;
+    /* Brand Blue - Lighter and closer to logo blue */
+    --primary-color: #2563eb;
+    /* Alias for components using kebab-case variable */
     --secondaryColor: #f15a24;
     /* Brand Orange - Matches Logo Orange */
     --accentColor: #06b6d4;

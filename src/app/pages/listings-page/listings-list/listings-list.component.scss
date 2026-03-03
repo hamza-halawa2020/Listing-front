@@ -100,7 +100,7 @@
       border-radius: 12px;
       background: white;
       border: 1px solid #cbd5e1;
-      color: #2b3990;
+      color: #2563eb;
       /* Brand Navy */
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -112,14 +112,14 @@
 
       &:hover {
         background: #f1f5f9;
-        border-color: #2b3990;
+        border-color: #2563eb;
         transform: translateY(-2px);
       }
 
       &.active {
-        background: #2b3990;
+        background: #2563eb;
         color: white;
-        border-color: #2b3990;
+        border-color: #2563eb;
         box-shadow: 0 4px 15px rgba(43, 57, 144, 0.3);
 
         i {

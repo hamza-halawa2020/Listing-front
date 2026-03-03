@@ -1,13 +1,13 @@
 // Brand System
-$primary: #2b3990;
+$primary: #2563eb;
 $secondary: #f15a24;
-$dark: #0f172a;
+$dark: #1d4ed8;
 $white: #ffffff;
 $slate: #f8fafc;
 $text-muted: #64748b;
 
 .premium-footer {
-    background: $dark;
+    background: linear-gradient(180deg, #2347c6 0%, #1f3fb2 100%);
     color: $white;
     position: relative;
     padding: 100px 0 30px;

@@ -385,5 +385,6 @@
   "Dont_have_account": "لا يوجد لديك حساب؟",
   "CHECK_SUBSCRIPTION": "الاستعلام عن الاشتراك",
   "DOWNLOAD_ON": "حمل من",
-  "GET_IT_ON": "احصل عليه من"
+  "GET_IT_ON": "احصل عليه من",
+  "CONTACT_SUCCESS_MESSAGE": "تم إرسال رسالتك بنجاح!"
 }

@@ -1,8 +1,11 @@
 <section class="pricing-section section-padding">
+    <div class="pricing-orb pricing-orb--one"></div>
+    <div class="pricing-orb pricing-orb--two"></div>
     <div class="container">
-        <div class="section-header text-center mb-5" data-aos="fade-up">
+        <div class="pricing-hero text-center mb-5" data-aos="fade-up">
+            <span class="pricing-kicker">{{ 'PRICING' | translate }}</span>
             <h2 class="display-5 fw-bold">{{ 'PRICING_TITLE' | translate }}</h2>
-            <p class="lead text-muted">{{ 'PRICING_SUBTITLE' | translate }}</p>
+            <p class="lead mb-0">{{ 'PRICING_SUBTITLE' | translate }}</p>
         </div>
 
         <div *ngIf="isLoading" class="text-center py-5">
@@ -79,10 +82,12 @@
             </ul>
 
             <div class="plan-cta">
-                <button class="btn w-100 py-3 rounded-pill fw-bold"
-                    [class.btn-primary]="plan.coverage_type === 'national'"
-                    [class.btn-outline-primary]="plan.coverage_type !== 'national'" (click)="onPlanSelected(plan)">
-                    {{ 'GET_STARTED' | translate }}
+                <button
+                    class="plan-subscribe-btn w-100"
+                    [class.is-featured]="plan.coverage_type === 'national'"
+                    (click)="onPlanSelected(plan)">
+                    <span>{{ 'GET_STARTED' | translate }}</span>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         </div>
