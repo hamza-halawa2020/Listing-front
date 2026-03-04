@@ -21,17 +21,17 @@ export class WhatsappFloatComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.subscription.add(
-            this.settingService.getSettings().subscribe({
-                next: (data: Settings) => {
-                    if (data.whatsapp) {
-                        this.phone = data.whatsapp.replace('+', '');
-                    } else if (data.phone) {
-                        this.phone = data.phone.replace('+', '');
-                    }
-                }
-            })
-        );
+        // this.subscription.add(
+        //     this.settingService.getSettings().subscribe({
+        //         next: (data: Settings) => {
+        //             if (data.whatsapp) {
+        //                 this.phone = data.whatsapp.replace('+', '');
+        //             } else if (data.phone) {
+        //                 this.phone = data.phone.replace('+', '');
+        //             }
+        //         }
+        //     })
+        // );
     }
 
     ngOnDestroy() {

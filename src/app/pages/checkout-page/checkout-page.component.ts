@@ -159,12 +159,11 @@ export class CheckoutPageComponent implements OnInit {
         return 0;
     }
 
-    onFileSelected(event: any) {
-        const file = event.target.files[0];
-        if (file) {
-            // console.log('File selected:', file.name, file.type, file.size);
-            this.attachment = file;
-        }
+    onFileSelected(event: Event) {
+        const input = event.target as HTMLInputElement | null;
+        const file = input?.files?.[0] ?? null;
+
+        this.attachment = file;
     }
 
     onSubmit() {
@@ -200,7 +199,7 @@ export class CheckoutPageComponent implements OnInit {
                 this.successMessage = 'PAYMENT_SUBMITTED_SUCCESSFULLY';
                 this.isSubmitting = false;
                 setTimeout(() => {
-                    this.router.navigate(['/listings']);
+                    this.router.navigate(['/']);
                 }, 3000);
             },
             error: (err) => {

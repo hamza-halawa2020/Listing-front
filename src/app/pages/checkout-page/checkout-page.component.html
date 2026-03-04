@@ -134,7 +134,7 @@
 
                                     <div class="col-12">
                                         <label class="form-label fw-bold">{{ 'ATTACHMENT' | translate }} ({{ 'OPTIONAL' | translate }})</label>
-                                        <input type="file" class="form-control py-3 bg-light border-0" (change)="onFileSelected($event)" accept="image/*,application/pdf">
+                                        <input type="file" class="form-control py-3 bg-light border-0" name="attachment" (change)="onFileSelected($event)" accept="image/*,application/pdf">
                                         <small class="text-muted mt-2 d-block">{{ 'ATTACHMENT_HINT' | translate }}</small>
                                     </div>
 

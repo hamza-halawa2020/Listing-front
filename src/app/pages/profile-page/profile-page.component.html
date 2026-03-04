@@ -3,7 +3,14 @@
     <div class="profile-orb profile-orb--two"></div>
 
     <div class="container">
-        <div class="profile-shell" *ngIf="currentUser">
+        <div class="profile-loading" *ngIf="isLoadingProfile">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">{{ 'LOADING' | translate }}</span>
+            </div>
+            <p>{{ 'LOADING' | translate }}</p>
+        </div>
+
+        <div class="profile-shell" *ngIf="!isLoadingProfile && currentUser">
             <div class="profile-hero">
                 <div class="profile-avatar">{{ getInitial() }}</div>
                 <div class="profile-hero__content">
@@ -24,9 +31,54 @@
                 </div>
             </div>
 
-            <div class="row g-4">
-                <div class="col-lg-8">
-                    <div class="profile-card">
+            <div class="profile-toolbar">
+                <div class="profile-tabs" role="tablist">
+                    <button type="button" class="profile-tab-btn" [class.is-active]="activeTab === 'overview'"
+                        (click)="setActiveTab('overview')">
+                        <i class="fa-regular fa-user"></i>
+                        <span>{{ 'PROFILE' | translate }}</span>
+                    </button>
+
+                    <button type="button" class="profile-tab-btn" [class.is-active]="activeTab === 'edit'"
+                        (click)="setActiveTab('edit')">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span>{{ 'EDIT_PROFILE' | translate }}</span>
+                    </button>
+
+                    <button type="button" class="profile-tab-btn" [class.is-active]="activeTab === 'subscriptions'"
+                        (click)="setActiveTab('subscriptions')">
+                        <i class="fa-solid fa-id-card"></i>
+                        <span>{{ 'SUBSCRIPTIONS' | translate }}</span>
+                    </button>
+
+                    <button type="button" class="profile-tab-btn" [class.is-active]="activeTab === 'family'"
+                        (click)="setActiveTab('family')">
+                        <i class="fa-solid fa-users"></i>
+                        <span>{{ 'FAMILY_MEMBERS' | translate }}</span>
+                    </button>
+                </div>
+
+                <div class="profile-shortcuts">
+                    <a routerLink="/listings" class="profile-shortcut-link">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>{{ 'LISTINGS' | translate }}</span>
+                    </a>
+
+                    <a routerLink="/pricing" class="profile-shortcut-link">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>{{ 'PRICING' | translate }}</span>
+                    </a>
+
+                    <button type="button" class="profile-shortcut-link is-logout" (click)="logout()">
+                        <i class="fa-solid fa-power-off"></i>
+                        <span>{{ 'LOGOUT' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-4 profile-content-row">
+                <div class="col-12">
+                    <div class="profile-card" *ngIf="activeTab === 'overview'">
                         <h3 class="profile-card__title">{{ 'PROFILE' | translate }}</h3>
 
                         <div class="profile-grid">
@@ -72,7 +124,7 @@
 
                             <div class="profile-field">
                                 <span class="profile-field__label">{{ 'ROLE_LABEL' | translate }}</span>
-                                <strong>{{ currentUser.role || '-' }}</strong>
+                                <strong>{{ currentUser.role || ('NO_DATA' | translate) }}</strong>
                             </div>
 
                             <div class="profile-field">
@@ -82,7 +134,187 @@
                         </div>
                     </div>
 
-                    <div class="profile-card" *ngIf="getSubscriptions().length">
+                    <div class="profile-card" *ngIf="activeTab === 'edit'">
+                        <h3 class="profile-card__title">{{ 'EDIT_PROFILE' | translate }}</h3>
+                        <p class="profile-card__hint">{{ 'EDIT_PROFILE_HINT' | translate }}</p>
+
+                        <div class="profile-alert is-success" *ngIf="profileSuccessKey">
+                            {{ profileSuccessKey | translate }}
+                        </div>
+
+                        <div class="profile-alert is-error" *ngIf="profileErrors.length">
+                            <p *ngFor="let error of profileErrors">{{ error | translate }}</p>
+                        </div>
+
+                        <form class="profile-form" (ngSubmit)="submitProfile()">
+                            <div class="profile-form-grid">
+                                <div class="profile-form-field">
+                                    <label for="profile-name">{{ 'FULL_NAME' | translate }}</label>
+                                    <input id="profile-name" type="text" class="profile-input" name="profile_name"
+                                        [(ngModel)]="profileForm.name">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-email">{{ 'EMAIL_ADDRESS' | translate }}</label>
+                                    <input id="profile-email" type="email" class="profile-input" name="profile_email"
+                                        [(ngModel)]="profileForm.email">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-phone">{{ 'PHONE' | translate }}</label>
+                                    <input id="profile-phone" type="text" class="profile-input" name="profile_phone"
+                                        [(ngModel)]="profileForm.phone">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-national-id">{{ 'NATIONAL_ID' | translate }}</label>
+                                    <input id="profile-national-id" type="text" class="profile-input"
+                                        name="profile_national_id" [(ngModel)]="profileForm.national_id">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-location">{{ 'LOCATION' | translate }}</label>
+                                    <select id="profile-location" class="profile-select" name="profile_location_id"
+                                        [(ngModel)]="profileForm.location_id" [disabled]="isLoadingLocations">
+                                        <option value="">{{ 'SELECT_LOCATION' | translate }}</option>
+                                        <option *ngFor="let location of locations" [value]="location.id">
+                                            {{ location.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-gender">{{ 'GENDER' | translate }}</label>
+                                    <select id="profile-gender" class="profile-select" name="profile_gender"
+                                        [(ngModel)]="profileForm.gender">
+                                        <option value="">{{ 'SELECT_GENDER' | translate }}</option>
+                                        <option value="male">{{ 'MALE' | translate }}</option>
+                                        <option value="female">{{ 'FEMALE' | translate }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-birth-date">{{ 'BIRTH_DATE' | translate }}</label>
+                                    <input id="profile-birth-date" type="date" class="profile-input"
+                                        name="profile_birth_date" [(ngModel)]="profileForm.birth_date">
+                                </div>
+
+                                <div class="profile-form-field profile-form-field--full">
+                                    <label for="profile-address">{{ 'ADDRESS' | translate }}</label>
+                                    <textarea id="profile-address" class="profile-textarea" name="profile_address"
+                                        [(ngModel)]="profileForm.address"></textarea>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-password">{{ 'PASSWORD' | translate }}</label>
+                                    <input id="profile-password" type="password" class="profile-input"
+                                        name="profile_password" [(ngModel)]="profileForm.password">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="profile-password-confirmation">{{ 'CONFIRM_PASSWORD' | translate }}</label>
+                                    <input id="profile-password-confirmation" type="password" class="profile-input"
+                                        name="profile_password_confirmation"
+                                        [(ngModel)]="profileForm.password_confirmation">
+                                </div>
+                            </div>
+
+                            <p class="profile-form__note">{{ 'PROFILE_PASSWORD_HINT' | translate }}</p>
+
+                            <div class="profile-form__actions">
+                                <button type="submit" class="profile-submit-btn" [disabled]="isSavingProfile">
+                                    {{ (isSavingProfile ? 'SAVING' : 'SAVE_CHANGES') | translate }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="profile-card" *ngIf="activeTab === 'family'">
+                        <h3 class="profile-card__title">{{ 'ADD_FAMILY_MEMBER' | translate }}</h3>
+                        <p class="profile-card__hint">{{ 'ADD_FAMILY_MEMBER_HINT' | translate }}</p>
+
+                        <div class="profile-alert is-success" *ngIf="familySuccessKey">
+                            {{ familySuccessKey | translate }}
+                        </div>
+
+                        <div class="profile-alert is-error" *ngIf="familyErrors.length">
+                            <p *ngFor="let error of familyErrors">{{ error | translate }}</p>
+                        </div>
+
+                        <form class="profile-form" (ngSubmit)="submitFamilyMember()">
+                            <div class="profile-form-grid">
+                                <div class="profile-form-field profile-form-field--full">
+                                    <label for="family-subscription">{{ 'SUBSCRIPTION' | translate }}</label>
+                                    <select id="family-subscription" class="profile-select" name="family_subscription_id"
+                                        [(ngModel)]="familyMemberForm.subscription_id" [disabled]="!getSubscriptions().length">
+                                        <option value="">{{ 'SELECT_SUBSCRIPTION' | translate }}</option>
+                                        <option *ngFor="let subscription of getSubscriptions()" [value]="subscription.id">
+                                            {{ getSubscriptionOptionLabel(subscription) }}
+                                        </option>
+                                    </select>
+
+                                    <p class="profile-form__inline-note" *ngIf="getSubscriptions().length">
+                                        {{ 'FAMILY_MEMBER_SUBSCRIPTION_HINT' | translate }}
+                                    </p>
+
+                                    <p class="profile-form__inline-note is-error" *ngIf="!getSubscriptions().length">
+                                        {{ 'NO_SUBSCRIPTIONS_AVAILABLE' | translate }}
+                                    </p>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="family-name">{{ 'FULL_NAME' | translate }}</label>
+                                    <input id="family-name" type="text" class="profile-input" name="family_name"
+                                        [(ngModel)]="familyMemberForm.name">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="family-national-id">{{ 'NATIONAL_ID' | translate }}</label>
+                                    <input id="family-national-id" type="text" class="profile-input"
+                                        name="family_national_id" [(ngModel)]="familyMemberForm.national_id">
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="family-relation">{{ 'RELATION' | translate }}</label>
+                                    <select id="family-relation" class="profile-select" name="family_relation"
+                                        [(ngModel)]="familyMemberForm.relation">
+                                        <option value="">{{ 'SELECT_RELATION' | translate }}</option>
+                                        <option value="spouse">{{ 'RELATION_SPOUSE' | translate }}</option>
+                                        <option value="son">{{ 'RELATION_SON' | translate }}</option>
+                                        <option value="daughter">{{ 'RELATION_DAUGHTER' | translate }}</option>
+                                        <option value="father">{{ 'RELATION_FATHER' | translate }}</option>
+                                        <option value="mother">{{ 'RELATION_MOTHER' | translate }}</option>
+                                        <option value="brother">{{ 'RELATION_BROTHER' | translate }}</option>
+                                        <option value="sister">{{ 'RELATION_SISTER' | translate }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="family-gender">{{ 'GENDER' | translate }}</label>
+                                    <select id="family-gender" class="profile-select" name="family_gender"
+                                        [(ngModel)]="familyMemberForm.gender">
+                                        <option value="">{{ 'SELECT_GENDER' | translate }}</option>
+                                        <option value="male">{{ 'MALE' | translate }}</option>
+                                        <option value="female">{{ 'FEMALE' | translate }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="profile-form-field">
+                                    <label for="family-birth-date">{{ 'BIRTH_DATE' | translate }}</label>
+                                    <input id="family-birth-date" type="date" class="profile-input"
+                                        name="family_birth_date" [(ngModel)]="familyMemberForm.birth_date">
+                                </div>
+                            </div>
+
+                            <div class="profile-form__actions">
+                                <button type="submit" class="profile-submit-btn is-secondary" [disabled]="isAddingFamilyMember">
+                                    {{ (isAddingFamilyMember ? 'ADDING' : 'ADD_FAMILY_MEMBER') | translate }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="profile-card" *ngIf="activeTab === 'subscriptions' && getSubscriptions().length">
                         <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
 
                         <div class="profile-stack">
@@ -123,22 +355,37 @@
                         </div>
                     </div>
 
-                    <div class="profile-card" *ngIf="!getSubscriptions().length">
+                    <div class="profile-card" *ngIf="activeTab === 'subscriptions' && !getSubscriptions().length">
                         <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
                         <p class="profile-empty-state">{{ 'NO_SUBSCRIPTIONS_AVAILABLE' | translate }}</p>
                     </div>
 
-                    <div class="profile-card">
+                    <div class="profile-card" *ngIf="activeTab === 'family'">
                         <h3 class="profile-card__title">{{ 'FAMILY_MEMBERS' | translate }}</h3>
 
                         <div class="profile-stack" *ngIf="getFamilyMembers().length; else noFamilyMembers">
                             <div class="family-card" *ngFor="let member of getFamilyMembers()">
                                 <div class="family-card__head">
-                                    <h4>{{ member.name || '-' }}</h4>
-                                    <span class="family-card__relation">{{ member.relation || ('NO_DATA' | translate) }}</span>
+                                    <div>
+                                        <h4>{{ member.name || '-' }}</h4>
+                                    </div>
+
+                                    <div class="family-card__actions">
+                                        <span class="family-card__relation">{{ getRelationKey(member.relation) | translate }}</span>
+
+                                        <button type="button" class="family-card__edit-btn" (click)="startEditingFamilyMember(member)">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <span>{{ 'EDIT_FAMILY_MEMBER' | translate }}</span>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="subscription-card__grid">
+                                    <div class="profile-field profile-field--compact">
+                                        <span class="profile-field__label">{{ 'SUBSCRIPTION' | translate }}</span>
+                                        <strong>{{ getFamilyMemberSubscriptionLabel(member) }}</strong>
+                                    </div>
+
                                     <div class="profile-field profile-field--compact">
                                         <span class="profile-field__label">{{ 'NATIONAL_ID' | translate }}</span>
                                         <strong>{{ member.national_id || '-' }}</strong>
@@ -154,6 +401,91 @@
                                         <strong>{{ getGenderKey(member.gender) | translate }}</strong>
                                     </div>
                                 </div>
+
+                                <div class="profile-alert is-success" *ngIf="editingFamilyMemberSuccessId === getFamilyMemberId(member)">
+                                    {{ 'FAMILY_MEMBER_UPDATED_SUCCESS' | translate }}
+                                </div>
+
+                                <form class="profile-inline-form" *ngIf="isEditingFamilyMember(member)" (ngSubmit)="submitFamilyMemberUpdate()">
+                                    <p class="profile-card__hint profile-card__hint--inline">{{ 'EDIT_FAMILY_MEMBER_HINT' | translate }}</p>
+
+                                    <div class="profile-alert is-error" *ngIf="editingFamilyMemberErrors.length">
+                                        <p *ngFor="let error of editingFamilyMemberErrors">{{ error | translate }}</p>
+                                    </div>
+
+                                    <div class="profile-form-grid">
+                                        <div class="profile-form-field profile-form-field--full">
+                                            <label [for]="'edit-family-subscription-' + getFamilyMemberId(member)">{{ 'SUBSCRIPTION' | translate }}</label>
+                                            <select [id]="'edit-family-subscription-' + getFamilyMemberId(member)" class="profile-select"
+                                                [name]="'edit_family_subscription_id_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.subscription_id" [disabled]="!getSubscriptions().length">
+                                                <option value="">{{ 'SELECT_SUBSCRIPTION' | translate }}</option>
+                                                <option *ngFor="let subscription of getSubscriptions()" [value]="subscription.id">
+                                                    {{ getSubscriptionOptionLabel(subscription) }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="profile-form-field">
+                                            <label [for]="'edit-family-name-' + getFamilyMemberId(member)">{{ 'FULL_NAME' | translate }}</label>
+                                            <input [id]="'edit-family-name-' + getFamilyMemberId(member)" type="text" class="profile-input"
+                                                [name]="'edit_family_name_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.name">
+                                        </div>
+
+                                        <div class="profile-form-field">
+                                            <label [for]="'edit-family-national-id-' + getFamilyMemberId(member)">{{ 'NATIONAL_ID' | translate }}</label>
+                                            <input [id]="'edit-family-national-id-' + getFamilyMemberId(member)" type="text" class="profile-input"
+                                                [name]="'edit_family_national_id_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.national_id">
+                                        </div>
+
+                                        <div class="profile-form-field">
+                                            <label [for]="'edit-family-relation-' + getFamilyMemberId(member)">{{ 'RELATION' | translate }}</label>
+                                            <select [id]="'edit-family-relation-' + getFamilyMemberId(member)" class="profile-select"
+                                                [name]="'edit_family_relation_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.relation">
+                                                <option value="">{{ 'SELECT_RELATION' | translate }}</option>
+                                                <option value="spouse">{{ 'RELATION_SPOUSE' | translate }}</option>
+                                                <option value="son">{{ 'RELATION_SON' | translate }}</option>
+                                                <option value="daughter">{{ 'RELATION_DAUGHTER' | translate }}</option>
+                                                <option value="father">{{ 'RELATION_FATHER' | translate }}</option>
+                                                <option value="mother">{{ 'RELATION_MOTHER' | translate }}</option>
+                                                <option value="brother">{{ 'RELATION_BROTHER' | translate }}</option>
+                                                <option value="sister">{{ 'RELATION_SISTER' | translate }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="profile-form-field">
+                                            <label [for]="'edit-family-gender-' + getFamilyMemberId(member)">{{ 'GENDER' | translate }}</label>
+                                            <select [id]="'edit-family-gender-' + getFamilyMemberId(member)" class="profile-select"
+                                                [name]="'edit_family_gender_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.gender">
+                                                <option value="">{{ 'SELECT_GENDER' | translate }}</option>
+                                                <option value="male">{{ 'MALE' | translate }}</option>
+                                                <option value="female">{{ 'FEMALE' | translate }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="profile-form-field">
+                                            <label [for]="'edit-family-birth-date-' + getFamilyMemberId(member)">{{ 'BIRTH_DATE' | translate }}</label>
+                                            <input [id]="'edit-family-birth-date-' + getFamilyMemberId(member)" type="date" class="profile-input"
+                                                [name]="'edit_family_birth_date_' + getFamilyMemberId(member)"
+                                                [(ngModel)]="editingFamilyMemberForm.birth_date">
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-form__actions">
+                                        <button type="submit" class="profile-submit-btn" [disabled]="isUpdatingFamilyMember">
+                                            {{ (isUpdatingFamilyMember ? 'SAVING' : 'UPDATE_FAMILY_MEMBER') | translate }}
+                                        </button>
+
+                                        <button type="button" class="profile-submit-btn is-muted"
+                                            (click)="cancelEditingFamilyMember()" [disabled]="isUpdatingFamilyMember">
+                                            {{ 'CANCEL' | translate }}
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
@@ -163,7 +495,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="d-none">
                     <div class="profile-card profile-card--side">
                         <h3 class="profile-card__title">{{ 'QUICK_LINKS' | translate }}</h3>
 
@@ -188,9 +520,14 @@
             </div>
         </div>
 
-        <div class="profile-empty" *ngIf="!currentUser">
+        <div class="profile-empty" *ngIf="!isLoadingProfile && !currentUser">
             <h2>{{ 'PROFILE' | translate }}</h2>
             <p>{{ 'PROFILE_LOGIN_HINT' | translate }}</p>
+
+            <div class="profile-alert is-error" *ngIf="profileErrors.length">
+                <p *ngFor="let error of profileErrors">{{ error | translate }}</p>
+            </div>
+
             <a routerLink="/login" class="profile-login-link">{{ 'LOGIN' | translate }}</a>
         </div>
     </div>

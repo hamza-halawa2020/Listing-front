@@ -11,6 +11,7 @@ export class AuthService {
     private readonly TOKEN_KEY = 'auth_token';
     private readonly USER_KEY = 'auth_user';
     private currentUserSubject = new BehaviorSubject<any>(null);
+    private apiUrl = environment.backEndUrl;
 
     constructor(
         private http: HttpClient,
@@ -18,7 +19,7 @@ export class AuthService {
     ) {
         const savedUser = localStorage.getItem(this.USER_KEY);
         if (savedUser) {
-            this.currentUserSubject.next(JSON.parse(savedUser));
+            this.currentUserSubject.next(this.normalizeUser(JSON.parse(savedUser)));
         }
     }
 
@@ -27,34 +28,64 @@ export class AuthService {
     }
 
     login(credentials: { national_id: string; password: string }): Observable<any> {
-        const authUrl = `${environment.backEndUrl}/login`;
+        const authUrl = `${this.apiUrl}/login`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {
                 if (response.token) {
                     // Store token in cookie (secure if on HTTPS)
                     this.cookieService.set(this.TOKEN_KEY, response.token, 7, '/', '', true, 'Lax');
 
-                    const userData = response.user;
-
-                    localStorage.setItem(this.USER_KEY, JSON.stringify(userData));
-                    this.currentUserSubject.next(userData);
+                    this.setCurrentUser(response.user);
                 }
             })
         );
     }
 
     register(credentials: { name: string; email: string; national_id: string; phone?: string; password: string }): Observable<any> {
-        const authUrl = `${environment.backEndUrl}/register`;
+        const authUrl = `${this.apiUrl}/register`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {
                 if (response.token) {
                     // Store token in cookie (secure if on HTTPS)
                     this.cookieService.set(this.TOKEN_KEY, response.token, 7, '/', '', true, 'Lax');
 
-                    const userData = response.user;
+                    this.setCurrentUser(response.user);
+                }
+            })
+        );
+    }
 
-                    localStorage.setItem(this.USER_KEY, JSON.stringify(userData));
-                    this.currentUserSubject.next(userData);
+    loadProfile(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/profile`).pipe(
+            tap((response) => {
+                this.setCurrentUser(response?.user ?? response);
+            })
+        );
+    }
+
+    updateProfile(payload: Record<string, unknown>): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/profile`, payload).pipe(
+            tap((response) => {
+                this.setCurrentUser(response?.user ?? response);
+            })
+        );
+    }
+
+    addFamilyMember(payload: Record<string, unknown>): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/profile/family-members`, payload).pipe(
+            tap((response) => {
+                if (response?.user) {
+                    this.setCurrentUser(response.user);
+                }
+            })
+        );
+    }
+
+    updateFamilyMember(id: number, payload: Record<string, unknown>): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/profile/family-members/${id}`, payload).pipe(
+            tap((response) => {
+                if (response?.user) {
+                    this.setCurrentUser(response.user);
                 }
             })
         );
@@ -72,5 +103,55 @@ export class AuthService {
 
     getToken(): string {
         return this.cookieService.get(this.TOKEN_KEY);
+    }
+
+    private setCurrentUser(user: any): void {
+        const normalizedUser = this.normalizeUser(user);
+
+        localStorage.setItem(this.USER_KEY, JSON.stringify(normalizedUser));
+        this.currentUserSubject.next(normalizedUser);
+    }
+
+    private normalizeUser(user: any): any {
+        if (!user) {
+            return null;
+        }
+
+        const familyMembersSource = Array.isArray(user.family_members)
+            ? user.family_members
+            : Array.isArray(user.familyMembers)
+                ? user.familyMembers
+                : [];
+
+        const subscriptionsSource = Array.isArray(user.subscriptions)
+            ? user.subscriptions
+            : [];
+
+        return {
+            ...user,
+            location: user.location ?? null,
+            family_members: familyMembersSource.map((member: any) => ({
+                ...member,
+                subscription:
+                    member?.subscription
+                        ? {
+                            ...member.subscription,
+                            plan:
+                                member?.subscription?.plan ??
+                                member?.subscription?.subscription_plan ??
+                                member?.subscription?.subscriptionPlan ??
+                                null,
+                        }
+                        : null,
+            })),
+            subscriptions: subscriptionsSource.map((subscription: any) => ({
+                ...subscription,
+                plan:
+                    subscription?.plan ??
+                    subscription?.subscription_plan ??
+                    subscription?.subscriptionPlan ??
+                    null,
+            })),
+        };
     }
 }

@@ -13,18 +13,28 @@ export class PaymentService {
 
     createPayment(paymentData: any): Observable<any> {
         const formData = new FormData();
+        const attachment = paymentData?.attachment;
 
-        // Map fields to match PaymentController expectations
         Object.keys(paymentData).forEach(key => {
+            if (key === 'attachment') {
+                return;
+            }
+
             if (paymentData[key] !== null && paymentData[key] !== undefined) {
-                formData.append(key, paymentData[key]);
+                const value = paymentData[key];
+
+                if (typeof value === 'boolean') {
+                    formData.append(key, value ? '1' : '0');
+                    return;
+                }
+
+                formData.append(key, String(value));
             }
         });
 
-        // Debug: Log FormData entries
-        (formData as any).forEach((value: any, key: string) => {
-            // console.log(`${key}:`, value instanceof File ? `File(${value.name})` : value);
-        });
+        if (attachment instanceof File) {
+            formData.append('attachment', attachment, attachment.name);
+        }
 
         return this.http.post(`${this.apiUrl}/payments`, formData);
     }

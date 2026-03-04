@@ -54,33 +54,162 @@
     </div>
 
     <!-- Results Section -->
-    <div *ngIf="results" class="container-fluid results-container animate__animated animate__fadeInUp">
-        <div class="member-header mb-4 p-3 bg-indigo-light rounded-4 text-center">
-            <h4 class="mb-0 fw-bold text-indigo">{{ results.member_name }}</h4>
+    <div *ngIf="results" class="container results-container animate__animated animate__fadeInUp">
+        <div class="member-header">
+            <div>
+                <span class="member-header__kicker">{{ 'CHECK_SUBSCRIPTION' | translate }}</span>
+                <h4 class="mb-1 fw-bold text-indigo">{{ getMemberName() }}</h4>
+                <p class="mb-0">{{ getResultCount() }} {{ 'SUBSCRIPTIONS' | translate }}</p>
+            </div>
         </div>
 
-        <div *ngIf="results.subscriptions?.length === 0" class="alert alert-info rounded-4 p-4 text-center">
+        <div *ngIf="getSubscriptions().length === 0" class="alert alert-info rounded-4 p-4 text-center">
             {{ 'NO_SUBSCRIPTIONS_FOUND' | translate }}
         </div>
 
-        <div class="subscription-item card border-0 shadow-sm rounded-4 mb-3" *ngFor="let sub of results.subscriptions">
-            <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <h5 class="fw-bold mb-0">{{ sub.plan?.name }}</h5>
+        <div class="subscription-item card border-0 shadow-sm rounded-4 mb-4" *ngFor="let sub of getSubscriptions()">
+            <div class="card-body p-4 p-md-5">
+                <div class="subscription-item__head">
+                    <div>
+                        <span class="section-kicker">{{ 'SUBSCRIPTION_DETAILS' | translate }}</span>
+                        <h5 class="fw-bold mb-1">{{ getPlanName(sub) }}</h5>
+                        <p class="mb-0 text-muted">
+                            {{ 'MEMBERSHIP_CARD_NUMBER' | translate }}: {{ sub.membership_card_number || '-' }}
+                        </p>
+                    </div>
+
                     <span class="badge rounded-pill px-3 py-2" [ngClass]="getStatusClass(sub.status)">
-                        {{ sub.status | translate | uppercase }}
+                        {{ getDisplayValue('status', sub.status) | translate }}
                     </span>
                 </div>
 
-                <div class="sub-details row g-3 text-muted small">
-                    <div class="col-6">
-                        <i class="fa-solid fa-calendar-check me-2 text-primary"></i>
-                        {{ 'STARTS_AT' | translate }}: {{ sub.starts_at }}
+                <div class="detail-grid">
+                    <div class="detail-chip" *ngFor="let entry of getVisibleEntries(sub, ['user', 'plan', 'family_members', 'payments'])">
+                        <span class="detail-chip__label">
+                            <ng-container *ngIf="isTranslatedLabel(entry.key); else plainSubLabel">
+                                {{ getFieldLabel(entry.key) | translate }}
+                            </ng-container>
+                            <ng-template #plainSubLabel>{{ getFieldLabel(entry.key) }}</ng-template>
+                        </span>
+
+                        <strong class="detail-chip__value">
+                            <ng-container *ngIf="isTranslatableValue(entry.key); else plainSubValue">
+                                {{ getDisplayValue(entry.key, entry.value) | translate }}
+                            </ng-container>
+                            <ng-template #plainSubValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
+                        </strong>
                     </div>
-                    <div class="col-6">
-                        <i class="fa-solid fa-calendar-xmark me-2 text-primary"></i>
-                        {{ 'ENDS_AT' | translate }}: {{ sub.ends_at }}
+                </div>
+
+                <div class="detail-section" *ngIf="sub.plan">
+                    <div class="detail-section__head">
+                        <span class="section-kicker">{{ 'PLAN_DETAILS' | translate }}</span>
                     </div>
+
+                    <div class="detail-grid">
+                        <div class="detail-chip" *ngFor="let entry of getVisibleEntries(sub.plan)">
+                            <span class="detail-chip__label">
+                                <ng-container *ngIf="isTranslatedLabel(entry.key); else plainPlanLabel">
+                                    {{ getFieldLabel(entry.key) | translate }}
+                                </ng-container>
+                                <ng-template #plainPlanLabel>{{ getFieldLabel(entry.key) }}</ng-template>
+                            </span>
+                            <strong class="detail-chip__value">{{ getDisplayValue(entry.key, entry.value) }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section" *ngIf="sub.user">
+                    <div class="detail-section__head">
+                        <span class="section-kicker">{{ 'USER_DETAILS' | translate }}</span>
+                    </div>
+
+                    <div class="detail-grid">
+                        <div class="detail-chip" *ngFor="let entry of getVisibleEntries(sub.user, ['location'])">
+                            <span class="detail-chip__label">
+                                <ng-container *ngIf="isTranslatedLabel(entry.key); else plainUserLabel">
+                                    {{ getFieldLabel(entry.key) | translate }}
+                                </ng-container>
+                                <ng-template #plainUserLabel>{{ getFieldLabel(entry.key) }}</ng-template>
+                            </span>
+
+                            <strong class="detail-chip__value">
+                                <ng-container *ngIf="isTranslatableValue(entry.key); else plainUserValue">
+                                    {{ getDisplayValue(entry.key, entry.value) | translate }}
+                                </ng-container>
+                                <ng-template #plainUserValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
+                            </strong>
+                        </div>
+
+                        <div class="detail-chip" *ngIf="sub.user?.location">
+                            <span class="detail-chip__label">{{ 'LOCATION' | translate }}</span>
+                            <strong class="detail-chip__value">{{ getUserLocation(sub) }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section__head">
+                        <span class="section-kicker">{{ 'FAMILY_MEMBERS' | translate }}</span>
+                    </div>
+
+                    <div *ngIf="getFamilyMembers(sub).length; else noFamilyMembersInSub" class="nested-stack">
+                        <div class="nested-card" *ngFor="let member of getFamilyMembers(sub)">
+                            <div class="detail-grid">
+                                <div class="detail-chip" *ngFor="let entry of getVisibleEntries(member, ['subscription'])">
+                                    <span class="detail-chip__label">
+                                        <ng-container *ngIf="isTranslatedLabel(entry.key); else plainFamilyLabel">
+                                            {{ getFieldLabel(entry.key) | translate }}
+                                        </ng-container>
+                                        <ng-template #plainFamilyLabel>{{ getFieldLabel(entry.key) }}</ng-template>
+                                    </span>
+
+                                    <strong class="detail-chip__value">
+                                        <ng-container *ngIf="isTranslatableValue(entry.key); else plainFamilyValue">
+                                            {{ getDisplayValue(entry.key, entry.value) | translate }}
+                                        </ng-container>
+                                        <ng-template #plainFamilyValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #noFamilyMembersInSub>
+                        <p class="detail-empty">{{ 'NO_FAMILY_MEMBERS' | translate }}</p>
+                    </ng-template>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section__head">
+                        <span class="section-kicker">{{ 'PAYMENTS' | translate }}</span>
+                    </div>
+
+                    <div *ngIf="getPayments(sub).length; else noPaymentsInSub" class="nested-stack">
+                        <div class="nested-card" *ngFor="let payment of getPayments(sub)">
+                            <div class="detail-grid">
+                                <div class="detail-chip" *ngFor="let entry of getVisibleEntries(payment)">
+                                    <span class="detail-chip__label">
+                                        <ng-container *ngIf="isTranslatedLabel(entry.key); else plainPaymentLabel">
+                                            {{ getFieldLabel(entry.key) | translate }}
+                                        </ng-container>
+                                        <ng-template #plainPaymentLabel>{{ getFieldLabel(entry.key) }}</ng-template>
+                                    </span>
+
+                                    <strong class="detail-chip__value">
+                                        <ng-container *ngIf="isTranslatableValue(entry.key); else plainPaymentValue">
+                                            {{ getDisplayValue(entry.key, entry.value) | translate }}
+                                        </ng-container>
+                                        <ng-template #plainPaymentValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #noPaymentsInSub>
+                        <p class="detail-empty">{{ 'NO_PAYMENTS' | translate }}</p>
+                    </ng-template>
                 </div>
             </div>
         </div>
