@@ -308,7 +308,7 @@
                         <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
 
                         <div class="profile-stack">
-                            <div class="subscription-card" *ngFor="let subscription of getSubscriptions()">
+                            <div class="subscription-card" *ngFor="let subscription of getSubscriptions(); let i = index">
                                 <div class="subscription-card__head">
                                     <div>
                                         <h4>{{ getPlanName(subscription) }}</h4>
@@ -318,6 +318,33 @@
                                     <span class="status-badge" [ngClass]="getStatusClass(subscription.status)">
                                         {{ getStatusKey(subscription.status) | translate }}
                                     </span>
+                                </div>
+
+                                <div class="membership-card-actions">
+                                    <button
+                                        type="button"
+                                        class="membership-card-btn is-generate"
+                                        [disabled]="isGeneratingCardKey === getSubscriptionCardKey(subscription, i)"
+                                        (click)="generateMembershipCard(subscription, i)">
+                                        <i class="fa-solid fa-id-card"></i>
+                                        <span *ngIf="isGeneratingCardKey !== getSubscriptionCardKey(subscription, i)">
+                                            {{ 'GENERATE_CARD' | translate }}
+                                        </span>
+                                        <span *ngIf="isGeneratingCardKey === getSubscriptionCardKey(subscription, i)" class="spinner-border spinner-border-sm"></span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="membership-card-btn is-download"
+                                        [disabled]="isGeneratingCardKey === getSubscriptionCardKey(subscription, i)"
+                                        (click)="downloadMembershipCard(subscription, i)">
+                                        <i class="fa-solid fa-download"></i>
+                                        <span>{{ 'DOWNLOAD_CARD' | translate }}</span>
+                                    </button>
+                                </div>
+
+                                <div class="membership-card-preview" *ngIf="getGeneratedCard(subscription, i) as generatedCard">
+                                    <img [src]="generatedCard" [alt]="'MEMBERSHIP_CARD_PREVIEW' | translate">
                                 </div>
 
                                 <div class="subscription-card__grid">

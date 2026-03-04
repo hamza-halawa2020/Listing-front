@@ -67,7 +67,7 @@
             {{ 'NO_SUBSCRIPTIONS_FOUND' | translate }}
         </div>
 
-        <div class="subscription-item card border-0 shadow-sm rounded-4 mb-4" *ngFor="let sub of getSubscriptions()">
+        <div class="subscription-item card border-0 shadow-sm rounded-4 mb-4" *ngFor="let sub of getSubscriptions(); let i = index">
             <div class="card-body p-4 p-md-5">
                 <div class="subscription-item__head">
                     <div>
@@ -81,6 +81,31 @@
                     <span class="badge rounded-pill px-3 py-2" [ngClass]="getStatusClass(sub.status)">
                         {{ getDisplayValue('status', sub.status) | translate }}
                     </span>
+                </div>
+
+                <div class="membership-card-actions mb-4">
+                    <button
+                        type="button"
+                        class="membership-card-btn is-generate"
+                        [disabled]="isGeneratingCardKey === getSubscriptionCardKey(sub, i)"
+                        (click)="generateMembershipCard(sub, i)">
+                        <i class="fa-solid fa-id-card me-2"></i>
+                        <span *ngIf="isGeneratingCardKey !== getSubscriptionCardKey(sub, i)">{{ 'GENERATE_CARD' | translate }}</span>
+                        <span *ngIf="isGeneratingCardKey === getSubscriptionCardKey(sub, i)" class="spinner-border spinner-border-sm"></span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="membership-card-btn is-download"
+                        [disabled]="isGeneratingCardKey === getSubscriptionCardKey(sub, i)"
+                        (click)="downloadMembershipCard(sub, i)">
+                        <i class="fa-solid fa-download me-2"></i>
+                        <span>{{ 'DOWNLOAD_CARD' | translate }}</span>
+                    </button>
+                </div>
+
+                <div class="membership-card-preview mb-4" *ngIf="getGeneratedCard(sub, i) as generatedCard">
+                    <img [src]="generatedCard" alt="Membership Card Preview">
                 </div>
 
                 <div class="detail-grid">
@@ -119,35 +144,6 @@
                     </div>
                 </div>
 
-                <div class="detail-section" *ngIf="sub.user">
-                    <div class="detail-section__head">
-                        <span class="section-kicker">{{ 'USER_DETAILS' | translate }}</span>
-                    </div>
-
-                    <div class="detail-grid">
-                        <div class="detail-chip" *ngFor="let entry of getVisibleEntries(sub.user, ['location'])">
-                            <span class="detail-chip__label">
-                                <ng-container *ngIf="isTranslatedLabel(entry.key); else plainUserLabel">
-                                    {{ getFieldLabel(entry.key) | translate }}
-                                </ng-container>
-                                <ng-template #plainUserLabel>{{ getFieldLabel(entry.key) }}</ng-template>
-                            </span>
-
-                            <strong class="detail-chip__value">
-                                <ng-container *ngIf="isTranslatableValue(entry.key); else plainUserValue">
-                                    {{ getDisplayValue(entry.key, entry.value) | translate }}
-                                </ng-container>
-                                <ng-template #plainUserValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
-                            </strong>
-                        </div>
-
-                        <div class="detail-chip" *ngIf="sub.user?.location">
-                            <span class="detail-chip__label">{{ 'LOCATION' | translate }}</span>
-                            <strong class="detail-chip__value">{{ getUserLocation(sub) }}</strong>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="detail-section">
                     <div class="detail-section__head">
                         <span class="section-kicker">{{ 'FAMILY_MEMBERS' | translate }}</span>
@@ -180,37 +176,6 @@
                     </ng-template>
                 </div>
 
-                <div class="detail-section">
-                    <div class="detail-section__head">
-                        <span class="section-kicker">{{ 'PAYMENTS' | translate }}</span>
-                    </div>
-
-                    <div *ngIf="getPayments(sub).length; else noPaymentsInSub" class="nested-stack">
-                        <div class="nested-card" *ngFor="let payment of getPayments(sub)">
-                            <div class="detail-grid">
-                                <div class="detail-chip" *ngFor="let entry of getVisibleEntries(payment)">
-                                    <span class="detail-chip__label">
-                                        <ng-container *ngIf="isTranslatedLabel(entry.key); else plainPaymentLabel">
-                                            {{ getFieldLabel(entry.key) | translate }}
-                                        </ng-container>
-                                        <ng-template #plainPaymentLabel>{{ getFieldLabel(entry.key) }}</ng-template>
-                                    </span>
-
-                                    <strong class="detail-chip__value">
-                                        <ng-container *ngIf="isTranslatableValue(entry.key); else plainPaymentValue">
-                                            {{ getDisplayValue(entry.key, entry.value) | translate }}
-                                        </ng-container>
-                                        <ng-template #plainPaymentValue>{{ getDisplayValue(entry.key, entry.value) }}</ng-template>
-                                    </strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <ng-template #noPaymentsInSub>
-                        <p class="detail-empty">{{ 'NO_PAYMENTS' | translate }}</p>
-                    </ng-template>
-                </div>
             </div>
         </div>
     </div>

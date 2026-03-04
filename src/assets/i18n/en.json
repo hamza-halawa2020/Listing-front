@@ -447,5 +447,9 @@
   "PLAN_DETAILS": "Plan Details",
   "USER_DETAILS": "User Details",
   "PAYMENTS": "Payments",
-  "NO_PAYMENTS": "No payments found for this subscription."
+  "NO_PAYMENTS": "No payments found for this subscription.",
+  "GENERATE_CARD": "Generate Card",
+  "DOWNLOAD_CARD": "Download Card",
+  "MEMBERSHIP_CARD_PREVIEW": "Membership Card Preview",
+  "CARD_MEMBER_NUMBER_LABEL": "Membership No:"
 }
