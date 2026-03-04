@@ -8,15 +8,16 @@ import { environment } from '../../../environments/environment';
 })
 export class PaymentService {
     private apiUrl = environment.backEndUrl;
+    private readonly attachmentFieldAliases: string[] = ['attachment', 'payment_image'];
 
     constructor(private http: HttpClient) { }
 
     createPayment(paymentData: any): Observable<any> {
         const formData = new FormData();
-        const attachment = paymentData?.attachment;
+        const attachment = this.resolveAttachment(paymentData);
 
         Object.keys(paymentData).forEach(key => {
-            if (key === 'attachment') {
+            if (this.attachmentFieldAliases.includes(key)) {
                 return;
             }
 
@@ -32,10 +33,24 @@ export class PaymentService {
             }
         });
 
-        if (attachment instanceof File) {
-            formData.append('attachment', attachment, attachment.name);
+        if (attachment instanceof Blob) {
+            const fileName = attachment instanceof File ? attachment.name : 'payment-attachment';
+            this.attachmentFieldAliases.forEach((fieldName) => {
+                formData.append(fieldName, attachment, fileName);
+            });
         }
 
         return this.http.post(`${this.apiUrl}/payments`, formData);
+    }
+
+    private resolveAttachment(paymentData: any): Blob | null {
+        for (const fieldName of this.attachmentFieldAliases) {
+            const value = paymentData?.[fieldName];
+            if (value instanceof Blob) {
+                return value;
+            }
+        }
+
+        return null;
     }
 }

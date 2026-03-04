@@ -31,11 +31,24 @@
                 <!-- Gallery Section -->
                 <div class="listing-gallery mb-5"
                     *ngIf="featuredImageUrl || (mockData.gallery && mockData.gallery.length)">
-                    <img *ngIf="featuredImageUrl" [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
-                        [alt]="listing.name || listing.title?.rendered">
+                    <button
+                        type="button"
+                        *ngIf="featuredImageUrl"
+                        class="gallery-link-main"
+                        (click)="openImageModal(featuredImageUrl)"
+                        aria-label="Open main image preview">
+                        <img [src]="featuredImageUrl" class="img-fluid rounded-4 main-gallery-img"
+                            [alt]="listing.name || listing.title?.rendered">
+                    </button>
                     <div class="row g-2 mt-2" *ngIf="mockData.gallery && mockData.gallery.length">
                         <div class="col-4" *ngFor="let img of mockData.gallery">
-                            <img [src]="img" class="img-fluid rounded-3 gallery-thumb" alt="Gallery">
+                            <button
+                                type="button"
+                                class="gallery-link-thumb"
+                                (click)="openImageModal(img)"
+                                aria-label="Open gallery image preview">
+                                <img [src]="img" class="img-fluid rounded-3 gallery-thumb" alt="Gallery">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -105,13 +118,13 @@
                         <ul class="list-unstyled contact-list mb-4">
                             <!-- All Phones -->
                             <ng-container *ngIf="listing.phones && listing.phones.length > 0; else singlePhone">
-                                <li class="mb-3" *ngFor="let p of listing.phones">
-                                    <i class="fa-solid"
-                                        [ngClass]="p.type === 'mobile' ? 'fa-mobile-screen-button' : 'fa-phone'"
-                                        class="me-3 text-muted"></i>
+                                <li class="mb-3 contact-phone-item" *ngFor="let p of listing.phones">
+                                    <i [ngClass]="getPhoneTypeIconClass(p.type)" class="phone-icon me-1"></i>
                                     <span class="fw-semibold">{{ p.phone_number }}</span>
-                                    <small class="text-muted ms-2" *ngIf="p.contact_person">({{ p.contact_person
-                                        }})</small>
+                                    <span class="phone-type-badge" [ngClass]="'is-' + getPhoneTypeClass(p.type)">
+                                        {{ getPhoneTypeLabel(p.type) }}
+                                    </span>
+                                    <small class="text-muted mx-1" *ngIf="p.contact_person">({{ p.contact_person }})</small>
                                 </li>
                             </ng-container>
                             <ng-template #singlePhone>
@@ -120,34 +133,110 @@
                                     <span class="fw-semibold">{{ mockData.phone }}</span>
                                 </li>
                             </ng-template>
-
-                            <li class="mb-3" *ngIf="mockData.website">
-                                <i class="fa-solid fa-globe me-3 text-muted"></i>
-                                <a [href]="mockData.website" target="_blank" class="text-dark">{{ mockData.website
-                                    }}</a>
-                            </li>
                         </ul>
-                        <div class="social-links d-flex gap-2">
-                            <a *ngFor="let s of mockData.social" [href]="s.link" class="social-btn">
+                        <div class="social-links d-flex gap-2" *ngIf="mockData.social.length > 0">
+                            <a
+                                *ngFor="let s of mockData.social"
+                                [href]="s.link"
+                                [attr.target]="s.link.startsWith('http') ? '_blank' : null"
+                                [attr.rel]="s.link.startsWith('http') ? 'noopener noreferrer' : null"
+                                class="social-btn">
                                 <i class="fa-brands" [ngClass]="s.icon"></i>
                             </a>
                         </div>
                     </div>
 
                     <!-- Special Offers -->
-                    <div class="sidebar-card p-4 mb-4 bg-white" *ngIf="listing.offers && listing.offers.length > 0">
+                    <div class="sidebar-card p-4 mb-4 bg-white" *ngIf="offers.length > 0">
                         <h5 class="fw-bold mb-4 text-danger"><i class="fa-solid fa-tag me-2"></i> {{ 'OFFERS' |
                             translate }}</h5>
-                        <div class="offer-item mb-3 p-3 border rounded-3 bg-light" *ngFor="let offer of listing.offers">
-                            <h6 class="fw-bold mb-2">{{ offer.title }}</h6>
-                            <p class="small text-muted mb-0">{{ offer.description }}</p>
-                            <div class="mt-2 text-primary fw-bold" *ngIf="offer.discount_percentage">
-                                {{ offer.discount_percentage }}% {{ 'DISCOUNT' | translate }}
+                        <div class="offer-item mb-3 p-3 border rounded-3 bg-light" *ngFor="let offer of offers">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <h6 class="fw-bold mb-2">{{ offer.title || '-' }}</h6>
+                            
+                            </div>
+
+                            <p class="small text-muted mb-2" *ngIf="offer.description">{{ offer.description }}</p>
+
+                            <div class="offer-pricing-row mb-2" *ngIf="offer.price_before_discount !== null || offer.price_after_discount !== null">
+                                <span class="offer-price-before" *ngIf="offer.price_before_discount !== null">
+                                    {{ offer.price_before_discount | number:'1.0-2' }} {{ 'EGP' | translate }}
+                                </span>
+                                <span class="offer-price-after" *ngIf="offer.price_after_discount !== null">
+                                    {{ offer.price_after_discount | number:'1.0-2' }} {{ 'EGP' | translate }}
+                                </span>
+                            </div>
+
+                            <div class="offer-meta-row">
+                                <span class="offer-meta-chip" *ngIf="offer.discount_percentage !== null">
+                                    <i class="fa-solid fa-percent"></i>
+                                    {{ offer.discount_percentage | number:'1.0-2' }}% {{ 'DISCOUNT' | translate }}
+                                </span>
+                                <span class="offer-meta-chip" *ngIf="offer.discount_amount !== null">
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                    {{ offer.discount_amount | number:'1.0-2' }} {{ 'EGP' | translate }}
+                                </span>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Links -->
+                    <div class="sidebar-card p-4 mb-4 bg-white" *ngIf="listingLinks.length > 0">
+                        <h5 class="fw-bold mb-4"><i class="fa-solid fa-link me-2"></i> Links</h5>
+                        <ul class="list-unstyled mb-0 links-list">
+                            <li class="mb-2" *ngFor="let link of listingLinks">
+                                <a
+                                    class="listing-link-item"
+                                    [href]="link.url"
+                                    [attr.target]="link.url.startsWith('http') ? '_blank' : null"
+                                    [attr.rel]="link.url.startsWith('http') ? 'noopener noreferrer' : null">
+                                    <span>{{ link.title }}</span>
+                                    <i class="fa-solid fa-up-right-from-square" *ngIf="link.url.startsWith('http')"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="image-modal-backdrop"
+    *ngIf="isImageModalOpen"
+    (click)="onImageModalBackdropClick($event)">
+    <div class="image-modal-dialog" role="dialog" aria-modal="true" [attr.aria-label]="listing?.name || 'Image preview'">
+        <button
+            type="button"
+            class="image-modal-close"
+            (click)="closeImageModal()"
+            aria-label="Close image preview">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <button
+            type="button"
+            class="image-modal-nav is-prev"
+            *ngIf="previewImages.length > 1"
+            (click)="showPreviousImage()"
+            aria-label="Previous image">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <img [src]="currentPreviewImage" class="image-modal-image" [alt]="listing?.name || 'Preview image'">
+
+        <button
+            type="button"
+            class="image-modal-nav is-next"
+            *ngIf="previewImages.length > 1"
+            (click)="showNextImage()"
+            aria-label="Next image">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div class="image-modal-counter" *ngIf="previewImages.length > 1">
+            {{ previewImageIndex + 1 }} / {{ previewImages.length }}
         </div>
     </div>
 </div>
