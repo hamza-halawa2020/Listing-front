@@ -1,0 +1,23 @@
+{
+  "name": "careandshare-mobile-shell",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Capacitor wrapper for the existing Angular web app.",
+  "scripts": {
+    "build:web": "npm --prefix .. run build",
+    "brand:android": "powershell.exe -ExecutionPolicy Bypass -File .\\scripts\\generate-brand-assets.ps1",
+    "build:release:apk": "powershell.exe -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -Format apk",
+    "build:release:aab": "powershell.exe -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -Format aab",
+    "copy:web": "npm run build:web && npx cap copy",
+    "add:android": "npx cap add android",
+    "prepare:android": "npm run brand:android && npm run sync:android",
+    "sync:android": "npm run build:web && npx cap sync android",
+    "open:android": "npx cap open android",
+    "run:android": "npm run build:web && npx cap run android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0"
+  }
+}
