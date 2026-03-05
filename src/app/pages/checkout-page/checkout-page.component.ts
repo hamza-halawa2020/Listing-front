@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,8 @@ import { SearchableSelectComponent } from '../../shared/components/searchable-se
     styleUrls: ['./checkout-page.component.scss']
 })
 export class CheckoutPageComponent implements OnInit {
+    @ViewChild('checkoutFeedback') checkoutFeedbackRef?: ElementRef<HTMLElement>;
+
     planId: string | null = null;
     plan: any = null;
     isLoading = true;
@@ -51,6 +53,7 @@ export class CheckoutPageComponent implements OnInit {
     attachment: File | null = null;
     successMessage: string | null = null;
     errorMessage: string | null = null;
+    validationErrors: string[] = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -169,6 +172,7 @@ export class CheckoutPageComponent implements OnInit {
     onSubmit() {
         this.isSubmitting = true;
         this.errorMessage = null;
+        this.validationErrors = [];
 
         const data = { ...this.paymentData };
         // Ensure plan_id is sent as a number if it's a numeric string
@@ -204,9 +208,36 @@ export class CheckoutPageComponent implements OnInit {
             },
             error: (err) => {
                 // console.error('Payment error response:', err);
-                this.errorMessage = err.error?.message || 'PAYMENT_FAILED';
+                const extractedValidationErrors = this.extractValidationErrors(err);
+                this.validationErrors = extractedValidationErrors;
+                this.errorMessage = extractedValidationErrors.length
+                    ? null
+                    : (err.error?.message || 'PAYMENT_FAILED');
                 this.isSubmitting = false;
+                this.scrollToFeedback();
             }
         });
+    }
+
+    private extractValidationErrors(error: any): string[] {
+        const backendErrors = error?.error?.errors;
+
+        if (!backendErrors || typeof backendErrors !== 'object') {
+            return [];
+        }
+
+        return Object.values(backendErrors)
+            .flatMap((value: unknown) => Array.isArray(value) ? value : [value])
+            .map((value: unknown) => String(value || '').trim())
+            .filter(Boolean);
+    }
+
+    private scrollToFeedback(): void {
+        setTimeout(() => {
+            this.checkoutFeedbackRef?.nativeElement?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 0);
     }
 }

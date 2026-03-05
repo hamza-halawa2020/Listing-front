@@ -2,6 +2,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
+                <div #checkoutFeedback></div>
+
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                     <div class="card-header bg-primary text-white p-4">
                         <h3 class="mb-0 fw-bold">{{ 'CHECKOUT' | translate }}</h3>
@@ -27,7 +29,15 @@
                             <div *ngIf="successMessage" class="alert alert-success mb-4 p-3 rounded-3">
                                 <i class="fa-solid fa-circle-check me-2"></i> {{ successMessage | translate }}
                             </div>
-                            <div *ngIf="errorMessage" class="alert alert-danger mb-4 p-3 rounded-3">
+                            <div *ngIf="validationErrors.length" class="alert alert-danger mb-4 p-3 rounded-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="fa-solid fa-circle-exclamation me-2 mt-1"></i>
+                                    <ul class="mb-0 ps-3">
+                                        <li *ngFor="let validationError of validationErrors">{{ validationError }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div *ngIf="errorMessage && !validationErrors.length" class="alert alert-danger mb-4 p-3 rounded-3">
                                 <i class="fa-solid fa-circle-exclamation me-2"></i> {{ errorMessage | translate }}
                             </div>
 

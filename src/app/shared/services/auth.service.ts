@@ -27,7 +27,7 @@ export class AuthService {
         return this.currentUserSubject.asObservable();
     }
 
-    login(credentials: { national_id: string; password: string }): Observable<any> {
+    login(credentials: { phone: string; password: string }): Observable<any> {
         const authUrl = `${this.apiUrl}/login`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {
@@ -41,7 +41,7 @@ export class AuthService {
         );
     }
 
-    register(credentials: { name: string; email: string; national_id: string; phone?: string; password: string }): Observable<any> {
+    register(credentials: { name: string; email: string; phone?: string; password: string }): Observable<any> {
         const authUrl = `${this.apiUrl}/register`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {

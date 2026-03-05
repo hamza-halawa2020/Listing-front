@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,10 @@ import { ListingsService } from '../listings-page/listings.service';
     styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
+    @ViewChild('profileErrorAlert') profileErrorAlertRef?: ElementRef<HTMLElement>;
+    @ViewChild('familyErrorAlert') familyErrorAlertRef?: ElementRef<HTMLElement>;
+    @ViewChild('editingFamilyErrorAlert') editingFamilyErrorAlertRef?: ElementRef<HTMLElement>;
+
     currentUser: any = null;
     locations: Array<{ id: string; name: string }> = [];
     activeTab: 'overview' | 'edit' | 'subscriptions' | 'family' = 'overview';
@@ -32,6 +36,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     familyErrors: string[] = [];
     editingFamilyMemberErrors: string[] = [];
     generatedCardMap: Record<string, string> = {};
+    showProfilePassword = false;
+    showProfilePasswordConfirmation = false;
 
     profileForm = {
         name: '',
@@ -314,6 +320,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         return this.relationMap[normalizedRelation] || relation || 'NO_DATA';
     }
 
+    toggleProfilePasswordVisibility(field: 'password' | 'confirmation'): void {
+        if (field === 'password') {
+            this.showProfilePassword = !this.showProfilePassword;
+            return;
+        }
+
+        this.showProfilePasswordConfirmation = !this.showProfilePasswordConfirmation;
+    }
+
     submitProfile(): void {
         this.profileSuccessKey = null;
         this.profileErrors = [];
@@ -347,6 +362,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 error: (error) => {
                     this.isSavingProfile = false;
                     this.profileErrors = this.extractErrorMessages(error);
+                    this.scrollToError(this.profileErrorAlertRef?.nativeElement);
                 }
             })
         );
@@ -375,6 +391,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 error: (error) => {
                     this.isAddingFamilyMember = false;
                     this.familyErrors = this.extractErrorMessages(error);
+                    this.scrollToError(this.familyErrorAlertRef?.nativeElement);
                 }
             })
         );
@@ -434,6 +451,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 error: (error) => {
                     this.isUpdatingFamilyMember = false;
                     this.editingFamilyMemberErrors = this.extractErrorMessages(error);
+                    this.scrollToError(this.editingFamilyErrorAlertRef?.nativeElement);
                 }
             })
         );
@@ -456,6 +474,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 error: (error) => {
                     this.isLoadingProfile = false;
                     this.profileErrors = this.extractErrorMessages(error);
+                    this.scrollToTop();
                 }
             })
         );
@@ -892,5 +911,20 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             .replace(/\s+/g, '-')
             .replace(/[^\w\-]/g, '')
             .toLowerCase() || 'card';
+    }
+
+    private scrollToError(target?: HTMLElement | null): void {
+        setTimeout(() => {
+            target?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 0);
+    }
+
+    private scrollToTop(): void {
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 0);
     }
 }

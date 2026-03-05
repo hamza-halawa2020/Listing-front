@@ -29,7 +29,6 @@ export class SignupPageComponent implements OnInit {
             name: ['', [Validators.required, Validators.maxLength(255)]],
             email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
             password: ['', [Validators.required, Validators.minLength(8)]],
-            national_id: ['', [Validators.required]],
             phone: ['']
         });
 
@@ -55,9 +54,9 @@ export class SignupPageComponent implements OnInit {
         this.isLoading = true;
         this.errorMessage = '';
 
-        const { name, email, password, national_id, phone } = this.signupForm.value;
+        const { name, email, password, phone } = this.signupForm.value;
 
-        this.authService.register({ name, email, password, national_id, phone }).subscribe({
+        this.authService.register({ name, email, password, phone }).subscribe({
             next: () => {
                 this.isLoading = false;
                 this.router.navigate(['/']); // Redirect to home on success

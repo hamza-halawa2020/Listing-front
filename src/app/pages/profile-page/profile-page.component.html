@@ -1,6 +1,7 @@
 <section class="profile-page section-padding">
     <div class="profile-orb profile-orb--one"></div>
     <div class="profile-orb profile-orb--two"></div>
+                <div #profileErrorAlert ></div>
 
     <div class="container">
         <div class="profile-loading" *ngIf="isLoadingProfile">
@@ -197,15 +198,38 @@
 
                                 <div class="profile-form-field">
                                     <label for="profile-password">{{ 'PASSWORD' | translate }}</label>
-                                    <input id="profile-password" type="password" class="profile-input"
-                                        name="profile_password" [(ngModel)]="profileForm.password">
+                                    <div class="profile-password-group">
+                                        <input
+                                            id="profile-password"
+                                            [type]="showProfilePassword ? 'text' : 'password'"
+                                            class="profile-input profile-input--password"
+                                            name="profile_password"
+                                            [(ngModel)]="profileForm.password">
+                                        <button
+                                            type="button"
+                                            class="profile-password-toggle"
+                                            (click)="toggleProfilePasswordVisibility('password')">
+                                            <i class="fa-solid" [ngClass]="showProfilePassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="profile-form-field">
                                     <label for="profile-password-confirmation">{{ 'CONFIRM_PASSWORD' | translate }}</label>
-                                    <input id="profile-password-confirmation" type="password" class="profile-input"
-                                        name="profile_password_confirmation"
-                                        [(ngModel)]="profileForm.password_confirmation">
+                                    <div class="profile-password-group">
+                                        <input
+                                            id="profile-password-confirmation"
+                                            [type]="showProfilePasswordConfirmation ? 'text' : 'password'"
+                                            class="profile-input profile-input--password"
+                                            name="profile_password_confirmation"
+                                            [(ngModel)]="profileForm.password_confirmation">
+                                        <button
+                                            type="button"
+                                            class="profile-password-toggle"
+                                            (click)="toggleProfilePasswordVisibility('confirmation')">
+                                            <i class="fa-solid" [ngClass]="showProfilePasswordConfirmation ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -227,7 +251,7 @@
                             {{ familySuccessKey | translate }}
                         </div>
 
-                        <div class="profile-alert is-error" *ngIf="familyErrors.length">
+                        <div #familyErrorAlert class="profile-alert is-error" *ngIf="familyErrors.length">
                             <p *ngFor="let error of familyErrors">{{ error | translate }}</p>
                         </div>
 
@@ -426,7 +450,7 @@
                                 <form class="profile-inline-form" *ngIf="isEditingFamilyMember(member)" (ngSubmit)="submitFamilyMemberUpdate()">
                                     <p class="profile-card__hint profile-card__hint--inline">{{ 'EDIT_FAMILY_MEMBER_HINT' | translate }}</p>
 
-                                    <div class="profile-alert is-error" *ngIf="editingFamilyMemberErrors.length">
+                                    <div #editingFamilyErrorAlert class="profile-alert is-error" *ngIf="editingFamilyMemberErrors.length">
                                         <p *ngFor="let error of editingFamilyMemberErrors">{{ error | translate }}</p>
                                     </div>
 
