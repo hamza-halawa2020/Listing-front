@@ -1407,6 +1407,11 @@
 
 // Premium Hero Listing Search
 .hero-listing-search {
+    // Current image size: 1920x1080px.
+    // Replace this file when needed with another 16:9 image for best results.
+    --hero-bg-image: url("/assets/images/header.webp");
+    --hero-bg-position-desktop: center center;
+    --hero-bg-position-mobile: 72% center;
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -1426,17 +1431,31 @@
         inset: 0;
         width: 100%;
         height: 100%;
+        border-radius: inherit;
         z-index: 1;
     }
 
     .hero-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(180deg, rgba(35, 71, 198, 0.14) 0%, rgba(31, 63, 178, 0.08) 100%);
+        inset: 0;
+        border-radius: inherit;
+        background-image: var(--hero-bg-image);
+        background-position: var(--hero-bg-position-desktop);
+        background-repeat: no-repeat;
+        background-size: cover;
         z-index: 2;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(180deg, rgba(15, 37, 79, 0.56) 0%, rgba(15, 37, 79, 0.32) 100%);
+        }
+
+        @media (max-width: 991px) {
+            background-position: var(--hero-bg-position-mobile);
+        }
     }
 
     .container {
