@@ -24,14 +24,15 @@ export class CheckoutPageComponent implements OnInit {
     governorates: any[] = [];
     paymentMethods = [
         {
-            value: 'instapay',
-            labelKey: 'INSTAPAY',
+            value: 'vodafone_cash',
+            labelKey: 'VODAFONE_CASH',
             phone:'01030032281',
             icon: 'fa-mobile-screen-button'
         },
         {
-            value: 'vodafone_cash',
-            labelKey: 'VODAFONE_CASH',
+            value: 'instapay',
+            labelKey: 'INSTAPAY',
+
             phone:'01050088281',
             icon: 'fa-money-bill-wave'
         }
