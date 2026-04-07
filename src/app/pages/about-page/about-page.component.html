@@ -1,178 +1,117 @@
-<!-- Page Hero -->
-<section class="page-banner">
-    <div class="container">
-        <div class="page-banner-content">
-            <h1>{{ 'ABOUT_US' | translate }}</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ 'About' | translate }}</li>
-                </ol>
-            </nav>
+<section class="about-message-banner">
+    <div class="">
+        <div class="about-message-card" role="img" [attr.aria-label]="'ABOUT_US_IMAGE_ALT' | translate">
+            <div class="about-message-overlay">
+                <h1 class="about-message-subtitle">{{ 'ABOUT_US' | translate }}</h1>
+                <p>{{ 'ABOUT_US_IMAGE_MESSAGE' | translate }}</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ 'About' | translate }}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="about-area">
+<section class="about-story-addition">
     <div class="container">
-        <!-- Who We Are Section -->
-        <div class="about-overview section-padding">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="about-image-premium">
-                        <div class="image-wrapper">
-                            <img src="assets/images/care-and-share-bannar.svg" alt="Care & Share branding"
-                                class="img-fluid rounded-4 shadow-lg">
-                            <div class="experience-badge">
-                                <span class="number">15+</span>
-                                <span class="text">{{ 'YEARS_EXPERIENCE' | translate }}</span>
-                            </div>
-                        </div>
-                    </div>
+        <div class="story-addition-wrapper">
+            <article class="story-feature story-feature-primary">
+                <div class="story-feature-media">
+                    <img src="assets/images/about_img1.jpeg" [attr.alt]="'ABOUT_STORY_IMAGE_1_ALT' | translate"
+                        class="img-fluid">
+                    <span class="story-feature-badge">01</span>
                 </div>
-                <div class="col-lg-6 ps-lg-5">
-                    <div class="section-title text-start">
-                        <span class="subtitle">{{ 'WHO_WE_ARE_TITLE' | translate }}</span>
-                        <h2>{{ 'DISCOVER_OUR_MISSION' | translate }}</h2>
-                    </div>
-                    <div class="about-content">
-                        <p class="lead">{{ 'ABOUT_US_DESC_1' | translate }}</p>
-                        <p>{{ 'ABOUT_US_DESC_2' | translate }}</p>
-                        <p>{{ 'MARKETING_MESSAGE' | translate }}</p>
+                <div class="story-feature-content">
+                    <div class="h3 text-dark p-5">{{ 'ABOUT_STORY_HEADLINE_1' | translate }}</div>
+                </div>
+            </article>
 
-                        <div class="mission-vision-grid mt-5">
-                            <div class="mv-card">
-                                <div class="mv-icon"><i class="fa-solid fa-bullseye"></i></div>
-                                <h4>{{ 'OUR_MISSION' | translate }}</h4>
-                                <p>{{ 'OUR_MISSION_DESC' | translate }}</p>
-                            </div>
-                            <div class="mv-card">
-                                <div class="mv-icon"><i class="fa-solid fa-eye"></i></div>
-                                <h4>{{ 'OUR_VISION' | translate }}</h4>
-                                <p>{{ 'OUR_VISION_DESC' | translate }}</p>
-                            </div>
-                        </div>
-                    </div>
+            <article class="story-feature story-feature-secondary">
+                <div class="story-feature-content">
+                    <span class="story-feature-label">{{ 'ABOUT_STORY_TITLE_2' | translate }}</span>
+                    <div class="h3 text-dark">{{ 'ABOUT_STORY_HEADLINE_2' | translate }}</div>
                 </div>
-            </div>
-        </div>
+                <div class="story-feature-media">
+                    <img src="assets/images/about_img2.jpeg" [attr.alt]="'ABOUT_STORY_IMAGE_2_ALT' | translate"
+                        class="img-fluid">
+                    <span class="story-feature-badge">02</span>
+                </div>
+            </article>
 
-        <!-- Statistics Banner -->
-        <div class="stats-banner-premium mb-5">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="icon-box"><i class="fa-solid fa-users"></i></div>
-                        <div class="stat-info">
-                            <h3>5000+</h3>
-                            <p>{{ 'HAPPY_CUSTOMERS' | translate }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-card border-x">
-                        <div class="icon-box"><i class="fa-solid fa-building-circle-check"></i></div>
-                        <div class="stat-info">
-                            <h3>1200+</h3>
-                            <p>{{ 'TOP_LISTINGS_COUNT' | translate }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="icon-box"><i class="fa-solid fa-award"></i></div>
-                        <div class="stat-info">
-                            <h3>15+</h3>
-                            <p>{{ 'YEARS_EXPERIENCE' | translate }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Why Choose Us Grid -->
-        <div class="features-section section-padding">
-            <div class="section-title text-center mb-5">
-                <span class="subtitle">{{ 'WHY_CHOOSE_US' | translate }}</span>
-                <h2>{{ 'WHY_CHOOSE_US_DESC' | translate }}</h2>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-notes-medical"></i>
-                        </div>
-                        <h4>{{ 'WIDE_NETWORK' | translate }}</h4>
-                        <p>{{ 'WIDE_NETWORK_DESC' | translate }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-hand-holding-medical"></i>
-                        </div>
-                        <h4>{{ 'VERIFIED_SERVICES' | translate }}</h4>
-                        <p>{{ 'VERIFIED_SERVICES_DESC' | translate }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-stethoscope"></i>
-                        </div>
-                        <h4>{{ 'EASY_SEARCH' | translate }}</h4>
-                        <p>{{ 'EASY_SEARCH_DESC' | translate }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                        </div>
-                        <h4>{{ 'MAP_INTEGRATION' | translate }}</h4>
-                        <p>{{ 'MAP_INTEGRATION_DESC' | translate }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-headset"></i>
-                        </div>
-                        <h4>{{ 'PREMIUM_SUPPORT' | translate }}</h4>
-                        <p>{{ 'PREMIUM_SUPPORT_DESC' | translate }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="premium-feature-card">
-                        <div class="feature-icon-wrapper">
-                            <i class="fa-solid fa-handshake"></i>
-                        </div>
-                        <h4>{{ 'DIRECT_CONTACT' | translate }}</h4>
-                        <p>{{ 'DIRECT_CONTACT_DESC' | translate }}</p>
-                    </div>
+            <div class="story-summary-block">
+                <p class="story-summary-lead">{{ 'ABOUT_STORY_SUMMARY' | translate }}</p>
+                <div class="">
+                    <p class="mb-4"> <i class="fa-solid fa-check-circle mx-2"></i>{{ 'ABOUT_STORY_DESC_1' | translate }}
+                    </p>
+                    <p> <i class="fa-solid fa-check-circle mx-2"></i>{{ 'ABOUT_STORY_DESC_2' | translate }}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="premium-cta">
+<section class="about-vision-mission">
+    <div class="vision-inline-hero text-center" role="img" [attr.aria-label]="'VISION_MISSION_IMAGE_ALT' | translate">
+        <div class="vision-inline-hero-overlay">
+            <span class="vision-inline-eyebrow">{{ 'SITE_NAME' | translate }}</span>
+            <h2>{{ 'VISION_MISSION_PAGE_TITLE' | translate }}</h2>
+            <p>{{ 'VISION_MISSION_PAGE_SUBTITLE' | translate }}</p>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="cta-card glass-effect">
-            <div class="cta-content-wrapper text-center">
-                <span class="cta-subtitle">{{ 'GET_IN_TOUCH' | translate }}</span>
-                <h2>{{ 'READY_TO_START' | translate }}</h2>
-                <p>{{ 'CTA_DESCRIPTION' | translate }}</p>
-                <div class="cta-actions">
-                    <a routerLink="/listings" class="btn btn-primary btn-lg px-5 me-md-3 mb-3 mb-md-0">
-                        {{ 'EXPLORE_NOW' | translate }} <i class="fa-solid fa-arrow-right ms-2 mt-1"></i>
-                    </a>
-                    <a routerLink="/contacts" class="btn btn-outline-light btn-lg px-5">
-                        {{ 'CONTACT_US' | translate }}
-                    </a>
+        <div class="vision-inline-grid">
+            <article class="vision-inline-card">
+                <div class="h3">{{ 'OUR_VISION' | translate }}</div>
+                <p>{{ 'VISION_MISSION_VISION_TEXT' | translate }}</p>
+            </article>
+
+            <article class="vision-inline-card vision-inline-card-accent">
+                <div class="h3">{{ 'OUR_MISSION' | translate }}</div>
+                <p>{{ 'VISION_MISSION_MISSION_TEXT' | translate }}</p>
+                <p class="vision-inline-note">{{ 'VISION_MISSION_VALUES' | translate }}</p>
+            </article>
+        </div>
+
+        <div class="mb-3">
+            <div class="vision-inline-contact">
+                <div class="vision-inline-icon">
+                    <i class="fa-solid fa-headset"></i>
                 </div>
+                <div class="h3">{{ 'VISION_MISSION_CONTACT_TITLE' | translate }}</div>
+                <p>{{ 'VISION_MISSION_CONTACT_TEXT' | translate }}</p>
+                <div class="vision-inline-actions">
+                    <a routerLink="/contacts" class="btn-search-premium">{{ 'CONTACT_US' | translate }}</a>
+                </div>
+                <p class="vision-inline-number">
+                    {{ 'VISION_MISSION_CONTACT_NUMBER_LABEL' | translate }}
+                    <strong>01030032281</strong>
+                </p>
+            </div>
+        </div>
+        <div class="vision-inline-impact" #impactSection [class.is-active]="hasImpactAnimated">
+            <div class="vision-impact-header">
+                <span class="vision-impact-chip">{{ 'SITE_NAME' | translate }}</span>
+                <h3>{{ 'OUR_IMPACT' | translate }}</h3>
+                <p>{{ 'VISION_MISSION_IMPACT_INTRO' | translate }}</p>
+            </div>
+
+            <div class="vision-impact-grid">
+                <article class="vision-impact-card" *ngFor="let stat of impactStats">
+                    <div class="vision-impact-icon">
+                        <i [class]="stat.iconClass"></i>
+                    </div>
+
+                    <div class="vision-impact-value-wrap">
+                        <span class="vision-impact-value">{{ stat.currentValue | number }}</span>
+                        <span class="vision-impact-mark" *ngIf="stat.mark">{{ stat.mark }}</span>
+                    </div>
+
+                    <p class="vision-impact-label">{{ stat.labelKey | translate }}</p>
+                </article>
             </div>
         </div>
     </div>
