@@ -7,16 +7,16 @@
     margin-bottom: 70px;
     position: relative;
 
-    &::before {
-        content: '\f005';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        display: block;
-        font-size: 20px;
-        color: var(--secondaryColor);
-        margin-bottom: 15px;
-        opacity: 0.5;
-    }
+    // &::before {
+    //     content: '\f005';
+    //     font-family: 'Font Awesome 6 Free';
+    //     font-weight: 900;
+    //     display: block;
+    //     font-size: 20px;
+    //     color: var(--secondaryColor);
+    //     margin-bottom: 15px;
+    //     opacity: 0.5;
+    // }
 
     .section-subtitle {
         display: inline-block;
@@ -78,7 +78,7 @@
         .feature-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 35px;
+            // margin-bottom: 35px;
             padding: 20px;
             background: white;
             border-radius: 20px;
@@ -1416,7 +1416,7 @@
     width: 100%;
     max-width: 100%;
     min-height: clamp(560px, 85vh, 700px);
-    background: linear-gradient(135deg, #2d5bdb 0%, #2347c6 48%, #1f3fb2 100%);
+    // background: linear-gradient(135deg, #2d5bdb 0%, #2347c6 48%, #1f3fb2 100%);
     overflow-x: hidden;
     overflow-y: visible;
     display: flex;
@@ -1468,7 +1468,7 @@
         position: relative;
         z-index: 6;
         width: 100%;
-        max-width: 1140px;
+        // max-width: 1140px;
         margin: 0 auto;
     }
 
@@ -1582,7 +1582,7 @@
             backdrop-filter: blur(10px);
             padding: 10px 20px;
             border-radius: 100px;
-            color: white;
+            // color: white;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -1591,14 +1591,16 @@
             gap: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             min-width: 0;
+            background: var(--secondaryColor);
+            color: var(--primaryColor);
+
+            i {
+                color: var(--primaryColor);
+            }
 
             span {
                 min-width: 0;
                 overflow-wrap: anywhere;
-            }
-
-            i {
-                color: var(--secondaryColor);
             }
 
             &:hover {
@@ -1630,13 +1632,13 @@
 
     .hero-listing-search {
         min-height: auto;
-        padding: 48px 0 40px;
-        border-radius: 0 0 40px 40px;
+        // padding: 48px 0 40px;
+        // border-radius: 0 0 40px 40px;
 
-        .container {
-            padding-left: 16px;
-            padding-right: 16px;
-        }
+        // .container {
+        //     padding-left: 16px;
+        //     padding-right: 16px;
+        // }
 
         .hero-content {
             margin-bottom: 1.75rem !important;

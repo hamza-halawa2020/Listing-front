@@ -42,14 +42,14 @@ export const routes: Routes = [
     },
 
 
-    // {
-    //     path: 'posts',
-    //     loadComponent: () => import('./pages/posts-page/posts-list/posts-list.component').then(m => m.PostsListComponent)
-    // },
-    // {
-    //     path: 'posts/:id',
-    //     loadComponent: () => import('./pages/posts-page/post-details/post-details.component').then(m => m.PostDetailsComponent)
-    // },
+    {
+        path: 'posts',
+        loadComponent: () => import('./pages/posts-page/posts-list/posts-list.component').then(m => m.PostsListComponent)
+    },
+    {
+        path: 'posts/:id',
+        loadComponent: () => import('./pages/posts-page/post-details/post-details.component').then(m => m.PostDetailsComponent)
+    },
     {
         path: 'listings',
         loadComponent: () => import('./pages/listings-page/listings-list/listings-list.component').then(m => m.ListingsListComponent),

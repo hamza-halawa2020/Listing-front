@@ -4,9 +4,14 @@
     <div class="container d-flex flex-column align-items-center justify-content-center">
         <div class="hero-content text-center mb-5" data-aos="fade-up">
             <h1 class="display-4 fw-bold text-white mb-3">{{ 'HERO_TITLE' | translate }}</h1>
-            <p class="lead text-white-50 mb-5">{{ 'HERO_SUBTITLE' | translate }}</p>
+            <!-- <p class="lead text-white-50 mb-5">{{ 'HERO_SUBTITLE' | translate }}</p> -->
         </div>
+    </div>
+</section>
 
+
+<section class="hero-listing-search">
+    <div class="container d-flex flex-column align-items-center justify-content-center">
         <div class="search-box-wrap" data-aos="fade-up" data-aos-delay="200">
             <form (ngSubmit)="searchListings()" class="search-form-premium">
                 <div class="row g-0 align-items-center">
@@ -106,19 +111,20 @@
 <!-- Main Content -->
 <div *ngIf="!isLoading && homeData">
     <!-- Why Choose Us / About Section -->
-    <section class="about-section mt-5">
+    <section class="about-section">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="about-content" data-aos="fade-left">
                         <div class="section-header mb-4">
-                            <span class="text-indigo fw-bold tracking-wider text-uppercase fs-0-8">{{ 'WHY_CHOOSE_US' |
-                                translate }}</span>
-                            <h2 class="display-5 fw-bold mt-2">{{ 'WHO_WE_ARE_TITLE' | translate }}</h2>
-                            <p class="lead text-muted mt-3 mb-4">{{ 'ABOUT_US_DESC_1' | translate }}</p>
+                            <div class="h5 mb-2 text-dark">{{ 'WHY_CHOOSE_US1' | translate }}</div>
+                            <div class="h5 mb-2 text-dark">{{ 'WHY_CHOOSE_US2' | translate }}</div>
+                            <div class="h5 text-dark">{{ 'WHY_CHOOSE_US3' | translate }}</div>
+                            <!-- <h2 class="display-5 fw-bold mt-2">{{ 'WHO_WE_ARE_TITLE' | translate }}</h2> -->
+                            <!-- <p class="lead text-muted mt-3 mb-4">{{ 'ABOUT_US_DESC_1' | translate }}</p> -->
                         </div>
-                        <div class="about-features-premium mt-5">
-                            <div class="premium-feature-card mb-4">
+                        <div class="about-features-premium">
+                            <div class="premium-feature-card mb-2">
                                 <div class="feature-icon-box bg-indigo-light">
                                     <i class="fa-solid fa-magnifying-glass-location text-indigo"></i>
                                 </div>
@@ -127,7 +133,7 @@
                                     <p class="text-muted mb-0">{{ 'FIND_BEST_PLACES_DESC' | translate }}</p>
                                 </div>
                             </div>
-                            <div class="premium-feature-card mb-4">
+                            <div class="premium-feature-card">
                                 <div class="feature-icon-box bg-amber-light">
                                     <i class="fa-solid fa-id-card-clip text-amber"></i>
                                 </div>
@@ -137,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="about-cta mt-5">
+                        <div class="about-cta mt-3">
                             <a routerLink="/listings" class="btn btn-primary px-5 py-3 rounded-pill fw-bold">
                                 {{ 'EXPLORE_NOW' | translate }}
                                 <i class="fa-solid ms-2"
@@ -165,7 +171,7 @@
 
 
     <!-- Browse Categories Section -->
-    <section class="categories-section">
+    <!-- <section class="categories-section">
         <div class="container">
             <div class="section-header text-center" data-aos="fade-up">
                 <h2 class="section-title display-6 fw-bold mt-2">{{ 'BROWSE_BY_CATEGORY' | translate }}</h2>
@@ -190,7 +196,6 @@
                 </div>
             </div>
         </div>
-    </section>
-
+    </section> -->
 
 </div>
