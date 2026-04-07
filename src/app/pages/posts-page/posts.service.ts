@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+
+export interface PostCommentPayload {
+    comment: string;
+    guest_name?: string;
+    guest_phone?: string;
+}
 
 @Injectable({
     providedIn: 'root'
@@ -11,13 +17,15 @@ export class PostsService {
 
     constructor(private http: HttpClient) { }
 
-    getPostsList(page: number = 1): Observable<HttpResponse<any[]>> {
-        // observe response so we can read WP pagination headers
-        return this.http.get<any[]>(`${this.apiUrl}/posts`, { params: { page }, observe: 'response' });
+    getPostsList(page: number = 1): Observable<any> {
+        return this.http.get(`${this.apiUrl}/posts`, { params: { page } });
     }
 
     getPostDetails(id: string): Observable<any> {
-        // WP returns the post object directly
         return this.http.get(`${this.apiUrl}/posts/${id}`);
+    }
+
+    submitComment(postId: number | string, payload: PostCommentPayload): Observable<any> {
+        return this.http.post(`${this.apiUrl}/posts/${postId}/comments`, payload);
     }
 }

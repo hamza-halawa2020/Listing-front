@@ -5,7 +5,7 @@ $gold-color: #f59e0b;
 
 
 // Investment opportunities list styles will inherit from global styles
-.review-area {
+.comment-area {
     padding: 80px 0;
     background-color: var(--creamBg);
 }
@@ -92,7 +92,7 @@ $gold-color: #f59e0b;
     }
 }
 
-.reviews-area {
+.comments-area {
     padding: 80px 0;
     background-color: var(--creamBg);
 }
@@ -120,7 +120,7 @@ $gold-color: #f59e0b;
     }
 }
 
-.review-card {
+.comment-card {
     background: #fff;
     border-radius: 20px;
     padding: 30px;
@@ -153,11 +153,11 @@ $gold-color: #f59e0b;
         }
     }
     
-    .review-content {
+    .comment-content {
         margin-top: 20px;
         margin-bottom: 25px;
         
-        .review-text {
+        .comment-text {
             font-size: 16px;
             line-height: 1.8;
             color: #555;
@@ -166,12 +166,12 @@ $gold-color: #f59e0b;
         }
     }
     
-    .reviewer-info {
+    .commenter-info {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
         
-        .reviewer-avatar {
+        .commenter-avatar {
             width: 50px;
             height: 50px;
             background: $primary-color;
@@ -189,15 +189,15 @@ $gold-color: #f59e0b;
             }
         }
         
-        .reviewer-details {
-            .reviewer-name {
+        .commenter-details {
+            .commenter-name {
                 font-size: 18px;
                 font-weight: 600;
                 color: $text-color;
                 margin-bottom: 5px;
             }
             
-            .review-date {
+            .comment-date {
                 font-size: 14px;
                 color: #666;
                 margin-bottom: 0;
@@ -335,7 +335,7 @@ $gold-color: #f59e0b;
         }
     }
     
-    .reviews-area {
+    .comments-area {
         padding: 60px 0;
     }
     
@@ -347,7 +347,7 @@ $gold-color: #f59e0b;
         }
     }
     
-    .review-card {
+    .comment-card {
         padding: 25px 20px;
         
         .quote-icon {
@@ -392,7 +392,7 @@ $gold-color: #f59e0b;
 
 // RTL Support
 :host-context([dir="rtl"]) {
-    .reviewer-info .reviewer-avatar {
+    .commenter-info .commenter-avatar {
         margin-right: 0;
         margin-left: 15px;
     }

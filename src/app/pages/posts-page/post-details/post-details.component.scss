@@ -1,11 +1,9 @@
-// Brand System
 $primary: #2563eb;
 $secondary: #f15a24;
 $dark: #0f172a;
 $text: #334155;
 $text-muted: #64748b;
 $white: #ffffff;
-$glass: rgba(255, 255, 255, 0.95);
 
 .section-padding {
     padding: 80px 0;
@@ -14,12 +12,12 @@ $glass: rgba(255, 255, 255, 0.95);
 .premium-post-details {
     background-color: #f8fafc;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
-// Post Header Banner
 .post-header-banner {
     position: relative;
-    height: 60vh;
+    height: 90vh;
     min-height: 500px;
     background-size: cover;
     background-position: center;
@@ -29,11 +27,8 @@ $glass: rgba(255, 255, 255, 0.95);
 
     .banner-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to top, rgba($dark, 0.9) 0%, rgba($dark, 0.4) 50%, transparent 100%);
+        inset: 0;
+        background: linear-gradient(to top, rgba($dark, 0.9) 0%, rgba($dark, 0.45) 50%, transparent 100%);
         z-index: 1;
     }
 
@@ -66,7 +61,7 @@ $glass: rgba(255, 255, 255, 0.95);
                     color: $white;
                 }
 
-                &+.breadcrumb-item::before {
+                & + .breadcrumb-item::before {
                     color: rgba($white, 0.3);
                 }
             }
@@ -74,25 +69,25 @@ $glass: rgba(255, 255, 255, 0.95);
 
         .post-meta {
             display: flex;
-            gap: 20px;
-            color: rgba($white, 0.8);
-            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 18px;
+            color: rgba($white, 0.85);
+            font-size: 0.95rem;
             font-weight: 500;
         }
 
         .post-title {
-            font-size: 4rem;
+            font-size: clamp(1.8rem, 5vw, 4rem);
             font-weight: 800;
             color: $white;
             line-height: 1.1;
-            letter-spacing: -2px;
+            letter-spacing: -1px;
             text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             max-width: 900px;
         }
     }
 }
 
-// Article Content
 .post-article-content {
     background: $white;
     padding: 60px;
@@ -102,6 +97,36 @@ $glass: rgba(255, 255, 255, 0.95);
     position: relative;
     z-index: 3;
     border: 1px solid rgba($primary, 0.03);
+
+    .insight-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .insight-card {
+        padding: 18px 20px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba($primary, 0.08), rgba($secondary, 0.14));
+        border: 1px solid rgba($primary, 0.08);
+
+        strong {
+            display: block;
+            color: $dark;
+            font-size: 1.45rem;
+            font-weight: 800;
+        }
+    }
+
+    .insight-label {
+        display: inline-block;
+        color: $text-muted;
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
 
     .content-body {
         color: $text;
@@ -143,7 +168,7 @@ $glass: rgba(255, 255, 255, 0.95);
                 padding-left: 25px;
                 font-style: italic;
                 color: $primary;
-                font-size: 1.4rem;
+                font-size: 1.3rem;
                 margin: 40px 0;
             }
         }
@@ -181,10 +206,203 @@ $glass: rgba(255, 255, 255, 0.95);
     }
 }
 
-// Skeleton Loader
+.comments-shell {
+    margin-top: 32px;
+    background: $white;
+    padding: 36px;
+    border-radius: 32px;
+    box-shadow: 0 30px 80px rgba($primary, 0.06);
+    border: 1px solid rgba($primary, 0.05);
+}
+
+.comments-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+
+    h2 {
+        margin-bottom: 8px;
+        color: $dark;
+        font-weight: 800;
+    }
+}
+
+.eyebrow {
+    margin-bottom: 8px;
+    color: $secondary;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.helper-text {
+    color: $text-muted;
+    margin-bottom: 0;
+}
+
+.member-chip {
+    min-width: 220px;
+    padding: 16px 20px;
+    border-radius: 22px;
+    background: #f8fafc;
+    border: 1px solid rgba($primary, 0.08);
+
+    span {
+        display: block;
+        color: $text-muted;
+        font-size: 0.85rem;
+        margin-bottom: 4px;
+    }
+
+    strong {
+        color: $dark;
+        font-size: 1.05rem;
+    }
+}
+
+.comment-form-card {
+    padding: 28px;
+    border-radius: 28px;
+    background: #f8fafc;
+    border: 1px solid rgba($primary, 0.08);
+
+    label {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: $dark;
+        font-weight: 700;
+    }
+
+    .form-control {
+        border-radius: 18px;
+        border: 1px solid rgba($primary, 0.12);
+        padding: 14px 16px;
+        box-shadow: none;
+
+        &:focus {
+            border-color: rgba($primary, 0.35);
+        }
+    }
+}
+
+.comment-form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+
+    p {
+        margin: 0;
+        color: $text-muted;
+    }
+}
+
+.submit-comment-btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 14px 26px;
+    background: linear-gradient(135deg, $primary, darken($primary, 10%));
+    color: $white;
+    font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba($primary, 0.25);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+.comments-list {
+    margin-top: 28px;
+}
+
+.comments-list-header {
+    margin-bottom: 18px;
+
+    h3 {
+        margin: 0;
+        color: $dark;
+        font-size: 1.35rem;
+        font-weight: 800;
+    }
+}
+
+.comment-card {
+    display: flex;
+    gap: 16px;
+    padding: 22px 0;
+    border-top: 1px solid rgba($primary, 0.08);
+}
+
+.comment-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $secondary, darken($secondary, 8%));
+    color: $white;
+    font-weight: 800;
+}
+
+.comment-content {
+    flex: 1;
+
+    p {
+        margin: 10px 0 0;
+        color: $text;
+        line-height: 1.8;
+    }
+}
+
+.comment-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    strong {
+        color: $dark;
+    }
+
+    span {
+        color: $text-muted;
+        font-size: 0.92rem;
+    }
+}
+
+.empty-comments {
+    padding: 28px;
+    text-align: center;
+    color: $text-muted;
+    border: 1px dashed rgba($primary, 0.16);
+    border-radius: 24px;
+
+    i {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1.6rem;
+        color: $secondary;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
 .skeleton-post-content {
     padding: 60px;
-    background: white;
+    background: $white;
     border-radius: 40px;
 
     .skeleton-line {
@@ -221,7 +439,6 @@ $glass: rgba(255, 255, 255, 0.95);
     }
 }
 
-// RTL
 :host-context([dir="rtl"]) {
     .post-header-banner .header-content .post-title {
         letter-spacing: 0;
@@ -243,17 +460,6 @@ $glass: rgba(255, 255, 255, 0.95);
     }
 }
 
-// Responsive
-.premium-post-details {
-    overflow-x: hidden; // prevent horizontal scroll on mobile
-}
-
-// Make title always fluid
-.post-header-banner .header-content .post-title {
-    font-size: clamp(1.5rem, 5vw, 4rem);
-    letter-spacing: -1px;
-}
-
 @media (max-width: 991px) {
     .post-header-banner {
         min-height: 360px;
@@ -269,6 +475,7 @@ $glass: rgba(255, 255, 255, 0.95);
         margin-top: -30px;
     }
 
+    .comments-shell,
     .skeleton-post-content {
         padding: 35px 25px;
         border-radius: 24px;
@@ -279,17 +486,16 @@ $glass: rgba(255, 255, 255, 0.95);
     .post-header-banner {
         height: 50vh;
         min-height: 280px;
-
-        .post-meta {
-            flex-wrap: wrap;
-            gap: 10px;
-        }
     }
 
     .post-article-content {
         padding: 22px 16px;
         border-radius: 16px;
         margin-top: -20px;
+
+        .insight-strip {
+            grid-template-columns: 1fr;
+        }
 
         .content-body {
             font-size: 1rem;
@@ -301,9 +507,17 @@ $glass: rgba(255, 255, 255, 0.95);
         }
     }
 
+    .comments-shell,
     .skeleton-post-content {
         padding: 22px 16px;
-        border-radius: 16px;
+        border-radius: 18px;
+    }
+
+    .comments-header,
+    .comment-form-footer,
+    .comment-card {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
 
@@ -313,7 +527,8 @@ $glass: rgba(255, 255, 255, 0.95);
         min-height: 240px;
     }
 
-    .post-article-content {
+    .post-article-content,
+    .comments-shell {
         padding: 16px 12px;
     }
 }

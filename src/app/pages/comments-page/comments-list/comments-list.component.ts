@@ -1,33 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ReviewsService } from '../reviews.service';
+import { CommentsService } from '../comments.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
-  selector: 'app-reviews-list',
+  selector: 'app-comments-list',
   standalone: true,
   imports: [CommonModule, RouterLink, TranslateModule, PaginationComponent],
-  templateUrl: './reviews-list.component.html',
-  styleUrls: ['./reviews-list.component.scss']
+  templateUrl: './comments-list.component.html',
+  styleUrls: ['./comments-list.component.scss']
 })
-export class ReviewsListComponent implements OnInit {
-  reviews: any[] = [];
+export class CommentsListComponent implements OnInit {
+  comments: any[] = [];
   isLoading: boolean = true;
   meta: any;
 
-  constructor(private reviewsService: ReviewsService) { }
+  constructor(private commentsService: CommentsService) { }
 
   ngOnInit(): void {
-    this.fetchReviews();
+    this.fetchComments();
   }
 
-  fetchReviews(page: number = 1) {
+  fetchComments(page: number = 1) {
     this.isLoading = true;
-    this.reviewsService.getReviewsList(page).subscribe({
+    this.commentsService.getCommentsList(page).subscribe({
       next: (response: any) => {
-        this.reviews = response.data;
+        this.comments = response.data;
         this.meta = response.meta;
         this.isLoading = false;
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -40,7 +40,7 @@ export class ReviewsListComponent implements OnInit {
 
   onPageChange(page: number) {
     if (this.meta && page >= 1 && page <= this.meta.last_page && page !== this.meta.current_page) {
-      this.fetchReviews(page);
+      this.fetchComments(page);
     }
   }
 

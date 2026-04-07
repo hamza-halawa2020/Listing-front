@@ -27,15 +27,12 @@ export class PostsListComponent implements OnInit {
     fetchPosts(page: number = 1) {
         this.isLoading = true;
         this.postsService.getPostsList(page).subscribe({
-            next: (resp) => {
-                // WP returns array body, pagination info in headers
-                this.posts = resp.body || [];
-                const total = resp.headers.get('X-WP-Total');
-                const totalPages = resp.headers.get('X-WP-TotalPages');
-                this.meta = {
-                    total: total ? +total : 0,
-                    last_page: totalPages ? +totalPages : 0,
-                    current_page: page
+            next: (response: any) => {
+                this.posts = response?.data || [];
+                this.meta = response?.meta || {
+                    total: this.posts.length,
+                    last_page: 1,
+                    current_page: page,
                 };
                 this.isLoading = false;
                 window.scrollTo({ top: 0, behavior: 'smooth' });

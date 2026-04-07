@@ -1,4 +1,4 @@
-<section class="review-area">
+<section class="comment-area">
     <div class="container">
         <div class="section-title text-center mt-5">
             <h2>{{ 'CLIENT_TESTIMONIALS' | translate }}</h2>
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Statistics Section -->
-        <section class="stats-section" *ngIf="!isLoading && reviews.length > 0">
+        <section class="stats-section" *ngIf="!isLoading && comments.length > 0">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
@@ -63,30 +63,30 @@
             </div>
         </section>
 
-        <!-- Reviews Section -->
-        <section class="reviews-area">
+        <!-- Comments Section -->
+        <section class="comments-area">
             <div class="container">
 
-                <!-- Reviews Grid -->
+                <!-- Comments Grid -->
                 <div class="row" *ngIf="!isLoading">
-                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let review of reviews; let i = index">
-                        <div class="review-card animate__animated animate__fadeInUp"
+                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let comment of comments; let i = index">
+                        <div class="comment-card animate__animated animate__fadeInUp"
                             [style.animation-delay]="i * 0.1 + 's'">
                             <div class="quote-icon">
                                 <i class="fa-solid fa-quote-left"></i>
                             </div>
 
-                            <div class="review-content">
-                                <p class="review-text">{{ review.review }}</p>
+                            <div class="comment-content">
+                                <p class="comment-text">{{ comment.comment }}</p>
                             </div>
 
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">
-                                    <span>{{ getInitials(review.name) }}</span>
+                            <div class="commenter-info">
+                                <div class="commenter-avatar">
+                                    <span>{{ getInitials(comment.name) }}</span>
                                 </div>
-                                <div class="reviewer-details">
-                                    <h4 class="reviewer-name">{{ review.name }}</h4>
-                                    <p class="review-date">{{ formatDate(review.created_at) }}</p>
+                                <div class="commenter-details">
+                                    <h4 class="commenter-name">{{ comment.name }}</h4>
+                                    <p class="comment-date">{{ formatDate(comment.created_at) }}</p>
                                 </div>
                             </div>
 
@@ -94,11 +94,11 @@
                         </div>
                     </div>
 
-                    <!-- No Reviews Message -->
-                    <div class="col-12 text-center py-5" *ngIf="reviews.length === 0">
+                    <!-- No Comments Message -->
+                    <div class="col-12 text-center py-5" *ngIf="comments.length === 0">
                         <div class="alert alert-info">
                             <i class="fa-solid fa-info-circle"></i>
-                            {{ 'NO_REVIEWS_FOUND' | translate }}
+                            {{ 'NO_COMMENTS_FOUND' | translate }}
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
         </section>
     </div>
     <!-- Call to Action Section -->
-    <section class="cta-section" *ngIf="!isLoading && reviews.length > 0">
+    <section class="cta-section" *ngIf="!isLoading && comments.length > 0">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">

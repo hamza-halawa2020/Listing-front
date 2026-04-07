@@ -20,7 +20,17 @@
         <h3>
             <a [routerLink]="[routePath, item.id]">{{ item.name || item.title?.rendered || item.title }}</a>
         </h3>
-        <div class="description-preview" [innerHTML]="item.description || item.excerpt?.rendered"></div>
+        <div class="card-meta" *ngIf="hasPostInsights()">
+            <span *ngIf="item.views_count !== undefined">
+                <i class="fa-regular fa-eye"></i>
+                {{ item.views_count }} {{ 'VIEWS' | translate }}
+            </span>
+            <span *ngIf="item.comments_count !== undefined">
+                <i class="fa-regular fa-comments"></i>
+                {{ item.comments_count }} {{ 'COMMENTS' | translate }}
+            </span>
+        </div>
+        <div class="description-preview" [innerHTML]="getDescriptionPreview()"></div>
 
         <div class="card-footer">
             <a [routerLink]="[routePath, item.id]" class="read-more-btn">

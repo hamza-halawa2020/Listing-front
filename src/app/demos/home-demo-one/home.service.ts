@@ -45,16 +45,16 @@ export class HomeService {
 
 
   getTestimonials(): Observable<any[]> {
-    return this.http.get<any>(`${this.apiUrl}/reviews?limit=3`)
+    return this.http.get<any>(`${this.apiUrl}/comments?limit=3`)
       .pipe(
         map(response => {
-          const reviews = response.data || [];
-          return reviews.map((review: any) => ({
-            id: review.id,
-            client_name: review.name,
-            comment: review.review,
-            status: review.status,
-            created_at: review.created_at
+          const comments = response.data || [];
+          return comments.map((comment: any) => ({
+            id: comment.id,
+            client_name: comment.name,
+            comment: comment.comment,
+            status: comment.status,
+            created_at: comment.created_at
           }));
         }),
         catchError(error => {

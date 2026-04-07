@@ -67,4 +67,16 @@ export class ContentCardComponent implements OnChanges {
     getImageUrl(): string {
         return this.imageSrc;
     }
+
+    getDescriptionPreview(): string {
+        if (typeof this.item?.excerpt === 'string' && this.item.excerpt.trim().length > 0) {
+            return this.item.excerpt;
+        }
+
+        return this.item?.description || this.item?.excerpt?.rendered || '';
+    }
+
+    hasPostInsights(): boolean {
+        return this.item?.views_count !== undefined || this.item?.comments_count !== undefined;
+    }
 }

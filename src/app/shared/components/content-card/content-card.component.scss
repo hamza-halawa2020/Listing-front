@@ -135,6 +135,26 @@ $text-color: #374151;
             }
         }
 
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 16px;
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+
+            span {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            i {
+                color: $secondary-color;
+            }
+        }
+
         .card-footer {
             border-top: 1px solid #f0f0f0;
             padding-top: 20px;

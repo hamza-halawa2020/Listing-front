@@ -6,16 +6,16 @@ import { environment } from '../../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class ReviewsService {
+export class CommentsService {
     private apiUrl = environment.backEndUrl;
 
     constructor(private http: HttpClient) { }
 
-    getReviewsList(page: number = 1): Observable<any> {
-        return this.http.get(`${this.apiUrl}/reviews?page=${page}`);
+    getCommentsList(page: number = 1): Observable<any> {
+        return this.http.get(`${this.apiUrl}/comments?page=${page}`);
     }
 
-    getReviewDetails(id: string): Observable<any> {
-        return this.http.get(`${this.apiUrl}/reviews/${id}`);
+    getCommentDetails(id: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/comments/${id}`);
     }
 }

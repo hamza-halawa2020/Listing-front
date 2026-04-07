@@ -62,8 +62,8 @@ export const routes: Routes = [
     },
 
     // {
-    //     path: 'testimonials',
-    //     loadComponent: () => import('./pages/reviews-page/reviews-list/reviews-list.component').then(m => m.ReviewsListComponent)
+    //     path: 'comments',
+    //     loadComponent: () => import('./pages/comments-page/comments-list/comments-list.component').then(m => m.CommentsListComponent)
     // },
 
 
