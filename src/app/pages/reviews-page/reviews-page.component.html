@@ -17,7 +17,7 @@
     <div class="container">
         <div class="reviews-header-content">
             <h2 class="reviews-title">{{ 'ALL_REVIEWS' | translate }}</h2>
-            <button class="btn btn-primary btn-add-review" (click)="addReviewModal.openModal()">
+            <button class="btn-add-review btn-search-premium w-25" (click)="addReviewModal.openModal()">
                 <i class="fa-solid fa-plus"></i>
                 {{ 'ADD_REVIEW' | translate }}
             </button>
@@ -67,10 +67,13 @@
                 </div>
             </div>
         </div>
+        <!-- Pagination -->
+        <div class="pagination-wrap" *ngIf="reviews.length > 0">
+            <app-pagination [meta]="meta" (pageChange)="onPageChange($event)"></app-pagination>
+        </div>
     </div>
 </section>
 
 <!-- Add Review Modal Component -->
 <app-add-review-modal #addReviewModal (reviewAdded)="onReviewAdded()"></app-add-review-modal>
 
-<app-footer></app-footer>

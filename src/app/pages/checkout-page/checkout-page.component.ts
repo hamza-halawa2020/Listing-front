@@ -88,7 +88,6 @@ export class CheckoutPageComponent implements OnInit {
                 this.isLoading = false;
             },
             error: (err) => {
-                // console.error('Error fetching plan details:', err);
                 this.router.navigate(['/pricing']);
             }
         });
@@ -110,7 +109,6 @@ export class CheckoutPageComponent implements OnInit {
                 this.governorates = allLocations.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
             },
             error: (err) => {
-                // console.error('Error fetching governorates:', err);
                 this.governorates = [];
             }
         });
@@ -194,10 +192,8 @@ export class CheckoutPageComponent implements OnInit {
 
         if (this.attachment) {
             (data as any).attachment = this.attachment;
-            // console.log('Attachment added to data:', this.attachment.name);
         }
 
-        // console.log('Final data before sending:', data);
 
         this.paymentService.createPayment(data).subscribe({
             next: (response) => {
@@ -208,7 +204,6 @@ export class CheckoutPageComponent implements OnInit {
                 }, 3000);
             },
             error: (err) => {
-                // console.error('Payment error response:', err);
                 const extractedValidationErrors = this.extractValidationErrors(err);
                 this.validationErrors = extractedValidationErrors;
                 this.errorMessage = extractedValidationErrors.length

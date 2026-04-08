@@ -89,7 +89,6 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.settings = data;
                 },
                 error: (error: any) => {
-                    // console.error('Error fetching settings:', error);
                 }
             })
         );

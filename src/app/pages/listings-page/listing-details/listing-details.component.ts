@@ -193,7 +193,6 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 this.map.invalidateSize();
             }, 200);
         } catch (e) {
-            // console.error('Error initializing Leaflet map:', e);
         }
     }
 

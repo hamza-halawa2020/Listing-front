@@ -45,7 +45,6 @@ export class ContentCardComponent implements OnChanges {
                     this.imageSrc = media?.source_url || '';
                 },
                 error: (err) => {
-                    // console.error('Error loading media for item:', this.item.id, err);
                     this.fallbackImage();
                 }
             });

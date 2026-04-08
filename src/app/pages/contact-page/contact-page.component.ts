@@ -44,7 +44,6 @@ export class ContactPageComponent implements OnInit, OnDestroy {
                     this.isLoading = false;
                 },
                 error: (error: any) => {
-                    // console.error('Error fetching settings:', error);
                     this.isLoading = false;
                 }
             })

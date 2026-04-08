@@ -114,7 +114,6 @@ export class AddReviewComponent implements OnInit, OnDestroy {
                 this.translate.get('REVIEW_SUBMISSION_ERROR').subscribe(msg => {
                     this.errorMessage = msg;
                 });
-                console.error('Error:', error);
             }
         });
     }

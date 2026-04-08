@@ -88,7 +88,6 @@ export class SubscriptionCheckPageComponent {
                 this.isLoading = false;
             },
             error: (err) => {
-                // console.error('Subscription check error:', err);
                 this.errorMessage = err.error?.message || 'MEMBER_NOT_FOUND';
                 this.isLoading = false;
             }

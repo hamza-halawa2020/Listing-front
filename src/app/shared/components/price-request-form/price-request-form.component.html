@@ -1,0 +1,176 @@
+<div class="price-request-container">
+  <div class="request-form-wrapper">
+    <div class="form-header">
+      <h3>{{ 'PRICE_REQUEST_TITLE' | translate }}</h3>
+      <p>{{ 'PRICE_REQUEST_SUBTITLE' | translate }}</p>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle me-2"></i>
+      {{ successMessage | translate }}
+      <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ errorMessage | translate }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <form [formGroup]="priceRequestForm" (ngSubmit)="onSubmit()">
+      <!-- Company Type -->
+      <div class="form-group mb-4">
+        <label class="form-label">{{ 'CLIENT_TYPE_LABEL' | translate }} <span class="text-danger">*</span></label>
+        <div class="company-type-options">
+          <div *ngFor="let type of companyTypes" class="type-option">
+            <input type="radio" [id]="type.value" [value]="type.value" formControlName="company_type"
+              (change)="onCompanyTypeChange()">
+            <label [for]="type.value" class="option-label">
+              <i class="fas" [ngClass]="{
+                'fa-user': type.value === 'individual',
+                'fa-building': type.value === 'company',
+                'fa-users': type.value === 'organization'
+              }"></i>
+              {{ type.labelKey | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company Name - Only for company/organization -->
+      <div class="form-group mb-3" *ngIf="priceRequestForm.get('company_type')?.value !== 'individual'">
+        <label for="company_name" class="form-label">{{ 'COMPANY_NAME_LABEL' | translate }}</label>
+        <input type="text" class="form-control" id="company_name" formControlName="company_name"
+          [placeholder]="'COMPANY_NAME_PLACEHOLDER' | translate">
+      </div>
+
+      <!-- Employee Count - Only for company/organization -->
+      <div class="form-group mb-3" *ngIf="priceRequestForm.get('company_type')?.value !== 'individual'">
+        <label for="employee_count" class="form-label">{{ 'EMPLOYEE_COUNT_LABEL' | translate }}</label>
+        <input type="number" class="form-control" id="employee_count" formControlName="employee_count"
+          [placeholder]="'EMPLOYEE_COUNT_PLACEHOLDER' | translate" min="1" max="10000">
+        <small class="form-text text-muted d-block mt-1">{{ 'EMPLOYEE_COUNT_HINT' | translate }}</small>
+      </div>
+
+      <!-- Contact Person -->
+      <div class="form-group mb-3">
+        <label for="contact_person" class="form-label">{{ 'CONTACT_PERSON_LABEL' | translate }} <span
+            class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="contact_person" formControlName="contact_person"
+          [placeholder]="'CONTACT_PERSON_PLACEHOLDER' | translate"
+          [class.is-invalid]="priceRequestForm.get('contact_person')?.invalid && priceRequestForm.get('contact_person')?.touched">
+        <div class="invalid-feedback d-block"
+          *ngIf="priceRequestForm.get('contact_person')?.invalid && priceRequestForm.get('contact_person')?.touched">
+          {{ 'CONTACT_PERSON_REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <!-- Email and Phone Row -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="email" class="form-label">{{ 'EMAIL_LABEL' | translate }} <span
+                class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="email" formControlName="email"
+              [placeholder]="'EMAIL_PLACEHOLDER' | translate"
+              [class.is-invalid]="priceRequestForm.get('email')?.invalid && priceRequestForm.get('email')?.touched">
+            <div class="invalid-feedback d-block"
+              *ngIf="priceRequestForm.get('email')?.invalid && priceRequestForm.get('email')?.touched">
+              <div *ngIf="priceRequestForm.get('email')?.errors?.['required']">{{ 'EMAIL_REQUIRED' | translate }}</div>
+              <div *ngIf="priceRequestForm.get('email')?.errors?.['email']">{{ 'EMAIL_INVALID' | translate }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="phone" class="form-label">{{ 'PHONE_LABEL' | translate }} <span
+                class="text-danger">*</span></label>
+            <input type="tel" class="form-control" id="phone" formControlName="phone"
+              [placeholder]="'PHONE_PLACEHOLDER' | translate"
+              [class.is-invalid]="priceRequestForm.get('phone')?.invalid && priceRequestForm.get('phone')?.touched">
+            <div class="invalid-feedback d-block"
+              *ngIf="priceRequestForm.get('phone')?.invalid && priceRequestForm.get('phone')?.touched">
+              {{ 'PHONE_REQUIRED' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Services Needed -->
+      <div class="form-group mb-3">
+        <label for="services_needed" class="form-label">{{ 'SERVICES_NEEDED_LABEL' | translate }} <span
+            class="text-danger">*</span></label>
+        <textarea class="form-control" id="services_needed" formControlName="services_needed" rows="4"
+          [placeholder]="'SERVICES_NEEDED_PLACEHOLDER' | translate"
+          [class.is-invalid]="priceRequestForm.get('services_needed')?.invalid && priceRequestForm.get('services_needed')?.touched"></textarea>
+        <small class="form-text text-muted d-block mt-1">
+          {{ priceRequestForm.get('services_needed')?.value?.length || 0 }} / 2000 {{ 'SERVICES_NEEDED_HINT' | translate
+          }}
+        </small>
+        <div class="invalid-feedback d-block"
+          *ngIf="priceRequestForm.get('services_needed')?.invalid && priceRequestForm.get('services_needed')?.touched">
+          <div *ngIf="priceRequestForm.get('services_needed')?.errors?.['required']">{{ 'SERVICES_REQUIRED' | translate
+            }}</div>
+          <div *ngIf="priceRequestForm.get('services_needed')?.errors?.['minlength']">{{ 'SERVICES_MIN_LENGTH' |
+            translate }}</div>
+        </div>
+      </div>
+
+      <!-- Additional Requirements -->
+      <div class="form-group mb-3">
+        <label for="additional_requirements" class="form-label">{{ 'ADDITIONAL_REQUIREMENTS_LABEL' | translate
+          }}</label>
+        <textarea class="form-control" id="additional_requirements" formControlName="additional_requirements" rows="3"
+          [placeholder]="'ADDITIONAL_REQUIREMENTS_PLACEHOLDER' | translate"></textarea>
+        <small class="form-text text-muted d-block mt-1">
+          {{ priceRequestForm.get('additional_requirements')?.value?.length || 0 }} / 2000 {{
+          'ADDITIONAL_REQUIREMENTS_HINT' | translate }}
+        </small>
+      </div>
+
+      <!-- Budget Range and Timeline Row -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="budget_range" class="form-label">{{ 'BUDGET_RANGE_LABEL' | translate }}</label>
+            <select class="form-select" id="budget_range" formControlName="budget_range">
+              <option value="">{{ 'BUDGET_RANGE_PLACEHOLDER' | translate }}</option>
+              <option *ngFor="let budget of budgetRanges" [value]="budget.value">
+                {{ budget.labelKey | translate }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="timeline" class="form-label">{{ 'TIMELINE_LABEL' | translate }}</label>
+            <select class="form-select" id="timeline" formControlName="timeline">
+              <option value="">{{ 'TIMELINE_PLACEHOLDER' | translate }}</option>
+              <option *ngFor="let time of timelines" [value]="time.value">
+                {{ time.labelKey | translate }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="isSubmitting || priceRequestForm.invalid">
+          <span *ngIf="!isSubmitting">
+            <i class="fas fa-paper-plane me-2"></i>{{ 'SUBMIT_PRICE_REQUEST' | translate }}
+          </span>
+          <span *ngIf="isSubmitting">
+            <i class="fas fa-spinner fa-spin me-2"></i>{{ 'SUBMITTING_PRICE_REQUEST' | translate }}
+          </span>
+        </button>
+      </div>
+
+      <p class="text-center text-muted mt-3 small">
+        {{ 'PRICE_REQUEST_FOOTER' | translate }}
+      </p>
+    </form>
+  </div>
+</div>

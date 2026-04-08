@@ -543,7 +543,6 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.map.invalidateSize();
             }, 500);
         } catch (e) {
-            // console.error('Leaflet not loaded or container not found', e);
         }
     }
 

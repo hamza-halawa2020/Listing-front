@@ -181,7 +181,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }));
             },
             error: (err: any) => {
-                // console.error('Error fetching categories for home:', err);
             }
         });
     }
@@ -197,12 +196,9 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         this.listingsService.getLocations().subscribe({
             next: (response: any) => {
                 const data = response.data || response;
-                // Cities don't have parents (parent_id = null)
-                // In the new API structure, top level items might be cities and have children.
                 this.cities = data.filter((loc: any) => !loc.parent_id || loc.parent_id === 0);
             },
             error: (err: any) => {
-                // console.error('Error fetching locations:', err);
             }
         });
     }
@@ -211,7 +207,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         this.selectedArea = '';
         if (this.selectedCity) {
             const cityId = Number(this.selectedCity);
-            // Find the selected city and get its nested children
             const selectedCityObj = this.cities.find(c => c.id === cityId);
             this.areas = selectedCityObj && selectedCityObj.children ? selectedCityObj.children : [];
         } else {
@@ -302,7 +297,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }, 500);
             },
             error: (error) => {
-                // console.error('Error loading home data:', error);
                 if (!this.homeData) {
                     this.homeData = {
                         stats: this.defaultStats,
@@ -510,7 +504,5 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     }
 
     onReviewAdded(): void {
-        // Review processing complete
-        // console.log('Review added successfully from home page');
     }
 }

@@ -70,6 +70,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             label: 'PRICING',
             route: '/pricing'
         },
+        {
+            label: 'PRICE_REQUEST',
+            route: '/price-request'
+        },
     ];
 
     // Languages available
