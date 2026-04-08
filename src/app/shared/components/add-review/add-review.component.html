@@ -1,0 +1,134 @@
+<div class="add-review-container">
+  <div class="review-form-wrapper">
+    <div class="form-header">
+      <h3>{{ 'ADD_REVIEW_TITLE' | translate }}</h3>
+      <p *ngIf="!isLoggedIn">{{ 'SHARE_YOUR_OPINION' | translate }}</p>
+      <p *ngIf="isLoggedIn" class="logged-in-note">
+        <i class="fas fa-check-circle ms-2"></i>
+        {{ 'LOGGED_IN_GREETING' | translate: {name: currentUser?.name} }}
+      </p>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle me-2"></i>
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+      <!-- Rating Selection -->
+      <div class="form-group mb-4">
+        <label class="form-label">{{ 'RATING_LABEL' | translate }} <span class="text-danger">*</span></label>
+        <div class="rating-selector">
+          <button *ngFor="let star of getStars(5)" type="button" class="star-btn"
+            [class.active]="star <= selectedRating" (click)="setRating(star)"
+            [title]="star + ' ' + ('STARS_LABEL' | translate)">
+            <i class="fas fa-star"></i>
+          </button>
+          <span class="rating-text ms-3">{{ selectedRating }} / 5</span>
+        </div>
+      </div>
+
+      <!-- Name - Hidden for logged in users -->
+      <div class="form-group mb-3" *ngIf="!isLoggedIn">
+        <label for="guest_name" class="form-label">{{ 'NAME_LABEL' | translate }} <span
+            class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="guest_name" formControlName="guest_name"
+          [placeholder]="'ENTER_YOUR_NAME' | translate"
+          [class.is-invalid]="reviewForm.get('guest_name')?.invalid && reviewForm.get('guest_name')?.touched">
+        <div class="invalid-feedback d-block"
+          *ngIf="reviewForm.get('guest_name')?.invalid && reviewForm.get('guest_name')?.touched">
+          {{ 'NAME_REQUIRED_ERROR' | translate }}
+        </div>
+      </div>
+
+      <!-- Logged in user name display -->
+      <div class="form-group mb-3 logged-in-field" *ngIf="isLoggedIn">
+        <label class="form-label">{{ 'NAME_LABEL' | translate }}</label>
+        <div class="logged-in-value">
+          <i class="fas fa-user-check me-2"></i>
+          {{ currentUser?.name }}
+        </div>
+      </div>
+
+      <!-- Email - Hidden for logged in users -->
+      <div class="form-group mb-3" *ngIf="!isLoggedIn">
+        <label for="guest_email" class="form-label">{{ 'EMAIL_LABEL' | translate }}</label>
+        <input type="email" class="form-control" id="guest_email" formControlName="guest_email"
+          placeholder="example@email.com"
+          [class.is-invalid]="reviewForm.get('guest_email')?.invalid && reviewForm.get('guest_email')?.touched">
+        <div class="invalid-feedback d-block"
+          *ngIf="reviewForm.get('guest_email')?.invalid && reviewForm.get('guest_email')?.touched">
+          {{ 'EMAIL_INVALID_ERROR' | translate }}
+        </div>
+      </div>
+
+      <!-- Logged in user email display -->
+      <div class="form-group mb-3 logged-in-field" *ngIf="isLoggedIn && currentUser?.email">
+        <label class="form-label">{{ 'EMAIL_LABEL' | translate }}</label>
+        <div class="logged-in-value">
+          <i class="fas fa-envelope-check me-2"></i>
+          {{ currentUser?.email }}
+        </div>
+      </div>
+
+      <!-- Phone - Hidden for logged in users -->
+      <div class="form-group mb-3" *ngIf="!isLoggedIn">
+        <label for="guest_phone" class="form-label">{{ 'PHONE_LABEL' | translate }}</label>
+        <input type="tel" class="form-control" id="guest_phone" formControlName="guest_phone"
+          [placeholder]="'PHONE_PLACEHOLDER' | translate">
+      </div>
+
+      <!-- Logged in user phone display -->
+      <div class="form-group mb-3 logged-in-field" *ngIf="isLoggedIn && currentUser?.phone">
+        <label class="form-label">{{ 'PHONE_LABEL' | translate }}</label>
+        <div class="logged-in-value">
+          <i class="fas fa-phone-check me-2"></i>
+          {{ currentUser?.phone }}
+        </div>
+      </div>
+
+      <!-- Review Text -->
+      <div class="form-group mb-4">
+        <label for="review" class="form-label">{{ 'REVIEW_LABEL' | translate }} <span
+            class="text-danger">*</span></label>
+        <textarea class="form-control" id="review" formControlName="review" rows="5"
+          [placeholder]="'REVIEW_PLACEHOLDER' | translate"
+          [class.is-invalid]="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched"></textarea>
+        <small class="form-text text-muted d-block mt-2">
+          {{ reviewForm.get('review')?.value?.length || 0 }} / 500 {{ 'CHARACTER_COUNT' | translate }}
+        </small>
+        <div class="invalid-feedback d-block"
+          *ngIf="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched">
+          <div *ngIf="reviewForm.get('review')?.errors?.['required']">{{ 'REVIEW_LABEL' | translate }} {{ 'REQUIRED' |
+            translate }}</div>
+          <div *ngIf="reviewForm.get('review')?.errors?.['minlength']">{{ 'REVIEW_MIN_LENGTH_ERROR' | translate }}</div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="isSubmitting || reviewForm.invalid">
+          <span *ngIf="!isSubmitting">
+            <i class="fas fa-paper-plane me-2"></i>{{ 'SUBMIT_REVIEW_BUTTON' | translate }}
+          </span>
+          <span *ngIf="isSubmitting">
+            <i class="fas fa-spinner fa-spin me-2"></i>{{ 'SUBMITTING_REVIEW' | translate }}
+          </span>
+        </button>
+      </div>
+
+      <p class="text-center text-muted mt-3 small">
+        {{ 'REVIEW_SUBMISSION_NOTE' | translate }}
+      </p>
+    </form>
+  </div>
+</div>

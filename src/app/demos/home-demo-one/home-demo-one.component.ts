@@ -11,6 +11,8 @@ import { HomeService, HomeData } from './home.service';
 import { ListingsService } from '../../pages/listings-page/listings.service';
 import { FormsModule } from '@angular/forms';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
+import { ReviewsSliderComponent } from '../../shared/components/reviews-slider/reviews-slider.component';
+import { AddReviewModalComponent } from '../../shared/components/add-review-modal/add-review-modal.component';
 
 @Component({
     selector: 'app-home-demo-one',
@@ -29,6 +31,8 @@ import { SearchableSelectComponent } from '../../shared/components/searchable-se
         BackToTopComponent,
         FormsModule,
         SearchableSelectComponent,
+        AddReviewModalComponent,
+        ReviewsSliderComponent,
     ],
     templateUrl: './home-demo-one.component.html',
     styleUrl: './home-demo-one.component.scss',
@@ -37,6 +41,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     @ViewChild('statsSection', { static: false }) statsSection!: ElementRef;
     @ViewChild('testimonialsCarousel', { static: false }) testimonialsCarousel!: CarouselComponent;
     @ViewChild('partnersCarousel', { static: false }) partnersCarousel!: CarouselComponent;
+    @ViewChild(AddReviewModalComponent) addReviewModal!: AddReviewModalComponent;
 
     homeData: HomeData | null = null;
     isLoading = true;
@@ -365,7 +370,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
     private updateCarouselOptions(): void {
         if (this.homeData) {
- 
             const testimonialsCount = this.homeData.testimonials?.length || 0;
             if (testimonialsCount > 0) {
                 this.testimonialsCarouselOptions = {
@@ -499,5 +503,14 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
                 }, 40);
             }
         }, 1000);
+    }
+
+    openAddReviewModal(): void {
+        this.addReviewModal.openModal();
+    }
+
+    onReviewAdded(): void {
+        // Review processing complete
+        // console.log('Review added successfully from home page');
     }
 }

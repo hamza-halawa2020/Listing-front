@@ -1,0 +1,15 @@
+/* Modal Styles */
+::ng-deep .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom: none;
+
+    .modal-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    .btn-close {
+        filter: brightness(0) invert(1);
+    }
+}

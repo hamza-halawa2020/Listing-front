@@ -66,6 +66,24 @@
     }
 }
 
+// Add Review Button Section
+.add-review-button-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+
+    .btn {
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+    }
+}
+
 // About Section
 .about-section {
     background-color: #f8fafc;

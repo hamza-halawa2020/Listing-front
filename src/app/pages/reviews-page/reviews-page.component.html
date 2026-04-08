@@ -1,0 +1,76 @@
+<section class="reviews-page-banner">
+    <div class="reviews-message-card" role="img" [attr.aria-label]="'REVIEWS' | translate">
+        <div class="reviews-message-overlay">
+            <h1 class="reviews-message-subtitle">{{ 'REVIEWS' | translate }}</h1>
+            <p>{{ 'READ_OUR_CLIENTS_REVIEWS' | translate }}</p>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/">{{ 'HOME' | translate }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ 'REVIEWS' | translate }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="reviews-content-section">
+    <div class="container">
+        <div class="reviews-header-content">
+            <h2 class="reviews-title">{{ 'ALL_REVIEWS' | translate }}</h2>
+            <button class="btn btn-primary btn-add-review" (click)="addReviewModal.openModal()">
+                <i class="fa-solid fa-plus"></i>
+                {{ 'ADD_REVIEW' | translate }}
+            </button>
+        </div>
+
+        <div *ngIf="isLoading" class="loading-section">
+            <div class="spinner"></div>
+            <p>{{ 'LOADING_REVIEWS' | translate }}</p>
+        </div>
+
+        <div *ngIf="!isLoading && reviews.length === 0" class="no-reviews-section">
+            <div class="no-reviews-card">
+                <i class="fa-solid fa-comment-slash"></i>
+                <p>{{ 'NO_REVIEWS_YET' | translate }}</p>
+                <p class="text-muted">{{ 'BE_FIRST_TO_REVIEW' | translate }}</p>
+            </div>
+        </div>
+
+        <div *ngIf="!isLoading && reviews.length > 0" class="reviews-grid">
+            <div *ngFor="let review of reviews" class="review-item">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-author">
+                            <div class="author-avatar">
+                                {{ (review.author_name || review.guest_name || 'G')?.charAt(0)?.toUpperCase() }}
+                            </div>
+                            <div class="author-details">
+                                <h4 class="author-name">{{ review.author_name || review.guest_name || 'ضيف' }}</h4>
+                                <p class="review-date">{{ review.created_at | date: 'dd MMM yyyy' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-rating">
+                        <span *ngFor="let star of getRatingStars(review.rating)" class="star">⭐</span>
+                        <span class="rating-value">({{ review.rating }}/5)</span>
+                    </div>
+
+                    <p class="review-text">{{ review.review }}</p>
+
+                    <div class="review-footer">
+                        <span *ngIf="review.guest_email" class="guest-email">
+                            <i class="fa-solid fa-envelope"></i>
+                            {{ review.guest_email }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Review Modal Component -->
+<app-add-review-modal #addReviewModal (reviewAdded)="onReviewAdded()"></app-add-review-modal>
+
+<app-footer></app-footer>

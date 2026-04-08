@@ -198,4 +198,20 @@
         </div>
     </section> -->
 
+    <!-- Reviews Slider Section -->
+    <app-reviews-slider></app-reviews-slider>
+
+    <!-- Add Review Modal Button Section -->
+    <section class="add-review-button-section">
+        <div class="container text-center">
+            <button class="btn btn-primary btn-lg" (click)="openAddReviewModal()">
+                <i class="fa-solid fa-plus me-2"></i>
+                {{ 'ADD_REVIEW' | translate }}
+            </button>
+        </div>
+    </section>
+
+    <!-- Add Review Modal Component -->
+    <app-add-review-modal #addReviewModal (reviewAdded)="onReviewAdded()"></app-add-review-modal>
+
 </div>

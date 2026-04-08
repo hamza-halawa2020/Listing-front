@@ -1,0 +1,10 @@
+<!-- Add Review Modal -->
+<ng-template #addReviewModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'ADD_YOUR_REVIEW' | translate }}</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <app-add-review (reviewAdded)="onReviewAdded($event)"></app-add-review>
+    </div>
+</ng-template>

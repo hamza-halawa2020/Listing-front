@@ -60,11 +60,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/listings-page/listing-details/listing-details.component').then(m => m.ListingDetailsComponent),
         canActivate: [AuthGuard]
     },
+    {
+        path: 'reviews',
+        loadComponent: () => import('./pages/reviews-page/reviews-page.component').then(m => m.ReviewsPageComponent)
+    },
 
-    // {
-    //     path: 'comments',
-    //     loadComponent: () => import('./pages/comments-page/comments-list/comments-list.component').then(m => m.CommentsListComponent)
-    // },
 
 
     { path: '**', component: ErrorPageComponent },
