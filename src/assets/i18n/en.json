@@ -611,5 +611,17 @@
   "PRICE_REQUEST_CALL_US": "Call Us",
   "PRICE_REQUEST_EMAIL_TITLE": "Email",
   "PRICE_REQUEST_EMAIL_DESC": "Send us your inquiry via email",
-  "PRICE_REQUEST_EMAIL_US": "Email Us"
+  "PRICE_REQUEST_EMAIL_US": "Email Us",
+  "COMPANY_SOLUTIONS_EYEBROW": "Corporate Solutions",
+  "COMPANY_SOLUTIONS_TITLE": "Smart Health Solutions for Companies",
+  "COMPANY_SOLUTIONS_SUBTITLE": "A tailored medical discount program for employees and their families.",
+  "COMPANY_SOLUTIONS_INTRO": "Below the image you can write the following:",
+  "COMPANY_SOLUTIONS_BENEFIT_LEAD": "A medical discount program designed for company employees and their families, helping companies to:",
+  "COMPANY_SOLUTIONS_BENEFIT_1": "Improve employee satisfaction",
+  "COMPANY_SOLUTIONS_BENEFIT_2": "Reduce absenteeism due to health issues",
+  "COMPANY_SOLUTIONS_BENEFIT_3": "Provide competitive employee benefits",
+  "COMPANY_SOLUTIONS_BENEFIT_4": "Lower treatment costs compared to traditional insurance",
+  "COMPANY_SOLUTIONS_CTA": "Do you want to improve healthcare for your employees? Start now with Share & Care and request a customized quote for your company.",
+  "COMPANY_SOLUTIONS_REQUEST_QUOTE": "Request a Quote",
+  "COMPANY_SOLUTIONS_WHATSAPP": "Contact via WhatsApp"
 }

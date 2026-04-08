@@ -1,0 +1,41 @@
+<main class="company-solutions-page">
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <span class="eyebrow">{{ 'COMPANY_SOLUTIONS_EYEBROW' | translate }}</span>
+                <h1>{{ 'COMPANY_SOLUTIONS_TITLE' | translate }}</h1>
+                <p class="subtitle">{{ 'COMPANY_SOLUTIONS_SUBTITLE' | translate }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container content-grid">
+            <div class="image-card">
+                <img src="assets/images/company_solution.jpeg" alt="{{ 'COMPANY_SOLUTIONS_TITLE' | translate }}" />
+            </div>
+
+            <div class="text-card">
+                <p class="intro">{{ 'COMPANY_SOLUTIONS_INTRO' | translate }}</p>
+                <ul class="benefits-list">
+                    <li>{{ 'COMPANY_SOLUTIONS_BENEFIT_LEAD' | translate }}</li>
+                    <li>{{ 'COMPANY_SOLUTIONS_BENEFIT_1' | translate }}</li>
+                    <li>{{ 'COMPANY_SOLUTIONS_BENEFIT_2' | translate }}</li>
+                    <li>{{ 'COMPANY_SOLUTIONS_BENEFIT_3' | translate }}</li>
+                    <li>{{ 'COMPANY_SOLUTIONS_BENEFIT_4' | translate }}</li>
+                </ul>
+
+                <p class="cta-text">{{ 'COMPANY_SOLUTIONS_CTA' | translate }}</p>
+
+                <div class="button-row">
+                    <a routerLink="/price-request" class="btn btn-primary btn-request">
+                        {{ 'COMPANY_SOLUTIONS_REQUEST_QUOTE' | translate }}
+                    </a>
+                    <a href="https://wa.me/201030032281?text=مرحبا%20أنا%20أرغب%20في%20معرفة%20عروض%20الرعاية%20الصحية%20للشركات" target="_blank" rel="noopener" class="btn btn-whatsapp">
+                        {{ 'COMPANY_SOLUTIONS_WHATSAPP' | translate }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

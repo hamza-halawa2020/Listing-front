@@ -690,6 +690,18 @@
   "PRICE_REQUEST_CALL_US": "اتصل بنا",
   "PRICE_REQUEST_EMAIL_TITLE": "البريد الإلكتروني",
   "PRICE_REQUEST_EMAIL_DESC": "أرسل لنا استفسارك عبر البريد الإلكتروني",
-  "PRICE_REQUEST_EMAIL_US": "راسلنا"
+  "PRICE_REQUEST_EMAIL_US": "راسلنا",
+  "COMPANY_SOLUTIONS_EYEBROW": "حلول الشركات",
+  "COMPANY_SOLUTIONS_TITLE": "حلول صحية ذكية للشركات",
+  "COMPANY_SOLUTIONS_SUBTITLE": "برنامج خصومات طبية مخصص لموظفي الشركات وأسرهم.",
+  "COMPANY_SOLUTIONS_INTRO": "تحت الصورة يمكنك كتابة ما يلي:",
+  "COMPANY_SOLUTIONS_BENEFIT_LEAD": "برنامج خصومات طبية مصمم لموظفي الشركات وأسرهم، يساعد الشركات على:",
+  "COMPANY_SOLUTIONS_BENEFIT_1": "تحسين رضا الموظفين",
+  "COMPANY_SOLUTIONS_BENEFIT_2": "تقليل الغياب بسبب المشاكل الصحية",
+  "COMPANY_SOLUTIONS_BENEFIT_3": "تقديم مزايا تنافسية للموظفين",
+  "COMPANY_SOLUTIONS_BENEFIT_4": "تقليل تكاليف العلاج مقارنة بالتأمين التقليدي",
+  "COMPANY_SOLUTIONS_CTA": "هل تريد تحسين الرعاية الصحية لموظفيك؟ ابدأ الآن مع Share & Care واطلب عرض سعر مخصص لشركتك.",
+  "COMPANY_SOLUTIONS_REQUEST_QUOTE": "اطلب عرض سعر",
+  "COMPANY_SOLUTIONS_WHATSAPP": "تواصل عبر WhatsApp"
 }
 

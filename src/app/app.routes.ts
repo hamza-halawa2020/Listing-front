@@ -68,8 +68,10 @@ export const routes: Routes = [
         path: 'price-request',
         loadComponent: () => import('./pages/price-request/price-request.component').then(m => m.PriceRequestComponent)
     },
-
-
+    {
+        path: 'company-solutions',
+        loadComponent: () => import('./pages/company-solutions-page/company-solutions-page.component').then(m => m.CompanySolutionsPageComponent)
+    },
 
     { path: '**', component: ErrorPageComponent },
 ];
