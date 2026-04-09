@@ -215,7 +215,7 @@
   "VISION_MISSION_IMPACT_4": "خصومات تصل إلى 50%",
   "VISION_MISSION_IMPACT_LABEL_1": "مستفيد",
   "VISION_MISSION_IMPACT_LABEL_2": "مقدم خدمة طبية",
-  "VISION_MISSION_IMPACT_LABEL_3": "تغطية في جميع محافظات مصر",
+  "VISION_MISSION_IMPACT_LABEL_3": "تغطية في محافظات مصر",
   "VISION_MISSION_IMPACT_LABEL_4": "خصومات تصل إلى",
   "ABOUT_STORY_HEADLINE_1": "ارتفاع تكاليف الرعاية الصحية يجعل الحصول على العلاج تحديًا يوميًا للأفراد والشركات على حد سواء.",
   "ABOUT_STORY_TITLE_2": "من هنا ولدت فكرة Share & Care",
@@ -702,6 +702,9 @@
   "COMPANY_SOLUTIONS_BENEFIT_4": "تقليل تكاليف العلاج مقارنة بالتأمين التقليدي",
   "COMPANY_SOLUTIONS_CTA": "هل تريد تحسين الرعاية الصحية لموظفيك؟ ابدأ الآن مع Share & Care واطلب عرض سعر مخصص لشركتك.",
   "COMPANY_SOLUTIONS_REQUEST_QUOTE": "اطلب عرض سعر",
-  "COMPANY_SOLUTIONS_WHATSAPP": "تواصل عبر WhatsApp"
+  "COMPANY_SOLUTIONS_WHATSAPP": "تواصل عبر WhatsApp",
+  "NATIONAL_ID": "الرقم القومي",
+  "NATIONAL_ID_PLACEHOLDER": "أدخل رقمك القومي",
+  "NATIONAL_ID_REQUIRED_HINT": "الرقم القومي مطلوب لإكمال عملية الاشتراك."
 }
 

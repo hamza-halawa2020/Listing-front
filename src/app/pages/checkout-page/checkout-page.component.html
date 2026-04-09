@@ -64,6 +64,25 @@
                                         <input type="hidden" name="payment_method" [(ngModel)]="paymentData.payment_method">
                                     </div>
 
+                                    <ng-container *ngIf="isNationalIdRequired">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">
+                                                {{ 'NATIONAL_ID' | translate }} 
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control py-3 bg-light border-0"
+                                                name="national_id"
+                                                [(ngModel)]="paymentData.national_id"
+                                                required
+                                                [placeholder]="'NATIONAL_ID_PLACEHOLDER' | translate">
+                                            <small class="text-muted d-block mt-2">
+                                                {{ 'NATIONAL_ID_REQUIRED_HINT' | translate }}
+                                            </small>
+                                        </div>
+                                    </ng-container>
+
                                     <div class="col-12">
                                         <div class="delivery-toggle">
                                             <label class="delivery-toggle__label">

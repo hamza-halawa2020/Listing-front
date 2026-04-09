@@ -623,5 +623,8 @@
   "COMPANY_SOLUTIONS_BENEFIT_4": "Lower treatment costs compared to traditional insurance",
   "COMPANY_SOLUTIONS_CTA": "Do you want to improve healthcare for your employees? Start now with Share & Care and request a customized quote for your company.",
   "COMPANY_SOLUTIONS_REQUEST_QUOTE": "Request a Quote",
-  "COMPANY_SOLUTIONS_WHATSAPP": "Contact via WhatsApp"
+  "COMPANY_SOLUTIONS_WHATSAPP": "Contact via WhatsApp",
+  "NATIONAL_ID": "National ID",
+  "NATIONAL_ID_PLACEHOLDER": "Enter your national ID number",
+  "NATIONAL_ID_REQUIRED_HINT": "Your national ID is required to complete the subscription."
 }

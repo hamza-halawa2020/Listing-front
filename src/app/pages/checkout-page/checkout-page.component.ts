@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ListingsService } from '../listings-page/listings.service';
 import { PaymentService } from '../../shared/services/payment.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 
 @Component({
@@ -22,6 +23,9 @@ export class CheckoutPageComponent implements OnInit {
     isLoading = true;
     isSubmitting = false;
     governorates: any[] = [];
+    currentUser: any = null;
+    isNationalIdRequired = false;
+
     paymentMethods = [
         {
             value: 'vodafone_cash',
@@ -42,6 +46,7 @@ export class CheckoutPageComponent implements OnInit {
         plan_id: '',
         amount: 0,
         payment_method: '',
+        national_id: '',
         notes: '',
         needs_delivery: false,
         location_id: '',
@@ -60,17 +65,31 @@ export class CheckoutPageComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private listingsService: ListingsService,
-        private paymentService: PaymentService
+        private paymentService: PaymentService,
+        private authService: AuthService
     ) { }
 
     ngOnInit(): void {
         this.planId = this.route.snapshot.paramMap.get('planId');
         this.loadGovernorates();
+        this.loadCurrentUser();
         if (this.planId) {
             this.fetchPlanDetails();
         } else {
             this.router.navigate(['/pricing']);
         }
+    }
+
+    loadCurrentUser(): void {
+        this.authService.getCurrentUser().subscribe({
+            next: (user: any) => {
+                this.currentUser = user;
+                this.isNationalIdRequired = !user?.national_id;
+            },
+            error: () => {
+                this.isNationalIdRequired = true;
+            }
+        });
     }
 
     fetchPlanDetails() {
