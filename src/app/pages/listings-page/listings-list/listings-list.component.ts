@@ -480,14 +480,20 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 // Laravel JsonResource wraps data and provides meta for pagination
                 let results = response.data || (Array.isArray(response) ? response : []);
 
-                // If Near Me is active, sort by distance (nearest first)
+                // If Near Me is active, ensure we have distance for each listing
                 if (this.isNearMeActive && this.userLat && this.userLng) {
                     results = results.map((listing: any) => {
-                        const lat = parseFloat(listing.latitude);
-                        const lng = parseFloat(listing.longitude);
-                        const dist = (lat && lng) ? this.haversineDistance(this.userLat!, this.userLng!, lat, lng) : Infinity;
+                        // Use distance from API if available, otherwise calculate locally
+                        let dist = listing.distance;
+                        if (dist === undefined || dist === null) {
+                            const lat = parseFloat(listing.latitude);
+                            const lng = parseFloat(listing.longitude);
+                            dist = (lat && lng) ? this.haversineDistance(this.userLat!, this.userLng!, lat, lng) : Infinity;
+                        }
                         return { ...listing, _distanceKm: dist };
                     });
+                    
+                    // Sort locally as well to be safe for the current page
                     results.sort((a: any, b: any) => a._distanceKm - b._distanceKm);
                 }
 
