@@ -634,6 +634,8 @@
   "BUSINESS_NAME": "Business Name",
   "BUSINESS_NAME_PLACEHOLDER": "Enter the name of your business",
   "SELECT_CATEGORY": "Select Category",
+  "SELECT_SUB_CATEGORY": "Select Sub-Category",
+  "SELECT_SUB_LOCATION": "Select Sub-Location",
   "SEARCH_CATEGORY": "Search categories",
   "SEARCH_LOCATION": "Search locations",
   "LOCATION_COORDINATES": "Location Coordinates (Optional)",

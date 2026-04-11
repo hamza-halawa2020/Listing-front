@@ -203,11 +203,11 @@
   "VISION_MISSION_CALL_US": "اتصل الآن",
   "VISION_MISSION_CONTACT_NUMBER_LABEL": "رقم التواصل:",
   "OUR_IMPACT": "أرقامنا | أثرنا",
-  "STAY_TUNED_FOR_UPDATES":"ابقَ على اطلاع بأحدث المقالات .",
+  "STAY_TUNED_FOR_UPDATES": "ابقَ على اطلاع بأحدث المقالات .",
   "BACK_TO_HOME": "العودة إلى الصفحة الرئيسية",
   "Download Our App": "حمّل تطبيقنا",
-  "Get our mobile app for the best experience":"احصل على تطبيقنا لأفضل تجربة",
-  "NO_POSTS_FOUND":"لا توجد مقالات",
+  "Get our mobile app for the best experience": "احصل على تطبيقنا لأفضل تجربة",
+  "NO_POSTS_FOUND": "لا توجد مقالات",
   "VISION_MISSION_IMPACT_INTRO": "نمو متواصل وشبكة رعاية صحية تمتد عبر مصر لخدمة الأفراد والشركات بجودة أكبر ووصول أسهل.",
   "VISION_MISSION_IMPACT_1": "+3000 مقدم خدمة طبية",
   "VISION_MISSION_IMPACT_2": "+50,000 مستفيد",
@@ -325,7 +325,7 @@
   "CHECK_SUBSCRIPTION_TITLE": "الاستعلام عن حالة الاشتراك",
   "CHECK_SUBSCRIPTION_DESC": "أدخل الرقم القومي ورقم الكارنيه للاطلاع على اشتراكاتك الحالية.",
   "NATIONAL_ID": "الرقم القومي",
-  "CREATE_YOUR_ACCOUNT":"إنشاء حساب",
+  "CREATE_YOUR_ACCOUNT": "إنشاء حساب",
   "NATIONAL_ID_REQUIRED_FOR_SUBSCRIPTION": "لا يمكن الاشتراك قبل إضافة الرقم القومي في الملف الشخصي.",
   "ENTER_NATIONAL_ID": "أدخل الرقم القومي المكون من 14 رقم",
   "MEMBERSHIP_CARD_NUMBER": "رقم الكارنيه",
@@ -456,8 +456,7 @@
   "CHECK_SUBSCRIPTION": "الاستعلام عن الاشتراك",
   "DOWNLOAD_ON": "حمل من",
   "GET_IT_ON": "احصل عليه من",
-  "CONTACT_SUCCESS_MESSAGE": "تم إرسال رسالتك بنجاح!"
-,
+  "CONTACT_SUCCESS_MESSAGE": "تم إرسال رسالتك بنجاح!",
   "ADDRESS": "العنوان",
   "BIRTH_DATE": "تاريخ الميلاد",
   "GENDER": "النوع",
@@ -709,6 +708,8 @@
   "BUSINESS_NAME": "اسم العمل",
   "BUSINESS_NAME_PLACEHOLDER": "أدخل اسم عملك",
   "SELECT_CATEGORY": "اختر الفئة",
+  "SELECT_SUB_CATEGORY": "اختر الفئة الفرعية",
+  "SELECT_SUB_LOCATION": "اختر المنطقة/الحي الفرعي",
   "SEARCH_CATEGORY": "ابحث عن الفئات",
   "SEARCH_LOCATION": "ابحث عن الموقع",
   "LOCATION_COORDINATES": "إحداثيات الموقع (اختياري)",
@@ -750,6 +751,6 @@
   "SELECT_LOCATION_ON_MAP": "تحديد الموقع على الخريطة",
   "MAP_HINT": "يمكنك سحب العلامة أو الضغط على أي مكان في الخريطة لتحديد الإحداثيات تلقائياً.",
   "GET_MY_LOCATION": "تحديد موقعي الحالي",
-  "register_business": "طلب التعاقد"
+  "register_business": "طلب التعاقد",
+  "ADDRESS_PLACEHOLDER": "أدخل عنوان عملك"
 }
-

@@ -44,6 +44,77 @@
 
                             <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
                                 <div class="row g-4">
+
+                                    <!-- Contact Information -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            {{
+                                            "CONTACT_INFORMATION"
+                                            | translate
+                                            }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">
+                                            {{
+                                            "CONTACT_PERSON_NAME"
+                                            | translate
+                                            }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_name" [placeholder]="
+                                                'CONTACT_PERSON_NAME_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_name'
+                                                )?.errors?.['required']
+                                            ">
+                                            {{ "FIELD_REQUIRED" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">
+                                            {{ "CONTACT_EMAIL" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_email" [placeholder]="
+                                                'CONTACT_EMAIL_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_email'
+                                                )?.errors?.['email']
+                                            ">
+                                            {{ "INVALID_EMAIL" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">
+                                            {{ "CONTACT_PHONE" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_phone" [placeholder]="
+                                                'CONTACT_PHONE_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_phone'
+                                                )?.errors?.['required']
+                                            ">
+                                            {{ "FIELD_REQUIRED" | translate }}
+                                        </small>
+                                    </div>
+
                                     <!-- Business Information -->
                                     <div class="col-12">
                                         <h5 class="fw-bold mb-3">
@@ -73,19 +144,27 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        <label class="form-label fw-bold">{{
+                                            "ADDRESS" | translate
+                                            }}
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="address" [placeholder]="
+                                                'ADDRESS_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                    </div>
+
+                                    <div class="col-md-6">
                                         <label class="form-label fw-bold">
                                             {{ "CATEGORY" | translate }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <app-searchable-select [options]="categories" [value]="
+                                        <app-searchable-select [options]="parentCategories" [value]="
                                                 applicationForm.get(
-                                                    'category_id'
+                                                    'parent_category_id'
                                                 )?.value
-                                            " (valueChange)="
-                                                applicationForm
-                                                    .get('category_id')
-                                                    ?.setValue($event)
-                                            " [placeholder]="
+                                            " (valueChange)="onCategoryChange($event)" [placeholder]="
                                                 'SELECT_CATEGORY' | translate
                                             " [allOptionLabel]="
                                                 'SELECT_CATEGORY' | translate
@@ -95,7 +174,22 @@
                                                 'NO_RESULTS_FOUND' | translate
                                             " appearance="dark">
                                         </app-searchable-select>
-                                        <input type="hidden" formControlName="category_id" />
+                                    </div>
+
+                                    <!-- Sub-Category Select (Conditional) -->
+                                    <div class="col-md-6" *ngIf="subCategories.length > 0">
+                                        <label class="form-label fw-bold">
+                                            {{ "SELECT_SUB_CATEGORY" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <app-searchable-select [options]="subCategories"
+                                            [value]="applicationForm.get('category_id')?.value"
+                                            (valueChange)="onSubCategoryChange($event)"
+                                            [placeholder]="'SELECT_SUB_CATEGORY' | translate"
+                                            [allOptionLabel]="'SELECT_SUB_CATEGORY' | translate"
+                                            [searchPlaceholder]="'SEARCH_CATEGORY' | translate"
+                                            [noResultsLabel]="'NO_RESULTS_FOUND' | translate" appearance="dark">
+                                        </app-searchable-select>
                                     </div>
 
                                     <div class="col-md-6">
@@ -103,15 +197,11 @@
                                             {{ "LOCATION" | translate }}
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <app-searchable-select [options]="locations" [value]="
+                                        <app-searchable-select [options]="parentLocations" [value]="
                                                 applicationForm.get(
-                                                    'location_id'
+                                                    'parent_location_id'
                                                 )?.value
-                                            " (valueChange)="
-                                                applicationForm
-                                                    .get('location_id')
-                                                    ?.setValue($event)
-                                            " [placeholder]="
+                                            " (valueChange)="onLocationChange($event)" [placeholder]="
                                                 'SELECT_LOCATION' | translate
                                             " [allOptionLabel]="
                                                 'SELECT_LOCATION' | translate
@@ -121,19 +211,25 @@
                                                 'NO_RESULTS_FOUND' | translate
                                             " appearance="dark">
                                         </app-searchable-select>
-                                        <input type="hidden" formControlName="location_id" />
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">{{
-                                            "ADDRESS" | translate
-                                            }}</label>
-                                        <input type="text" class="form-control py-3 bg-light border-0"
-                                            formControlName="address" [placeholder]="
-                                                'ADDRESS_PLACEHOLDER'
-                                                    | translate
-                                            " />
+                                    <!-- Sub-Location Select (Conditional) -->
+                                    <div class="col-md-6" *ngIf="subLocations.length > 0">
+                                        <label class="form-label fw-bold">
+                                            {{ "SELECT_SUB_LOCATION" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <app-searchable-select [options]="subLocations"
+                                            [value]="applicationForm.get('location_id')?.value"
+                                            (valueChange)="onSubLocationChange($event)"
+                                            [placeholder]="'SELECT_SUB_LOCATION' | translate"
+                                            [allOptionLabel]="'SELECT_SUB_LOCATION' | translate"
+                                            [searchPlaceholder]="'SEARCH_LOCATION' | translate"
+                                            [noResultsLabel]="'NO_RESULTS_FOUND' | translate" appearance="dark">
+                                        </app-searchable-select>
                                     </div>
+                                    <input type="hidden" formControlName="location_id" />
+                                    <input type="hidden" formControlName="category_id" />
 
                                     <div class="col-12">
                                         <label class="form-label fw-bold">{{
@@ -182,81 +278,12 @@
 
                                     <!-- Map Picker -->
                                     <div class="col-12 mt-3">
-                                        <label class="form-label fw-bold">{{ "SELECT_LOCATION_ON_MAP" | translate }}</label>
+                                        <label class="form-label fw-bold">{{ "SELECT_LOCATION_ON_MAP" | translate
+                                            }}</label>
                                         <div #mapContainer class="map-picker-container rounded-3 shadow-sm"></div>
                                         <small class="text-muted mt-2 d-block">
                                             <i class="fa-solid fa-circle-info me-1"></i>
                                             {{ "MAP_HINT" | translate }}
-                                        </small>
-                                    </div>
-
-                                    <!-- Contact Information -->
-                                    <div class="col-12">
-                                        <h5 class="fw-bold mb-3">
-                                            {{
-                                            "CONTACT_INFORMATION"
-                                            | translate
-                                            }}
-                                        </h5>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">
-                                            {{
-                                            "CONTACT_PERSON_NAME"
-                                            | translate
-                                            }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control py-3 bg-light border-0"
-                                            formControlName="contact_name" [placeholder]="
-                                                'CONTACT_PERSON_NAME_PLACEHOLDER'
-                                                    | translate
-                                            " />
-                                        <small class="text-danger" *ngIf="
-                                                applicationForm.get(
-                                                    'contact_name'
-                                                )?.errors?.['required']
-                                            ">
-                                            {{ "FIELD_REQUIRED" | translate }}
-                                        </small>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">
-                                            {{ "CONTACT_EMAIL" | translate }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="email" class="form-control py-3 bg-light border-0"
-                                            formControlName="contact_email" [placeholder]="
-                                                'CONTACT_EMAIL_PLACEHOLDER'
-                                                    | translate
-                                            " />
-                                        <small class="text-danger" *ngIf="
-                                                applicationForm.get(
-                                                    'contact_email'
-                                                )?.errors?.['email']
-                                            ">
-                                            {{ "INVALID_EMAIL" | translate }}
-                                        </small>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">
-                                            {{ "CONTACT_PHONE" | translate }}
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="tel" class="form-control py-3 bg-light border-0"
-                                            formControlName="contact_phone" [placeholder]="
-                                                'CONTACT_PHONE_PLACEHOLDER'
-                                                    | translate
-                                            " />
-                                        <small class="text-danger" *ngIf="
-                                                applicationForm.get(
-                                                    'contact_phone'
-                                                )?.errors?.['required']
-                                            ">
-                                            {{ "FIELD_REQUIRED" | translate }}
                                         </small>
                                     </div>
 
@@ -327,6 +354,19 @@
                                                 let i = index
                                             " [formGroupName]="i" class="hours-row mb-3 p-3 bg-light rounded-3">
                                             <div class="row g-2 align-items-end">
+
+
+                                                <div class="col-md-1">
+                                                    <div
+                                                        class="form-check d-flex align-items-center justify-content-between">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [id]="'closed_' + i" formControlName="is_closed" />
+                                                        <label class="form-check-label"
+                                                            [for]="'closed_' + i">{{"CLOSED"| translate}}</label>
+                                                    </div>
+                                                </div>
+
+
                                                 <div class="col-md-4">
                                                     <label class="form-label fw-bold">{{
                                                         "DAY" | translate
@@ -336,6 +376,11 @@
                                                                 ?.value
                                                         " disabled />
                                                 </div>
+
+
+
+
+
                                                 <div class="col-md-6" *ngIf="
                                                         !hour.get('is_closed')
                                                             ?.value
@@ -357,20 +402,6 @@
                                                             <input type="time" class="form-control"
                                                                 formControlName="close_time" />
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input"
-                                                            [id]="'closed_' + i" formControlName="is_closed" />
-                                                        <label class="form-check-label" [for]="
-                                                                'closed_' + i
-                                                            ">
-                                                            {{
-                                                            "CLOSED"
-                                                            | translate
-                                                            }}
-                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -465,7 +496,7 @@
                                                         }}
                                                     </small>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mt-4">
                                                     <button type="button" class="btn-search-premium"
                                                         (click)="removeImage(i)">
                                                         <i class="fa-solid fa-trash me-2"></i>

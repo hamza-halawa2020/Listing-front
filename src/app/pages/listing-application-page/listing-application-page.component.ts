@@ -38,6 +38,10 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
 
     categories: any[] = [];
     locations: any[] = [];
+    parentCategories: any[] = [];
+    parentLocations: any[] = [];
+    subCategories: any[] = [];
+    subLocations: any[] = [];
     selectedImageFiles: (File | null)[] = [];
 
     daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -88,7 +92,7 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
         // Use existing coordinates if available, otherwise default to Egypt
         const formLat = parseFloat(this.applicationForm.get('latitude')?.value);
         const formLng = parseFloat(this.applicationForm.get('longitude')?.value);
-        
+
         const lat = !isNaN(formLat) ? formLat : 30.0444;
         const lng = !isNaN(formLng) ? formLng : 31.2357;
 
@@ -180,7 +184,9 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
             // Basic info
             name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
             category_id: ['', Validators.required],
+            parent_category_id: [''],
             location_id: ['', Validators.required],
+            parent_location_id: [''],
             address: ['', Validators.maxLength(255)],
             description: ['', Validators.maxLength(1000)],
             latitude: ['', Validators.pattern(/^-?([0-8]?[0-9](\.[0-9]{1,8})?|90(\.0{1,8})?)$/)],
@@ -292,11 +298,12 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
         this.listingsService.getCategories().subscribe({
             next: (response: any) => {
                 this.categories = response.data || response;
+                this.parentCategories = this.categories.filter(c => !c.parent_id);
                 this.loadLocations();
             },
             error: (err) => {
                 this.categories = [];
-                this.isLoading = false;
+                this.loadLocations();
             }
         });
     }
@@ -306,6 +313,7 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
             next: (response: any) => {
                 const raw = response.data || response;
                 this.locations = Array.isArray(raw) ? raw : [];
+                this.parentLocations = this.locations.filter(l => !l.parent_id);
                 this.isLoading = false;
             },
             error: (err) => {
@@ -315,13 +323,61 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
         });
     }
 
+    onCategoryChange(parentId: any): void {
+        if (!parentId) {
+            this.subCategories = [];
+            this.applicationForm.patchValue({
+                category_id: '',
+                parent_category_id: ''
+            });
+            return;
+        }
+
+        const parent = this.categories.find(c => String(c.id) === String(parentId) || String(c.value) === String(parentId));
+
+        this.subCategories = parent?.children || [];
+
+        this.applicationForm.patchValue({
+            category_id: parentId,
+            parent_category_id: parentId
+        });
+    }
+
+    onSubCategoryChange(subId: any): void {
+        if (subId) {
+            this.applicationForm.get('category_id')?.setValue(subId);
+        }
+    }
+
+    onLocationChange(parentId: any): void {
+        if (!parentId) {
+            this.subLocations = [];
+            this.applicationForm.patchValue({
+                location_id: '',
+                parent_location_id: ''
+            });
+            return;
+        }
+
+        const parent = this.locations.find(l => String(l.id) === String(parentId) || String(l.value) === String(parentId));
+
+        this.subLocations = parent?.children || [];
+
+        this.applicationForm.patchValue({
+            location_id: parentId,
+            parent_location_id: parentId
+        });
+    }
+
+    onSubLocationChange(subId: any): void {
+        if (subId) {
+            this.applicationForm.get('location_id')?.setValue(subId);
+        }
+    }
+
     onSubmit(): void {
-        console.log('[ListingApplication] submit clicked');
-        console.log('[ListingApplication] form valid:', this.applicationForm.valid);
-        console.log('[ListingApplication] raw form value:', this.applicationForm.getRawValue());
 
         if (this.applicationForm.invalid) {
-            console.warn('[ListingApplication] form invalid controls:', this.getInvalidControls());
             this.validationErrors = this.extractFormErrors();
             this.scrollToFeedback();
             return;
@@ -333,11 +389,9 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
 
         const formData = this.buildListingApplicationFormData();
         this.logFormData(formData);
-        console.log('[ListingApplication] selected image files:', this.selectedImageFiles);
 
         this.listingsService.submitListingApplication(formData).subscribe({
             next: (response: any) => {
-                console.log('[ListingApplication] submit success:', response);
                 this.successMessage = 'LISTING_APPLICATION_SUBMITTED_SUCCESS';
                 this.applicationForm.reset();
                 this.selectedImageFiles = [];
@@ -348,9 +402,6 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
                 }, 3000);
             },
             error: (err) => {
-                console.error('[ListingApplication] submit error status:', err?.status);
-                console.error('[ListingApplication] submit error body:', err?.error);
-                console.error('[ListingApplication] full error:', err);
                 const extractedErrors = this.extractValidationErrors(err);
                 this.validationErrors = extractedErrors;
                 this.errorMessage = extractedErrors.length
@@ -475,7 +526,6 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
             payloadSnapshot.push({ key, value: String(value) });
         });
 
-        console.log('[ListingApplication] FormData payload:', payloadSnapshot);
     }
 
     private buildListingApplicationFormData(): FormData {
