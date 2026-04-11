@@ -53,6 +53,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             route: '/posts'
         },
         {
+            label: 'register_business',
+            route: '/register-business'
+        },
+        {
             label: 'our_solutions',
             route: '/company-solutions'
         },

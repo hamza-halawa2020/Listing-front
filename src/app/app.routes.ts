@@ -40,6 +40,10 @@ export const routes: Routes = [
         path: 'check-subscription',
         loadComponent: () => import('./pages/subscription-check-page/subscription-check-page.component').then(m => m.SubscriptionCheckPageComponent)
     },
+    {
+        path: 'register-business',
+        loadComponent: () => import('./pages/listing-application-page/listing-application-page.component').then(m => m.ListingApplicationPageComponent)
+    },
 
 
     {

@@ -42,4 +42,8 @@ export class ListingsService {
             membership_card_number
         });
     }
+
+    submitListingApplication(applicationData: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/listing-applications`, applicationData);
+    }
 }

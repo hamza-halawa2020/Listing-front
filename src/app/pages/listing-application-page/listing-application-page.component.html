@@ -1,0 +1,515 @@
+<div class="listing-application-wrapper py-5 mt-5">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div #feedbackRef></div>
+
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="card-header bg-primary text-white p-4">
+                        <h3 class="mb-0 fw-bold">
+                            {{ "REGISTER_BUSINESS" | translate }}
+                        </h3>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <p class="text-muted mb-4">
+                            {{ "LISTING_APPLICATION_INTRO" | translate }}
+                        </p>
+
+                        <div *ngIf="isLoading" class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                        </div>
+
+                        <div *ngIf="!isLoading">
+                            <div *ngIf="successMessage" class="alert alert-success mb-4 p-3 rounded-3">
+                                <i class="fa-solid fa-circle-check me-2"></i>
+                                {{ successMessage | translate }}
+                            </div>
+                            <div *ngIf="validationErrors.length" class="alert alert-danger mb-4 p-3 rounded-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="fa-solid fa-circle-exclamation me-2 mt-1"></i>
+                                    <ul class="mb-0 ps-3">
+                                        <li *ngFor="
+                                                let error of validationErrors
+                                            ">
+                                            {{ error }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div *ngIf="errorMessage && !validationErrors.length"
+                                class="alert alert-danger mb-4 p-3 rounded-3">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i>
+                                {{ errorMessage | translate }}
+                            </div>
+
+                            <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+                                <div class="row g-4">
+                                    <!-- Business Information -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            {{
+                                            "BUSINESS_INFORMATION"
+                                            | translate
+                                            }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{ "BUSINESS_NAME" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="name" [placeholder]="
+                                                'BUSINESS_NAME_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get('name')
+                                                    ?.errors?.['required']
+                                            ">
+                                            {{ "FIELD_REQUIRED" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{ "CATEGORY" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <app-searchable-select [options]="categories" [value]="
+                                                applicationForm.get(
+                                                    'category_id'
+                                                )?.value
+                                            " (valueChange)="
+                                                applicationForm
+                                                    .get('category_id')
+                                                    ?.setValue($event)
+                                            " [placeholder]="
+                                                'SELECT_CATEGORY' | translate
+                                            " [allOptionLabel]="
+                                                'SELECT_CATEGORY' | translate
+                                            " [searchPlaceholder]="
+                                                'SEARCH_CATEGORY' | translate
+                                            " [noResultsLabel]="
+                                                'NO_RESULTS_FOUND' | translate
+                                            " appearance="dark">
+                                        </app-searchable-select>
+                                        <input type="hidden" formControlName="category_id" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{ "LOCATION" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <app-searchable-select [options]="locations" [value]="
+                                                applicationForm.get(
+                                                    'location_id'
+                                                )?.value
+                                            " (valueChange)="
+                                                applicationForm
+                                                    .get('location_id')
+                                                    ?.setValue($event)
+                                            " [placeholder]="
+                                                'SELECT_LOCATION' | translate
+                                            " [allOptionLabel]="
+                                                'SELECT_LOCATION' | translate
+                                            " [searchPlaceholder]="
+                                                'SEARCH_LOCATION' | translate
+                                            " [noResultsLabel]="
+                                                'NO_RESULTS_FOUND' | translate
+                                            " appearance="dark">
+                                        </app-searchable-select>
+                                        <input type="hidden" formControlName="location_id" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">{{
+                                            "ADDRESS" | translate
+                                            }}</label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="address" [placeholder]="
+                                                'ADDRESS_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold">{{
+                                            "DESCRIPTION" | translate
+                                            }}</label>
+                                        <textarea class="form-control py-3 bg-light border-0" rows="4"
+                                            formControlName="description" [placeholder]="
+                                                'DESCRIPTION_PLACEHOLDER'
+                                                    | translate
+                                            "></textarea>
+                                    </div>
+
+                                    <!-- Location Coordinates -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            {{
+                                            "LOCATION_COORDINATES"
+                                            | translate
+                                            }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">{{
+                                            "LATITUDE" | translate
+                                            }}</label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="latitude" placeholder="e.g., 30.0444" />
+                                        <small class="text-muted d-block mt-1">
+                                            {{ "LATITUDE_HINT" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">{{
+                                            "LONGITUDE" | translate
+                                            }}</label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="longitude" placeholder="e.g., 31.2357" />
+                                        <small class="text-muted d-block mt-1">
+                                            {{ "LONGITUDE_HINT" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <!-- Contact Information -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            {{
+                                            "CONTACT_INFORMATION"
+                                            | translate
+                                            }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{
+                                            "CONTACT_PERSON_NAME"
+                                            | translate
+                                            }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_name" [placeholder]="
+                                                'CONTACT_PERSON_NAME_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_name'
+                                                )?.errors?.['required']
+                                            ">
+                                            {{ "FIELD_REQUIRED" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{ "CONTACT_EMAIL" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_email" [placeholder]="
+                                                'CONTACT_EMAIL_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_email'
+                                                )?.errors?.['email']
+                                            ">
+                                            {{ "INVALID_EMAIL" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">
+                                            {{ "CONTACT_PHONE" | translate }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-control py-3 bg-light border-0"
+                                            formControlName="contact_phone" [placeholder]="
+                                                'CONTACT_PHONE_PLACEHOLDER'
+                                                    | translate
+                                            " />
+                                        <small class="text-danger" *ngIf="
+                                                applicationForm.get(
+                                                    'contact_phone'
+                                                )?.errors?.['required']
+                                            ">
+                                            {{ "FIELD_REQUIRED" | translate }}
+                                        </small>
+                                    </div>
+
+                                    <!-- Phone Numbers -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="fa-solid fa-phone me-2 text-primary"></i>
+                                            {{ "PHONE_NUMBERS" | translate }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-12" formArrayName="phones">
+                                        <div *ngFor="
+                                                let phone of phonesArray.controls;
+                                                let i = index
+                                            " [formGroupName]="i" class="phone-row mb-3 p-3 bg-light rounded-3">
+                                            <div class="row g-2 align-items-end">
+                                                <div class="col-md-6">
+                                                    <label class="form-label fw-bold">{{
+                                                        "PHONE_NUMBER"
+                                                        | translate
+                                                        }}</label>
+                                                    <input type="tel" class="form-control" formControlName="number"
+                                                        [placeholder]="
+                                                            'PHONE_NUMBER_PLACEHOLDER'
+                                                                | translate
+                                                        " />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">{{
+                                                        "PHONE_TYPE"
+                                                        | translate
+                                                        }}</label>
+                                                    <select class="form-control" formControlName="type">
+                                                        <option *ngFor="
+                                                                let type of phoneTypes
+                                                            " [value]="type">
+                                                            {{ type }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn-search-premium"
+                                                        (click)="removePhone(i)">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn-search-premium" (click)="addPhone()">
+                                            <i class="fa-solid fa-plus me-2"></i>
+                                            {{ "ADD_PHONE" | translate }}
+                                        </button>
+                                    </div>
+
+                                    <!-- Working Hours -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="fa-solid fa-clock me-2 text-primary"></i>
+                                            {{ "WORKING_HOURS" | translate }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-12" formArrayName="working_hours">
+                                        <div *ngFor="
+                                                let hour of workingHoursArray.controls;
+                                                let i = index
+                                            " [formGroupName]="i" class="hours-row mb-3 p-3 bg-light rounded-3">
+                                            <div class="row g-2 align-items-end">
+                                                <div class="col-md-4">
+                                                    <label class="form-label fw-bold">{{
+                                                        "DAY" | translate
+                                                        }}</label>
+                                                    <input type="text" class="form-control" [value]="
+                                                            hour.get('day')
+                                                                ?.value
+                                                        " disabled />
+                                                </div>
+                                                <div class="col-md-6" *ngIf="
+                                                        !hour.get('is_closed')
+                                                            ?.value
+                                                    ">
+                                                    <div class="row g-2">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">{{
+                                                                "OPEN_TIME"
+                                                                | translate
+                                                                }}</label>
+                                                            <input type="time" class="form-control"
+                                                                formControlName="open_time" />
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label fw-bold">{{
+                                                                "CLOSE_TIME"
+                                                                | translate
+                                                                }}</label>
+                                                            <input type="time" class="form-control"
+                                                                formControlName="close_time" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [id]="'closed_' + i" formControlName="is_closed" />
+                                                        <label class="form-check-label" [for]="
+                                                                'closed_' + i
+                                                            ">
+                                                            {{
+                                                            "CLOSED"
+                                                            | translate
+                                                            }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Links -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="fa-solid fa-link me-2 text-primary"></i>
+                                            {{ "LINKS" | translate }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-12" formArrayName="links">
+                                        <div *ngFor="
+                                                let link of linksArray.controls;
+                                                let i = index
+                                            " [formGroupName]="i" class="link-row mb-3 p-3 bg-light rounded-3">
+                                            <div class="row g-2 align-items-end">
+                                                <div class="col-md-7">
+                                                    <label class="form-label fw-bold">{{
+                                                        "LINK_URL"
+                                                        | translate
+                                                        }}</label>
+                                                    <input type="url" class="form-control" formControlName="url"
+                                                        placeholder="https://example.com" />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="form-label fw-bold">{{
+                                                        "LINK_TYPE"
+                                                        | translate
+                                                        }}</label>
+                                                    <select class="form-control" formControlName="type">
+                                                        <option>Website</option>
+                                                        <option>
+                                                            Facebook
+                                                        </option>
+                                                        <option>
+                                                            Instagram
+                                                        </option>
+                                                        <option>Twitter</option>
+                                                        <option>
+                                                            LinkedIn
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn-search-premium"
+                                                        (click)="removeLink(i)">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn-search-premium" (click)="addLink()">
+                                            <i class="fa-solid fa-plus me-2"></i>
+                                            {{ "ADD_LINK" | translate }}
+                                        </button>
+                                    </div>
+
+                                    <!-- Images -->
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3">
+                                            <i class="fa-solid fa-image me-2 text-primary"></i>
+                                            {{ "IMAGES" | translate }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="col-12" formArrayName="images">
+                                        <div *ngFor="
+                                                let image of imagesArray.controls;
+                                                let i = index
+                                            " [formGroupName]="i" class="image-row mb-3 p-3 bg-light rounded-3">
+                                            <div class="row g-2">
+                                                <div class="col-md-6">
+                                                    <label class="form-label fw-bold">{{
+                                                        "IMAGE_FILE"
+                                                        | translate
+                                                        }}</label>
+                                                    <input type="file" class="form-control" accept="image/*" (change)="
+                                                            onImageFileSelected(
+                                                                $event,
+                                                                i
+                                                            )
+                                                        " />
+                                                    <small class="text-muted d-block mt-1">
+                                                        {{
+                                                        "IMAGE_FORMATS_ALLOWED"
+                                                        | translate
+                                                        }}
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="button" class="btn-search-premium"
+                                                        (click)="removeImage(i)">
+                                                        <i class="fa-solid fa-trash me-2"></i>
+                                                        {{
+                                                        "REMOVE_IMAGE"
+                                                        | translate
+                                                        }}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Image Preview -->
+                                            <div class="row mt-2" *ngIf="image.get('image_path')?.value">
+                                                <div class="col-md-4 mx-auto">
+                                                    <div class="image-preview">
+                                                        <img [src]="
+                                                                image.get('image_path')
+                                                                    ?.value
+                                                            " alt="{{
+                                                                image.get('alt')
+                                                                    ?.value
+                                                            }}" class="img-fluid rounded-2" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn-search-premium" (click)="addImageField()">
+                                            <i class="fa-solid fa-plus me-2"></i>
+                                            {{ "ADD_IMAGE" | translate }}
+                                        </button>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="col-12 mt-5">
+                                        <div class="application-actions">
+                                            <button type="submit" class="btn-search-premium">
+                                                <i class="fa-solid fa-paper-plane me-2" *ngIf="!isSubmitting"></i>
+                                                <span *ngIf="!isSubmitting">{{
+                                                    "SUBMIT_APPLICATION"
+                                                    | translate
+                                                    }}</span>
+                                                <span *ngIf="isSubmitting"
+                                                    class="spinner-border spinner-border-sm me-2"></span>
+                                                <span *ngIf="isSubmitting">{{
+                                                    "SUBMITTING" | translate
+                                                    }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
