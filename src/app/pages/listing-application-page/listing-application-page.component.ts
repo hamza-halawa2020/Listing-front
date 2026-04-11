@@ -1,9 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import * as L from 'leaflet';
 import { ListingsService } from '../listings-page/listings.service';
+import Swal from 'sweetalert2';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 
 @Component({
@@ -13,8 +15,19 @@ import { SearchableSelectComponent } from '../../shared/components/searchable-se
     templateUrl: './listing-application-page.component.html',
     styleUrls: ['./listing-application-page.component.scss']
 })
-export class ListingApplicationPageComponent implements OnInit {
+export class ListingApplicationPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('feedbackRef') feedbackRef?: ElementRef<HTMLElement>;
+    @ViewChild('mapContainer') set mapContainer(content: ElementRef<HTMLElement>) {
+        if (content && !this.map) {
+            this._mapContainer = content;
+            // Use setTimeout to ensure the element is fully rendered before initializing the map
+            setTimeout(() => this.initMap(), 0);
+        }
+    }
+    private _mapContainer?: ElementRef<HTMLElement>;
+
+    private map?: L.Map;
+    private marker?: L.Marker;
 
     applicationForm!: FormGroup;
     isSubmitting = false;
@@ -41,6 +54,125 @@ export class ListingApplicationPageComponent implements OnInit {
     ngOnInit(): void {
         this.loadCategoriesAndLocations();
         this.initializeWorkingHours();
+    }
+
+    ngAfterViewInit(): void {
+        this.subscribeToCoordinateChanges();
+    }
+
+    ngOnDestroy(): void {
+        if (this.map) {
+            this.map.remove();
+        }
+    }
+
+    private initMap(): void {
+        if (!this._mapContainer) return;
+
+        // Fix for default icon issues in Leaflet with bundlers
+        const iconRetinaUrl = 'assets/leaflet/marker-icon-2x.png';
+        const iconUrl = 'assets/leaflet/marker-icon.png';
+        const shadowUrl = 'assets/leaflet/marker-shadow.png';
+        const iconDefault = L.icon({
+            iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+            iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowSize: [41, 41]
+        });
+        L.Marker.prototype.options.icon = iconDefault;
+
+        // Use existing coordinates if available, otherwise default to Egypt
+        const formLat = parseFloat(this.applicationForm.get('latitude')?.value);
+        const formLng = parseFloat(this.applicationForm.get('longitude')?.value);
+        
+        const lat = !isNaN(formLat) ? formLat : 30.0444;
+        const lng = !isNaN(formLng) ? formLng : 31.2357;
+
+        this.map = L.map(this._mapContainer.nativeElement).setView([lat, lng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.map);
+
+        this.marker = L.marker([lat, lng], { draggable: true }).addTo(this.map);
+
+        this.map.on('click', (e: L.LeafletMouseEvent) => {
+            const { lat, lng } = e.latlng;
+            this.updateCoordinates(lat, lng);
+        });
+
+        this.marker.on('dragend', (e: any) => {
+            const { lat, lng } = e.target.getLatLng();
+            this.updateCoordinates(lat, lng);
+        });
+
+        // Trigger a resize to ensure the map renders correctly
+        setTimeout(() => {
+            if (this.map) {
+                this.map.invalidateSize();
+            }
+        }, 100);
+    }
+
+    getCurrentLocation(): void {
+        if (!navigator.geolocation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Geolocation is not supported by your browser.'
+            });
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                this.updateCoordinates(lat, lng);
+                if (this.map) {
+                    this.map.setView([lat, lng], 15);
+                }
+            },
+            (error) => {
+                let msg = 'Failed to get your location.';
+                if (error.code === 1) msg = 'Location access denied.';
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Location Error',
+                    text: msg
+                });
+            }
+        );
+    }
+
+    private updateCoordinates(lat: number, lng: number): void {
+        this.applicationForm.patchValue({
+            latitude: lat.toFixed(6),
+            longitude: lng.toFixed(6)
+        });
+        if (this.marker) {
+            this.marker.setLatLng([lat, lng]);
+        }
+    }
+
+    private subscribeToCoordinateChanges(): void {
+        this.applicationForm.get('latitude')?.valueChanges.subscribe(val => this.updateMarkerFromInputs());
+        this.applicationForm.get('longitude')?.valueChanges.subscribe(val => this.updateMarkerFromInputs());
+    }
+
+    private updateMarkerFromInputs(): void {
+        const lat = parseFloat(this.applicationForm.get('latitude')?.value);
+        const lng = parseFloat(this.applicationForm.get('longitude')?.value);
+
+        if (!isNaN(lat) && !isNaN(lng) && this.marker && this.map) {
+            const newPos = L.latLng(lat, lng);
+            this.marker.setLatLng(newPos);
+            this.map.panTo(newPos);
+        }
     }
 
     initializeForm(): void {
