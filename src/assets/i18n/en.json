@@ -678,5 +678,10 @@
   "INVALID_EMAIL": "Please enter a valid email address",
   "SELECT_LOCATION_ON_MAP": "Select Location on Map",
   "MAP_HINT": "You can drag the marker or click anywhere on the map to set the coordinates automatically.",
-  "GET_MY_LOCATION": "Get My Current Location"
+  "GET_MY_LOCATION": "Get My Current Location",
+  "NOTIFICATIONS": "Notifications",
+  "MARK_ALL_AS_READ": "Mark all as read",
+  "NO_NOTIFICATIONS": "No notifications yet",
+  "NOTIFICATIONS_LOADING": "Loading notifications...",
+  "NEW": "New"
 }

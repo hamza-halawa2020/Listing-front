@@ -753,4 +753,9 @@
   "GET_MY_LOCATION": "تحديد موقعي الحالي",
   "register_business": "طلب التعاقد",
   "ADDRESS_PLACEHOLDER": "أدخل عنوان عملك"
+,  "NOTIFICATIONS": "الإشعارات",
+  "MARK_ALL_AS_READ": "تعليم الكل كمقروء",
+  "NO_NOTIFICATIONS": "لا توجد إشعارات حتى الآن",
+  "NOTIFICATIONS_LOADING": "جارٍ تحميل الإشعارات...",
+  "NEW": "جديد"
 }

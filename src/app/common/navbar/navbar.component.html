@@ -46,6 +46,70 @@
                 </ng-container>
 
                 <ng-container *ngIf="authService.isLoggedIn()">
+                    <div class="notification-center me-2" ngbDropdown placement="bottom-end" autoClose="outside"
+                        (openChange)="onNotificationsOpenChange($event)">
+                        <button class="notification-btn" ngbDropdownToggle id="notificationsDropdown"
+                            [class.has-unread]="unreadNotificationsCount > 0"
+                            [attr.aria-label]="'NOTIFICATIONS' | translate">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge" *ngIf="unreadNotificationsCount">
+                                {{ getUnreadNotificationsLabel() }}
+                            </span>
+                        </button>
+
+                        <div class="dropdown-menu notification-menu shadow-lg border-0" ngbDropdownMenu>
+                            <div class="notification-menu__header">
+                                <div class="notification-menu__heading">
+                                    <span class="notification-menu__eyebrow">{{ 'NOTIFICATIONS' | translate }}</span>
+                                    <strong>{{ 'NOTIFICATIONS' | translate }}</strong>
+                                </div>
+
+                                <button type="button" class="notification-menu__mark-all"
+                                    *ngIf="unreadNotificationsCount"
+                                    (click)="markAllNotificationsAsRead($event)">
+                                    {{ 'MARK_ALL_AS_READ' | translate }}
+                                </button>
+                            </div>
+
+                            <div class="notification-menu__loading" *ngIf="isNotificationsLoading && !notifications.length">
+                                {{ 'NOTIFICATIONS_LOADING' | translate }}
+                            </div>
+
+                            <div class="notification-menu__list" *ngIf="notifications.length">
+                                <button type="button" class="notification-item"
+                                    *ngFor="let notification of notifications; trackBy: trackByNotificationId"
+                                    [class.is-unread]="!notification.is_read"
+                                    (click)="markNotificationAsRead(notification, $event)">
+                                    <span class="notification-item__icon"
+                                        [ngClass]="getNotificationStatusClass(notification.status)">
+                                        <i class="fa-solid" [ngClass]="getNotificationIconClass(notification.status)"></i>
+                                    </span>
+
+                                    <span class="notification-item__content">
+                                        <span class="notification-item__topline">
+                                            <strong>{{ notification.title }}</strong>
+                                            <span class="notification-item__pill" *ngIf="!notification.is_read">
+                                                {{ 'NEW' | translate }}
+                                            </span>
+                                        </span>
+
+                                        <span class="notification-item__body" *ngIf="notification.body">
+                                            {{ notification.body }}
+                                        </span>
+
+                                        <span class="notification-item__time" *ngIf="notification.created_at">
+                                            {{ notification.created_at | date:'short' }}
+                                        </span>
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div class="notification-menu__empty" *ngIf="!isNotificationsLoading && !notifications.length">
+                                {{ 'NO_NOTIFICATIONS' | translate }}
+                            </div>
+                        </div>
+                    </div>
+
                     <a routerLink="/profile" class="user-info me-3" (click)="closeMobileMenu()">
                         <div class="user-avatar-sm">
                             <i class="fa-solid fa-user"></i>

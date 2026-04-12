@@ -7,6 +7,7 @@ import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { AppNotification, NotificationService } from '../../shared/services/notification.service';
 
 @Component({
     selector: 'app-navbar',
@@ -32,6 +33,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         logo_url: 'assets/images/logo.svg'
     };
     currentUser: any = null;
+    notifications: AppNotification[] = [];
+    unreadNotificationsCount = 0;
+    isNotificationsLoading = false;
     private subscriptions = new Subscription();
 
     // Navigation menu items
@@ -98,7 +102,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         public router: Router,
         private translate: TranslateService,
         private settingService: SettingService,
-        public authService: AuthService
+        public authService: AuthService,
+        private notificationService: NotificationService
     ) {
         // Initialize languages
         this.translate.addLangs(['en', 'ar']);
@@ -135,6 +140,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.subscriptions.add(
             this.authService.getCurrentUser().subscribe(user => {
                 this.currentUser = user;
+            })
+        );
+
+        this.subscriptions.add(
+            this.notificationService.getNotifications().subscribe((notifications) => {
+                this.notifications = notifications;
+            })
+        );
+
+        this.subscriptions.add(
+            this.notificationService.getUnreadCount().subscribe((count) => {
+                this.unreadNotificationsCount = count;
+            })
+        );
+
+        this.subscriptions.add(
+            this.notificationService.getLoadingState().subscribe((isLoading) => {
+                this.isNotificationsLoading = isLoading;
             })
         );
     }
@@ -206,6 +229,61 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.authService.logout();
         this.router.navigate(['/login']);
         this.isCollapsed = true;
+    }
+
+    onNotificationsOpenChange(isOpen: boolean): void {
+        if (isOpen) {
+            this.notificationService.refresh(true);
+        }
+    }
+
+    markNotificationAsRead(notification: AppNotification, event?: Event): void {
+        event?.preventDefault();
+        event?.stopPropagation();
+
+        if (notification.is_read) {
+            return;
+        }
+
+        this.notificationService.markAsRead(notification.id).subscribe();
+    }
+
+    markAllNotificationsAsRead(event?: Event): void {
+        event?.preventDefault();
+        event?.stopPropagation();
+
+        if (!this.unreadNotificationsCount) {
+            return;
+        }
+
+        this.notificationService.markAllAsRead().subscribe();
+    }
+
+    getUnreadNotificationsLabel(): string {
+        return this.unreadNotificationsCount > 99
+            ? '99+'
+            : String(this.unreadNotificationsCount);
+    }
+
+    getNotificationStatusClass(status?: string | null): string {
+        return `is-${status || 'info'}`;
+    }
+
+    getNotificationIconClass(status?: string | null): string {
+        switch (status) {
+            case 'success':
+                return 'fa-circle-check';
+            case 'warning':
+                return 'fa-triangle-exclamation';
+            case 'danger':
+                return 'fa-circle-xmark';
+            default:
+                return 'fa-circle-info';
+        }
+    }
+
+    trackByNotificationId(index: number, notification: AppNotification): string {
+        return notification.id;
     }
 
     getUserDisplayName(): string {
