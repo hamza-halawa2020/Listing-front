@@ -15,6 +15,7 @@ $gray: #9ca3af;
     top: 0;
     left: 0;
     right: 0;
+    min-height: var(--navbar-height);
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
@@ -32,11 +33,14 @@ $gray: #9ca3af;
 // Navbar Container
 .navbar-container {
     margin: 0 auto;
-    padding: 30px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: var(--navbar-height);
     position: relative;
 }
 
@@ -151,7 +155,8 @@ $gray: #9ca3af;
     position: relative;
 }
 
-.notification-btn {
+.notification-btn,
+.chat-shortcut {
     position: relative;
     width: 48px;
     height: 48px;
@@ -162,6 +167,7 @@ $gray: #9ca3af;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 10px 22px rgba($secondary, 0.08);
@@ -180,10 +186,30 @@ $gray: #9ca3af;
     i {
         font-size: 1rem;
     }
+}
 
+.notification-btn {
     &.has-unread {
         color: $primary;
     }
+}
+
+.chat-shortcut {
+    &.has-unread {
+        color: $primary;
+        border-color: rgba($primary, 0.35);
+        box-shadow: 0 14px 28px rgba($primary, 0.15);
+    }
+
+    &.active {
+        color: $primary;
+        border-color: rgba($primary, 0.35);
+        box-shadow: 0 14px 28px rgba($primary, 0.15);
+    }
+}
+
+.chat-badge {
+    background: linear-gradient(135deg, $secondary, $primary);
 }
 
 .notification-badge {
@@ -657,6 +683,8 @@ $gray: #9ca3af;
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
+        max-height: calc(100vh - var(--navbar-height));
+        overflow-y: auto;
 
         &.active {
             transform: translateY(0);
@@ -706,13 +734,15 @@ $gray: #9ca3af;
 
             .language-switcher,
             .notification-center,
+            .chat-shortcut,
             .user-info,
             .btn {
                 width: 100%;
                 justify-content: center;
             }
 
-            .notification-btn {
+            .notification-btn,
+            .chat-shortcut {
                 width: 100%;
                 border-radius: 18px;
                 height: 52px;
@@ -748,8 +778,12 @@ $gray: #9ca3af;
 }
 
 @media (max-width: 767px) {
+    .main-navbar {
+        min-height: var(--navbar-height-mobile);
+    }
+
     .navbar-container {
-        height: 60px;
+        height: var(--navbar-height-mobile);
         padding: 0 15px;
     }
 
@@ -811,7 +845,3 @@ $gray: #9ca3af;
     }
 }
 
-// Smooth scrolling
-html {
-    scroll-behavior: smooth;
-}

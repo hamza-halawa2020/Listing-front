@@ -1,12 +1,13 @@
 import { NgClass, NgIf, CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { fromEvent, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { filter, fromEvent, Subscription } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { ChatUnreadService } from '../../shared/services/chat-unread.service';
 import { AppNotification, NotificationService } from '../../shared/services/notification.service';
 
 @Component({
@@ -35,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     currentUser: any = null;
     notifications: AppNotification[] = [];
     unreadNotificationsCount = 0;
+    unreadChatMessagesCount = 0;
     isNotificationsLoading = false;
     private subscriptions = new Subscription();
 
@@ -103,6 +105,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private settingService: SettingService,
         public authService: AuthService,
+        private chatUnreadService: ChatUnreadService,
         private notificationService: NotificationService
     ) {
         // Initialize languages
@@ -144,6 +147,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
         );
 
         this.subscriptions.add(
+            this.chatUnreadService.getUnreadMessagesCount().subscribe((count) => {
+                this.unreadChatMessagesCount = count;
+            })
+        );
+
+        this.subscriptions.add(
+            this.router.events
+                .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+                .subscribe(() => {
+                    if (this.authService.isLoggedIn()) {
+                        this.chatUnreadService.refresh();
+                    }
+                })
+        );
+
+        this.subscriptions.add(
             this.notificationService.getNotifications().subscribe((notifications) => {
                 this.notifications = notifications;
             })
@@ -160,6 +179,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.isNotificationsLoading = isLoading;
             })
         );
+
+        if (this.authService.isLoggedIn()) {
+            this.chatUnreadService.refresh();
+        }
     }
 
     fetchSettings() {
@@ -263,6 +286,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return this.unreadNotificationsCount > 99
             ? '99+'
             : String(this.unreadNotificationsCount);
+    }
+
+    getUnreadChatMessagesLabel(): string {
+        return this.unreadChatMessagesCount > 99
+            ? '99+'
+            : String(this.unreadChatMessagesCount);
     }
 
     getNotificationStatusClass(status?: string | null): string {

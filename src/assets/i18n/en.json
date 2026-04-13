@@ -683,5 +683,13 @@
   "MARK_ALL_AS_READ": "Mark all as read",
   "NO_NOTIFICATIONS": "No notifications yet",
   "NOTIFICATIONS_LOADING": "Loading notifications...",
-  "NEW": "New"
+  "NEW": "New",
+  "CHAT": "Chat",
+  "CONVERSATIONS": "Conversations",
+  "START_NEW_CHAT": "Start New Chat",
+  "NO_NEW_CHAT_CONTACTS": "Everyone here already has a previous conversation.",
+  "CHAT_EMPTY_STATE": "Open any conversation from the sidebar or start a new one.",
+  "CHAT_WINDOWS_PERSIST_HINT": "Open chat windows appear at the bottom of the page and stay with you while moving between site pages.",
+  "CLOSE_CHAT": "Close chat",
+  "CHAT_CONVERSATION_FALLBACK": "Conversation"
 }

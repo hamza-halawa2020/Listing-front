@@ -1,0 +1,77 @@
+<div class="chat-dock" *ngIf="isVisible && chatUi.currentUserId && chatUi.openedWindows.length">
+  <div class="chat-strip">
+    <ng-container *ngFor="let window of chatUi.openedWindows; trackBy: trackByWindowId">
+      <div
+        *ngIf="!window.isMinimized; else minimizedWindow"
+        class="chat-window"
+        [class.active]="window.conversation.id === chatUi.activeConversationId"
+        [class.is-closing]="window.isClosing">
+        <div class="chat-window-header" (click)="chatUi.toggleWindowMinimize(window.conversation.id)">
+          <span>{{ chatUi.participantLabel(window.conversation) }}</span>
+          <button
+            type="button"
+            (click)="chatUi.closeWindow(window.conversation.id); $event.stopPropagation()"
+            [attr.aria-label]="'CLOSE_CHAT' | translate"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="chat-window-content">
+          <div
+            class="chat-window-body"
+            #messageBody
+            [attr.data-conversation-id]="window.conversation.id"
+            (scroll)="onMessagesScroll($event, window.conversation.id)"
+          >
+            <div class="chat-window-body__status" *ngIf="window.isLoadingOlderMessages">
+              {{ 'LOADING' | translate }}
+            </div>
+
+            <div class="chat-window-body__status" *ngIf="window.isLoadingMessages && !window.messages.length">
+              {{ 'LOADING' | translate }}
+            </div>
+
+            <div
+              class="chat-message"
+              *ngFor="let message of window.messages; trackBy: trackByMessageId"
+              [class.mine]="chatUi.isMine(message)"
+              [class.is-pending]="!!message.is_pending"
+            >
+              <div class="bubble">
+                <p>{{ message.body }}</p>
+                <small>{{ message.created_at | date:'shortTime' }}</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-window-input">
+            <input [(ngModel)]="window.draft" (keyup.enter)="chatUi.sendMessage(window)" [placeholder]="'WRITE_MESSAGE' | translate" />
+            <button type="button" (click)="chatUi.sendMessage(window)">{{ 'SEND_MESSAGE' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #minimizedWindow>
+        <div
+          class="chat-minimized-tab"
+          [class.is-closing]="window.isClosing">
+          <button
+            type="button"
+            class="chat-minimized-tab__main"
+            (click)="chatUi.toggleWindowMinimize(window.conversation.id)">
+            {{ chatUi.participantLabel(window.conversation) }}
+          </button>
+
+          <button
+            type="button"
+            class="chat-minimized-tab__close"
+            (click)="chatUi.closeWindow(window.conversation.id)"
+            [attr.aria-label]="'CLOSE_CHAT' | translate">
+            &times;
+          </button>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

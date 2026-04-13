@@ -32,6 +32,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'chat',
+        loadComponent: () => import('./pages/chat-page/chat-page.component').then(m => m.ChatPageComponent),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'checkout/:planId',
         loadComponent: () => import('./pages/checkout-page/checkout-page.component').then(m => m.CheckoutPageComponent),
         canActivate: [AuthGuard]

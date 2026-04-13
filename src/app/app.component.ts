@@ -7,11 +7,12 @@ import { CustomCursorComponent } from './shared/components/custom-cursor/custom-
 import { FooterComponent } from './common/footer/footer.component';
 import { BackToTopComponent } from './common/back-to-top/back-to-top.component';
 import { AppDownloadComponent } from './shared/components/app-download/app-download.component';
+import { ChatDockComponent } from './shared/components/chat-dock/chat-dock.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, BackToTopComponent, AppDownloadComponent],
+    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, BackToTopComponent, AppDownloadComponent, ChatDockComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

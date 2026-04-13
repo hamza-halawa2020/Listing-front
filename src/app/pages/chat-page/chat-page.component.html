@@ -1,0 +1,93 @@
+<section class="chat-page mt-5">
+  <div class="chat-layout">
+    <aside class="chat-sidebar">
+      <h4>{{ 'CONVERSATIONS' | translate }}</h4>
+      <div class="conversation-list">
+        <button
+          type="button"
+          *ngFor="let conversation of chatUi.conversations; trackBy: trackByConversationId"
+          class="conversation-item"
+          [class.active]="conversation.id === chatUi.activeConversationId"
+          (click)="chatUi.openConversation(conversation)"
+        >
+          <strong>{{ chatUi.participantLabel(conversation) }}</strong>
+          <span class="unread" *ngIf="conversation.unread_count">{{ conversation.unread_count }}</span>
+        </button>
+      </div>
+
+      <h4>{{ 'START_NEW_CHAT' | translate }}</h4>
+      <div class="contact-list">
+        <button
+          type="button"
+          *ngFor="let contact of chatUi.availableContacts; trackBy: trackByContactId"
+          class="contact-item"
+          (click)="chatUi.startChatWith(contact)"
+        >
+          {{ contact.name }} ({{ contact.role }})
+        </button>
+
+        <div class="contact-list-empty" *ngIf="!chatUi.availableContacts.length">
+          {{ 'NO_NEW_CHAT_CONTACTS' | translate }}
+        </div>
+      </div>
+    </aside>
+
+    <main class="chat-main">
+      <ng-container *ngIf="chatUi.activeWindow as activeWindow; else chatEmptyState">
+        <div class="chat-main__header">
+          <div>
+            <h3>{{ chatUi.participantLabel(activeWindow.conversation) }}</h3>
+            <p>{{ activeWindow.conversation.type === 'group' ? activeWindow.conversation.subject : ('CHAT' | translate) }}</p>
+          </div>
+        </div>
+
+        <div class="chat-main__body" #pageMessagesBody (scroll)="onMessagesScroll($event)">
+          <div class="chat-main__status" *ngIf="activeWindow.isLoadingOlderMessages">
+            {{ 'LOADING' | translate }}
+          </div>
+
+          <div class="chat-main__status" *ngIf="activeWindow.isLoadingMessages && !activeWindow.messages.length">
+            {{ 'LOADING' | translate }}
+          </div>
+
+          <ng-container *ngIf="activeWindow.messages.length; else conversationEmptyState">
+            <div
+              class="chat-main__message"
+              *ngFor="let message of activeWindow.messages; trackBy: trackByMessageId"
+              [class.mine]="chatUi.isMine(message)"
+              [class.is-pending]="!!message.is_pending"
+            >
+              <div class="bubble">
+                <p>{{ message.body }}</p>
+                <small>{{ message.created_at | date:'shortTime' }}</small>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="chat-main__input">
+          <input
+            [(ngModel)]="activeWindow.draft"
+            (keyup.enter)="chatUi.sendMessage(activeWindow)"
+            [placeholder]="'WRITE_MESSAGE' | translate"
+          />
+          <button type="button" (click)="chatUi.sendMessage(activeWindow)">
+            {{ 'SEND_MESSAGE' | translate }}
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-template #conversationEmptyState>
+        <div class="chat-main-placeholder">
+          {{ 'CHAT_EMPTY_STATE' | translate }}
+        </div>
+      </ng-template>
+
+      <ng-template #chatEmptyState>
+        <div class="chat-main-placeholder">
+          {{ 'CHAT_EMPTY_STATE' | translate }}
+        </div>
+      </ng-template>
+    </main>
+  </div>
+</section>

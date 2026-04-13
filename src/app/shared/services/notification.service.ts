@@ -51,12 +51,9 @@ export class NotificationService implements OnDestroy {
     ) {
         this.subscriptions.add(
             this.authService.getCurrentUser().subscribe((user) => {
-                if (user && this.authService.isLoggedIn()) {
-                    this.refresh(true);
-                    return;
+                if (!user || !this.authService.isLoggedIn()) {
+                    this.resetState();
                 }
-
-                this.resetState();
             })
         );
     }

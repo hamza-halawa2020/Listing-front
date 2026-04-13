@@ -42,6 +42,8 @@ body.loaded #loading-screen {
 }
 
 :root {
+    --navbar-height: 70px;
+    --navbar-height-mobile: 60px;
     --primaryColor: #2563eb;
     /* Brand Blue - Lighter and closer to logo blue */
     --primary-color: #2563eb;
@@ -72,11 +74,15 @@ body.loaded #loading-screen {
     --headingFontFamily: 'Cairo', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-height);
+}
+
 body {
     margin: 0;
     padding: 0;
-    padding-top: 70px;
-    /* Add padding for fixed navbar */
+    padding-top: var(--navbar-height);
     overflow-x: hidden;
     color: var(--primaryColor);
     background-color: var(--creamBg);
@@ -85,8 +91,12 @@ body {
 
 /* Responsive navbar padding */
 @media (max-width: 767px) {
+    html {
+        scroll-padding-top: var(--navbar-height-mobile);
+    }
+
     body {
-        padding-top: 60px;
+        padding-top: var(--navbar-height-mobile);
     }
 }
 
