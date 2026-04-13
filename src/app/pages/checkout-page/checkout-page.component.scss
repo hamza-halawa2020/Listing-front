@@ -111,6 +111,47 @@
         padding: 1rem 1.1rem;
     }
 
+    .delivery-hint-alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        background: #fff5f5;
+        border: 2px solid #e53e3e;
+        border-right: 6px solid #e53e3e;
+        border-radius: 0.85rem;
+        padding: 0.9rem 1rem;
+        animation: hintSlideIn 0.25s ease;
+        direction: rtl;
+        text-align: right;
+
+        i {
+            color: #e53e3e;
+            font-size: 1.4rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        strong {
+            color: #c53030;
+            font-size: 0.95rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        span {
+            color: #742a2a;
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+    }
+
+    @keyframes hintSlideIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
     .delivery-toggle__label {
         display: flex;
         align-items: center;

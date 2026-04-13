@@ -287,6 +287,8 @@
   "PAYMENT_FAILED": "Payment submission failed. Please try again or contact support.",
   "DELIVERY_TO_MY_ADDRESS": "I want the subscription delivered to my address",
   "DELIVERY_HINT": "When enabled, shipping fees will be added based on the selected governorate.",
+  "DELIVERY_HINT2": "Or get your card issued digitally with no shipping fees.",
+  "DELIVERY_HINT2_TITLE": "Save on shipping costs!",
   "GOVERNORATE": "Governorate",
   "SELECT_GOVERNORATE": "Select governorate",
   "SEARCH_GOVERNORATE": "Search governorate",
