@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChatUiService } from '../../shared/services/chat-ui.service';
@@ -13,6 +13,7 @@ import { ChatUiService } from '../../shared/services/chat-ui.service';
 })
 export class ChatPageComponent implements OnInit, AfterViewChecked {
   @ViewChild('pageMessagesBody') private pageMessagesBody?: ElementRef<HTMLDivElement>;
+  @ViewChild('pageDraftInput') private pageDraftInput?: ElementRef<HTMLInputElement>;
 
   private pendingHistoryRestore: { scrollHeight: number; scrollTop: number } | null = null;
   private lastDebugSignature = '';
@@ -41,6 +42,45 @@ export class ChatPageComponent implements OnInit, AfterViewChecked {
     return message.id;
   }
 
+  toggleEmojiPicker(event?: Event): void {
+    event?.stopPropagation();
+
+    const activeConversationId = this.chatUi.activeWindow?.conversation.id;
+
+    if (!activeConversationId) {
+      return;
+    }
+
+    this.chatUi.toggleEmojiPicker(activeConversationId);
+  }
+
+  insertEmoji(emoji: string, event?: Event): void {
+    event?.stopPropagation();
+
+    const activeWindow = this.chatUi.activeWindow;
+    const input = this.pageDraftInput?.nativeElement;
+
+    if (!activeWindow || !input) {
+      return;
+    }
+
+    const start = input.selectionStart ?? activeWindow.draft.length;
+    const end = input.selectionEnd ?? activeWindow.draft.length;
+
+    activeWindow.draft =
+      activeWindow.draft.slice(0, start) +
+      emoji +
+      activeWindow.draft.slice(end);
+
+    this.chatUi.closeEmojiPicker();
+
+    queueMicrotask(() => {
+      input.focus();
+      const nextPosition = start + emoji.length;
+      input.setSelectionRange(nextPosition, nextPosition);
+    });
+  }
+
   onMessagesScroll(event: Event): void {
     const activeWindow = this.chatUi.activeWindow;
     const body = event.target as HTMLDivElement;
@@ -61,6 +101,17 @@ export class ChatPageComponent implements OnInit, AfterViewChecked {
     };
 
     this.chatUi.loadOlderMessages(activeWindow.conversation.id);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement | null;
+
+    if (target?.closest('.chat-emoji-picker-ctn')) {
+      return;
+    }
+
+    this.chatUi.closeEmojiPicker();
   }
 
   ngAfterViewChecked(): void {

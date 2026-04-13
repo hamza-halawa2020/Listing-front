@@ -66,11 +66,42 @@
         </div>
 
         <div class="chat-main__input">
-          <input
-            [(ngModel)]="activeWindow.draft"
-            (keyup.enter)="chatUi.sendMessage(activeWindow)"
-            [placeholder]="'WRITE_MESSAGE' | translate"
-          />
+          <div class="chat-main__composer">
+            <div class="chat-emoji-picker-ctn">
+              <button
+                type="button"
+                class="chat-main__emoji-btn bg-light"
+                [class.is-open]="chatUi.isEmojiPickerOpen(activeWindow.conversation.id)"
+                [attr.aria-label]="'ADD_EMOJI' | translate"
+                (click)="toggleEmojiPicker($event)"
+              >
+                😊
+              </button>
+
+              <div
+                class="chat-main__emoji-panel"
+                *ngIf="chatUi.isEmojiPickerOpen(activeWindow.conversation.id)"
+                (click)="$event.stopPropagation()"
+              >
+                <button
+                  type="button"
+                  class="chat-main__emoji-option"
+                  *ngFor="let emoji of chatUi.emojiList"
+                  (click)="insertEmoji(emoji, $event)"
+                >
+                  {{ emoji }}
+                </button>
+              </div>
+            </div>
+
+            <input
+              #pageDraftInput
+              [(ngModel)]="activeWindow.draft"
+              (keyup.enter)="chatUi.sendMessage(activeWindow)"
+              [placeholder]="'WRITE_MESSAGE' | translate"
+            />
+          </div>
+
           <button type="button" (click)="chatUi.sendMessage(activeWindow)">
             {{ 'SEND_MESSAGE' | translate }}
           </button>

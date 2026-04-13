@@ -26,8 +26,10 @@ export class ChatUiService implements OnDestroy {
   conversations: ChatConversation[] = [];
   openedWindows: OpenChatWindow[] = [];
   activeConversationId: number | null = null;
+  emojiPickerConversationId: number | null = null;
   isLoading = false;
   currentUserId: number | null = null;
+  readonly emojiList = ['😀', '😂', '😍', '😎', '😊', '😉', '🙌', '👏', '🔥', '🎉', '❤️', '👍', '🙏', '😢', '😮', '🤝', '💙', '✅', '⭐', '📍'];
 
   private readonly messagesBatchSize = 25;
   private initializedForUserId: number | null = null;
@@ -224,6 +226,7 @@ export class ChatUiService implements OnDestroy {
   openConversation(conversation: ChatConversation): void {
     const normalizedConversation = this.normalizeConversation(conversation);
     this.activeConversationId = normalizedConversation.id;
+    this.closeEmojiPicker();
     this.debug('openConversation', {
       conversationId: normalizedConversation.id,
       existingWindow: !!this.openedWindows.find((window) => window.conversation.id === normalizedConversation.id),
@@ -271,6 +274,7 @@ export class ChatUiService implements OnDestroy {
     }
 
     targetWindow.isMinimized = !targetWindow.isMinimized;
+    this.closeEmojiPicker();
 
     if (targetWindow.isMinimized) {
       if (this.activeConversationId === conversationId) {
@@ -298,6 +302,10 @@ export class ChatUiService implements OnDestroy {
       return;
     }
 
+    if (this.emojiPickerConversationId === conversationId) {
+      this.closeEmojiPicker();
+    }
+
     targetWindow.isClosing = true;
 
     if (this.activeConversationId === conversationId) {
@@ -318,6 +326,8 @@ export class ChatUiService implements OnDestroy {
     if (!body || window.isLoadingMessages) {
       return;
     }
+
+    this.closeEmojiPicker();
 
     const optimisticMessage = this.createOptimisticMessage(window.conversation.id, body);
 
@@ -410,6 +420,20 @@ export class ChatUiService implements OnDestroy {
 
   isMine(message: ChatMessage): boolean {
     return message.sender?.id === this.currentUserId;
+  }
+
+  toggleEmojiPicker(conversationId: number): void {
+    this.emojiPickerConversationId = this.emojiPickerConversationId === conversationId
+      ? null
+      : conversationId;
+  }
+
+  closeEmojiPicker(): void {
+    this.emojiPickerConversationId = null;
+  }
+
+  isEmojiPickerOpen(conversationId: number): boolean {
+    return this.emojiPickerConversationId === conversationId;
   }
 
   ngOnDestroy(): void {
@@ -604,6 +628,7 @@ export class ChatUiService implements OnDestroy {
     this.conversations = [];
     this.openedWindows = [];
     this.activeConversationId = null;
+    this.emojiPickerConversationId = null;
     this.isLoading = false;
     this.chatUnreadService.syncFromConversations([]);
   }

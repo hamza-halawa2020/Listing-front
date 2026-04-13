@@ -691,5 +691,6 @@
   "CHAT_EMPTY_STATE": "Open any conversation from the sidebar or start a new one.",
   "CHAT_WINDOWS_PERSIST_HINT": "Open chat windows appear at the bottom of the page and stay with you while moving between site pages.",
   "CLOSE_CHAT": "Close chat",
-  "CHAT_CONVERSATION_FALLBACK": "Conversation"
+  "CHAT_CONVERSATION_FALLBACK": "Conversation",
+  "ADD_EMOJI": "Add emoji"
 }

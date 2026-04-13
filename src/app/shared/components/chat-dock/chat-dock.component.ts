@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, Component, ElementRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { ChatUiService } from '../../services/chat-ui.service';
 })
 export class ChatDockComponent implements AfterViewChecked, OnDestroy {
   @ViewChildren('messageBody') private messageBodies?: QueryList<ElementRef<HTMLDivElement>>;
+  @ViewChildren('draftInput') private draftInputs?: QueryList<ElementRef<HTMLInputElement>>;
 
   private pendingHistoryRestore = new Map<number, { scrollHeight: number; scrollTop: number }>();
   private readonly routerSubscription: Subscription;
@@ -47,6 +48,38 @@ export class ChatDockComponent implements AfterViewChecked, OnDestroy {
     return message.id;
   }
 
+  toggleEmojiPicker(conversationId: number, event?: Event): void {
+    event?.stopPropagation();
+    this.chatUi.toggleEmojiPicker(conversationId);
+  }
+
+  insertEmoji(conversationId: number, emoji: string, event?: Event): void {
+    event?.stopPropagation();
+
+    const targetWindow = this.chatUi.openedWindows.find((window) => window.conversation.id === conversationId);
+    const input = this.getDraftInput(conversationId);
+
+    if (!targetWindow || !input) {
+      return;
+    }
+
+    const start = input.selectionStart ?? targetWindow.draft.length;
+    const end = input.selectionEnd ?? targetWindow.draft.length;
+
+    targetWindow.draft =
+      targetWindow.draft.slice(0, start) +
+      emoji +
+      targetWindow.draft.slice(end);
+
+    this.chatUi.closeEmojiPicker();
+
+    queueMicrotask(() => {
+      input.focus();
+      const nextPosition = start + emoji.length;
+      input.setSelectionRange(nextPosition, nextPosition);
+    });
+  }
+
   onMessagesScroll(event: Event, conversationId: number): void {
     const body = event.target as HTMLDivElement;
     const targetWindow = this.chatUi.openedWindows.find((window) => window.conversation.id === conversationId);
@@ -67,6 +100,17 @@ export class ChatDockComponent implements AfterViewChecked, OnDestroy {
     });
 
     this.chatUi.loadOlderMessages(conversationId);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement | null;
+
+    if (target?.closest('.chat-emoji-picker-ctn')) {
+      return;
+    }
+
+    this.chatUi.closeEmojiPicker();
   }
 
   ngAfterViewChecked(): void {
@@ -96,5 +140,11 @@ export class ChatDockComponent implements AfterViewChecked, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
+  }
+
+  private getDraftInput(conversationId: number): HTMLInputElement | undefined {
+    return this.draftInputs
+      ?.find((inputRef) => Number(inputRef.nativeElement.dataset['conversationId']) === conversationId)
+      ?.nativeElement;
   }
 }
