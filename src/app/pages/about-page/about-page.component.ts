@@ -32,6 +32,9 @@ interface ImpactStat {
     styleUrls: ['./about-page.component.scss'],
 })
 export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
+    private readonly baseMembersCount = 5000;
+    private readonly fixedMaxDiscountPercentage = 50;
+
     @ViewChild('impactSection') impactSection?: ElementRef<HTMLElement>;
 
     settings: Settings = {};
@@ -163,7 +166,7 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private updateImpactStats(data: ImpactStatsData): void {
         this.impactStats = this.impactStats.map((stat) => {
-            const nextValue = data[stat.dataKey];
+            const nextValue = this.getImpactStatValue(stat.dataKey, data);
 
             return {
                 ...stat,
@@ -171,6 +174,17 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 currentValue: this.hasImpactAnimated ? nextValue : 0
             };
         });
+    }
+
+    private getImpactStatValue(dataKey: keyof ImpactStatsData, data: ImpactStatsData): number {
+        switch (dataKey) {
+            case 'members_count':
+                return this.baseMembersCount + data.members_count;
+            case 'max_discount_percentage':
+                return this.fixedMaxDiscountPercentage;
+            default:
+                return data[dataKey];
+        }
     }
 
     private animateImpactValue(index: number, targetValue: number, duration: number): void {
