@@ -57,6 +57,11 @@
                         <i class="fa-solid fa-users"></i>
                         <span>{{ 'FAMILY_MEMBERS' | translate }}</span>
                     </button>
+                    <button type="button" class="profile-tab-btn" [class.is-active]="activeTab === 'referral'"
+                        (click)="setActiveTab('referral')" *ngIf="currentUser?.referral_code">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>{{ 'MY_REFERRALS' | translate }}</span>
+                    </button>
                 </div>
 
                 <div class="profile-shortcuts">
@@ -116,6 +121,16 @@
                             <div class="profile-field">
                                 <span class="profile-field__label">{{ 'ROLE_LABEL' | translate }}</span>
                                 <strong>{{ currentUser.role || ('NO_DATA' | translate) }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'REFERRAL_CODE' | translate }}</span>
+                                <strong>{{ currentUser.referral_code || '-' }}</strong>
+                            </div>
+
+                            <div class="profile-field">
+                                <span class="profile-field__label">{{ 'POINTS_BALANCE' | translate }}</span>
+                                <strong>{{ currentUser.points_balance ?? 0 }}</strong>
                             </div>
 
                             <div class="profile-field">
@@ -396,7 +411,65 @@
                         </div>
                     </div>
 
-                    <div class="profile-card" *ngIf="activeTab === 'subscriptions' && !getSubscriptions().length">
+    
+                <!-- Referral Tab -->
+                <div class="profile-card referral-card" *ngIf="activeTab === 'referral'">
+                    <div class="referral-loading" *ngIf="isLoadingReferral">
+                        <span class="spinner"></span>
+                    </div>
+                    <ng-container *ngIf="!isLoadingReferral && referralData">
+                        <!-- Code Box -->
+                        <div class="referral-code-box">
+                            <span class="referral-code-label">{{ 'REFERRAL_CODE' | translate }}</span>
+                            <div class="referral-code-value">
+                                <strong>{{ referralData.referral_code }}</strong>
+                                <button class="btn-copy" (click)="copyReferralCode()">
+                                    {{ (codeCopied ? 'CODE_COPIED' : 'COPY_CODE') | translate }}
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Stats -->
+                        <div class="referral-stats">
+                            <div class="referral-stat-item">
+                                <span class="stat-value">{{ referralData.stats?.total_referrals || 0 }}</span>
+                                <span class="stat-label">{{ 'TOTAL_REFERRALS' | translate }}</span>
+                            </div>
+                            <div class="referral-stat-item">
+                                <span class="stat-value">{{ referralData.stats?.rewarded_referrals || 0 }}</span>
+                                <span class="stat-label">{{ 'REWARDED_REFERRALS' | translate }}</span>
+                            </div>
+                            <div class="referral-stat-item">
+                                <span class="stat-value">{{ referralData.stats?.points_earned || 0 }}</span>
+                                <span class="stat-label">{{ 'POINTS_EARNED' | translate }}</span>
+                            </div>
+                        </div>
+                        <!-- Referrals List -->
+                        <div class="referral-list" *ngIf="referralData.referrals?.length">
+                            <h4 class="referral-list-title">{{ 'MY_REFERRALS' | translate }}</h4>
+                            <div class="referral-item" *ngFor="let r of referralData.referrals">
+                                <div class="referral-item-info">
+                                    <span class="referral-item-name">{{ r.referred_user_name }}</span>
+                                    <span class="referral-item-date">{{ r.created_at | date:'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="referral-item-reward">
+                                    <span class="referral-item-points" *ngIf="r.points_awarded > 0">
+                                        +{{ r.points_awarded }} {{ 'POINTS' | translate }}
+                                    </span>
+                                    <span class="referral-item-status" [class]="'status-' + r.status">
+                                        {{ getReferralStatusKey(r.status) | translate }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Empty State -->
+                        <div class="referral-empty" *ngIf="!referralData.referrals?.length">
+                            <p>{{ 'NO_REFERRALS_YET' | translate }}</p>
+                            <small>{{ 'SHARE_CODE_TO_EARN' | translate }}</small>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div class="profile-card" *ngIf="activeTab === 'subscriptions' && !getSubscriptions().length">
                         <h3 class="profile-card__title">{{ 'SUBSCRIPTIONS' | translate }}</h3>
                         <p class="profile-empty-state">{{ 'NO_SUBSCRIPTIONS_AVAILABLE' | translate }}</p>
                     </div>

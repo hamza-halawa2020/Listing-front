@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -21,6 +21,7 @@ export class SignupPageComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
+        private route: ActivatedRoute,
         private router: Router
     ) { }
 
@@ -29,8 +30,16 @@ export class SignupPageComponent implements OnInit {
             name: ['', [Validators.required, Validators.maxLength(255)]],
             email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
             password: ['', [Validators.required, Validators.minLength(8)]],
-            phone: ['']
+            phone: [''],
+            referral_code: ['', [Validators.maxLength(50)]],
         });
+
+        const referralCodeFromLink = this.route.snapshot.queryParamMap.get('ref');
+        if (referralCodeFromLink) {
+            this.signupForm.patchValue({
+                referral_code: referralCodeFromLink,
+            });
+        }
 
         if (this.authService.isLoggedIn()) {
             this.router.navigate(['/']);
@@ -54,9 +63,15 @@ export class SignupPageComponent implements OnInit {
         this.isLoading = true;
         this.errorMessage = '';
 
-        const { name, email, password, phone } = this.signupForm.value;
+        const { name, email, password, phone, referral_code } = this.signupForm.value;
 
-        this.authService.register({ name, email, password, phone }).subscribe({
+        this.authService.register({
+            name,
+            email,
+            password,
+            phone,
+            referral_code: String(referral_code || '').trim() || undefined,
+        }).subscribe({
             next: () => {
                 this.isLoading = false;
                 this.router.navigate(['/']); // Redirect to home on success

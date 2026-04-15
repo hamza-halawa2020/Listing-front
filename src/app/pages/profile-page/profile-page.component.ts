@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../shared/services/auth.service';
+import { ReferralService } from '../../shared/services/referral.service';
 import { ListingsService } from '../listings-page/listings.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
     currentUser: any = null;
     locations: Array<{ id: string; name: string }> = [];
-    activeTab: 'overview' | 'edit' | 'subscriptions' | 'family' = 'overview';
+    activeTab: 'overview' | 'edit' | 'subscriptions' | 'family' | 'referral' = 'overview';
     isLoadingProfile = true;
     isLoadingLocations = false;
     isSavingProfile = false;
@@ -33,6 +34,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     editingFamilyMemberId: string | null = null;
     editingFamilyMemberSuccessId: string | null = null;
     profileErrors: string[] = [];
+    referralData: any = null;
+    isLoadingReferral = false;
+    codeCopied = false;
     familyErrors: string[] = [];
     editingFamilyMemberErrors: string[] = [];
     generatedCardMap: Record<string, string> = {};
@@ -99,7 +103,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthService,
         private listingsService: ListingsService,
-        private router: Router
+        private router: Router,
+        private referralService: ReferralService
     ) {}
 
     ngOnInit(): void {
@@ -275,12 +280,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         return this.editingFamilyMemberId === this.getFamilyMemberId(member);
     }
 
-    setActiveTab(tab: 'overview' | 'edit' | 'subscriptions' | 'family'): void {
+    setActiveTab(tab: 'overview' | 'edit' | 'subscriptions' | 'family' | 'referral'): void {
         this.activeTab = tab;
 
         if (tab !== 'family') {
             this.editingFamilyMemberId = null;
             this.editingFamilyMemberErrors = [];
+        }
+        if (tab === 'referral' && !this.referralData) {
+            this.loadReferral();
         }
     }
 
@@ -460,6 +468,38 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     logout(): void {
         this.authService.logout();
         this.router.navigate(['/login']);
+    }
+
+    loadReferral(): void {
+        this.isLoadingReferral = true;
+        this.subscription.add(
+            this.referralService.getReferralDetails().subscribe({
+                next: (data) => {
+                    this.referralData = data;
+                    this.isLoadingReferral = false;
+                },
+                error: () => { this.isLoadingReferral = false; }
+            })
+        );
+    }
+
+    copyReferralCode(): void {
+        const code = this.referralData?.referral_code;
+        if (!code) return;
+        navigator.clipboard.writeText(code).then(() => {
+            this.codeCopied = true;
+            setTimeout(() => { this.codeCopied = false; }, 2000);
+        });
+    }
+
+    getReferralStatusKey(status: string): string {
+        const map: Record<string, string> = {
+            pending: 'REFERRAL_STATUS_PENDING',
+            rewarded: 'REFERRAL_STATUS_REWARDED',
+            rejected: 'REFERRAL_STATUS_REJECTED',
+            qualified: 'REFERRAL_STATUS_QUALIFIED',
+        };
+        return map[status] || status;
     }
 
     private loadProfile(): void {

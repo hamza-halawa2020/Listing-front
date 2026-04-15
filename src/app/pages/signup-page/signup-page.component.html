@@ -40,6 +40,16 @@
             </div>
 
             <div class="mb-4">
+                <label class="form-label fw-semibold text-muted mb-2">{{ 'REFERRAL_CODE' | translate }}</label>
+                <div class="input-group-premium">
+                    <span class="input-icon"><i class="fa-solid fa-ticket"></i></span>
+                    <input type="text" formControlName="referral_code" class="form-control"
+                        placeholder="{{ 'REFERRAL_CODE_PLACEHOLDER' | translate }}">
+                </div>
+                <small class="text-muted d-block mt-2">{{ 'REFERRAL_CODE_HINT' | translate }}</small>
+            </div>
+
+            <div class="mb-4">
                 <label class="form-label fw-semibold text-muted mb-2">{{ 'password' | translate }}</label>
                 <div class="input-group-premium position-relative">
                     <span class="input-icon"><i class="fa-solid fa-lock"></i></span>

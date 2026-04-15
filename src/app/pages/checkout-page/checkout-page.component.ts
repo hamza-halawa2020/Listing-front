@@ -60,6 +60,11 @@ export class CheckoutPageComponent implements OnInit {
     successMessage: string | null = null;
     errorMessage: string | null = null;
     validationErrors: string[] = [];
+    submittedPaymentSummary: {
+        original_amount: number;
+        discount_amount: number;
+        amount: number;
+    } | null = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -191,6 +196,7 @@ export class CheckoutPageComponent implements OnInit {
         this.isSubmitting = true;
         this.errorMessage = null;
         this.validationErrors = [];
+        this.submittedPaymentSummary = null;
 
         const data = { ...this.paymentData };
         // Ensure plan_id is sent as a number if it's a numeric string
@@ -216,6 +222,11 @@ export class CheckoutPageComponent implements OnInit {
 
         this.paymentService.createPayment(data).subscribe({
             next: (response) => {
+                this.submittedPaymentSummary = {
+                    original_amount: Number(response?.original_amount || this.totalAmount),
+                    discount_amount: Number(response?.discount_amount || 0),
+                    amount: Number(response?.amount || this.totalAmount),
+                };
                 this.successMessage = 'PAYMENT_SUBMITTED_SUCCESSFULLY';
                 this.isSubmitting = false;
                 setTimeout(() => {

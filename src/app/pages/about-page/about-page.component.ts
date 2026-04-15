@@ -33,7 +33,8 @@ interface ImpactStat {
 })
 export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly baseMembersCount = 5000;
-    private readonly fixedMaxDiscountPercentage = 50;
+    private readonly baseListingsCount = 2000;
+    private readonly fixedMaxDiscountPercentage = 75;
 
     @ViewChild('impactSection') impactSection?: ElementRef<HTMLElement>;
 
@@ -180,6 +181,8 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
         switch (dataKey) {
             case 'members_count':
                 return this.baseMembersCount + data.members_count;
+            case 'listings_count':
+                return this.baseListingsCount + data.listings_count;
             case 'max_discount_percentage':
                 return this.fixedMaxDiscountPercentage;
             default:
