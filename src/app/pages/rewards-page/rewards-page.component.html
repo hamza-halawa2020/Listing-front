@@ -1,0 +1,165 @@
+﻿<div class="rewards-page">
+  <!-- Page Banner -->
+  <div class="rewards-banner">
+    <div class="banner-content">
+      <div class="banner-icon">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <h1>{{ 'REWARDS_TITLE' | translate }}</h1>
+      <p class="text-dark">{{ 'REWARDS_SUBTITLE' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="rewards-container">
+
+    <!-- How it works -->
+    <section class="how-it-works">
+      <h2 class="section-title">{{ 'HOW_TO_EARN_POINTS' | translate }}</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon step-icon--1">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <h3>{{ 'STEP_REGISTER' | translate }}</h3>
+          <p>{{ 'STEP_REGISTER_DESC' | translate }}</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon step-icon--2">
+            <i class="fa-solid fa-share-nodes"></i>
+          </div>
+          <h3>{{ 'STEP_SHARE' | translate }}</h3>
+          <p>{{ 'STEP_SHARE_DESC' | translate }}</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon step-icon--3">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <h3>{{ 'STEP_EARN' | translate }}</h3>
+          <p>{{ 'STEP_EARN_DESC' | translate }}</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon step-icon--4">
+            <i class="fa-solid fa-gift"></i>
+          </div>
+          <h3>{{ 'STEP_REDEEM' | translate }}</h3>
+          <p>{{ 'STEP_REDEEM_DESC' | translate }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Points Rate Info -->
+    <section class="points-rate-section">
+      <div class="rate-card">
+        <div class="rate-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="rate-info">
+          <span class="rate-label">{{ 'POINTS_RATE_LABEL' | translate }}</span>
+          <span class="rate-value">{{ '1 ' + ('POINT' | translate) + ' = ' + pointRate + ' ' + ('EGP' | translate) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="isLoading">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <span>{{ 'LOADING' | translate }}</span>
+    </div>
+
+    <!-- Not logged in -->
+    <section class="login-prompt" *ngIf="!isLoggedIn && !isLoading">
+      <div class="prompt-card">
+        <i class="fa-solid fa-lock"></i>
+        <h3>{{ 'LOGIN_TO_SEE_REWARDS' | translate }}</h3>
+        <p>{{ 'LOGIN_TO_SEE_REWARDS_DESC' | translate }}</p>
+        <a routerLink="/login" class="btn-primary-action">{{ 'Login' | translate }}</a>
+      </div>
+    </section>
+
+    <!-- Referral Code & Stats -->
+    <ng-container *ngIf="isLoggedIn && !isLoading && referralData">
+
+      <!-- Not eligible yet -->
+      <section class="not-eligible" *ngIf="!referralData.is_eligible">
+        <div class="prompt-card prompt-card--warning">
+          <i class="fa-solid fa-circle-info"></i>
+          <h3>{{ 'NOT_ELIGIBLE_TITLE' | translate }}</h3>
+          <p>{{ 'NOT_ELIGIBLE_DESC' | translate }}</p>
+          <a routerLink="/pricing" class="btn-primary-action">{{ 'PRICING' | translate }}</a>
+        </div>
+      </section>
+
+      <!-- Eligible: show code + stats -->
+      <ng-container *ngIf="referralData.is_eligible">
+
+        <!-- Referral Code -->
+        <section class="referral-code-section">
+          <h2 class="section-title">{{ 'YOUR_REFERRAL_CODE' | translate }}</h2>
+          <div class="code-card">
+            <div class="code-display">
+              <span class="code-text">{{ referralData.referral_code }}</span>
+              <button class="copy-btn" (click)="copyCode()" [class.copied]="copiedCode">
+                <i class="fa-solid" [class.fa-copy]="!copiedCode" [class.fa-check]="copiedCode"></i>
+                <span>{{ (copiedCode ? 'COPIED' : 'COPY') | translate }}</span>
+              </button>
+            </div>
+            <p class="code-hint">{{ 'REFERRAL_CODE_HINT' | translate }}</p>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section">
+          <h2 class="section-title">{{ 'YOUR_STATS' | translate }}</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="fa-solid fa-users"></i>
+              <span class="stat-value">{{ referralData.stats.total_referrals }}</span>
+              <span class="stat-label">{{ 'TOTAL_REFERRALS' | translate }}</span>
+            </div>
+            <div class="stat-card stat-card--success">
+              <i class="fa-solid fa-circle-check"></i>
+              <span class="stat-value">{{ referralData.stats.rewarded_referrals }}</span>
+              <span class="stat-label">{{ 'REWARDED_REFERRALS' | translate }}</span>
+            </div>
+            <div class="stat-card stat-card--warning">
+              <i class="fa-solid fa-clock"></i>
+              <span class="stat-value">{{ referralData.stats.pending_referrals }}</span>
+              <span class="stat-label">{{ 'PENDING_REFERRALS' | translate }}</span>
+            </div>
+            <div class="stat-card stat-card--points">
+              <i class="fa-solid fa-coins"></i>
+              <span class="stat-value">{{ referralData.stats.points_earned }}</span>
+              <span class="stat-label">{{ 'POINTS_EARNED' | translate }}</span>
+              <span class="stat-sub">â‰ˆ {{ pointsToEgp(referralData.stats.points_earned) }} {{ 'EGP' | translate }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Referrals List -->
+        <section class="referrals-list-section" *ngIf="referralData.referrals.length > 0">
+          <h2 class="section-title">{{ 'REFERRALS_LIST' | translate }}</h2>
+          <div class="referrals-table-wrap">
+            <table class="referrals-table">
+              <thead>
+                <tr>
+                  <th>{{ 'USER' | translate }}</th>
+                  <th>{{ 'STATUS' | translate }}</th>
+                  <th>{{ 'POINTS_AWARDED' | translate }}</th>
+                  <th>{{ 'DATE' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of referralData.referrals">
+                  <td>{{ r.referred_user_name || ('UNKNOWN_USER' | translate) }}</td>
+                  <td><span class="status-badge" [ngClass]="getStatusClass(r.status)">{{ getStatusLabel(r.status) }}</span></td>
+                  <td>{{ r.points_awarded }}</td>
+                  <td>{{ r.created_at | date:'mediumDate' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </ng-container>
+    </ng-container>
+
+  </div>
+</div>

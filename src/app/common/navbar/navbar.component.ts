@@ -1,4 +1,4 @@
-import { NgClass, NgIf, CommonModule } from '@angular/common';
+﻿import { NgClass, NgIf, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { filter, fromEvent, Subscription } from 'rxjs';
@@ -79,6 +79,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         {
             label: 'PRICING',
             route: '/pricing'
+        },        {
+            label: 'REWARDS',
+            route: '/rewards',
         },
         {
             label: 'PRICE_REQUEST',

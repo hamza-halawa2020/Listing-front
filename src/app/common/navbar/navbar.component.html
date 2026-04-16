@@ -1,4 +1,4 @@
-<nav class="main-navbar" [class.sticky]="isSticky">
+﻿<nav class="main-navbar" [class.sticky]="isSticky">
     <div class="navbar-container">
         <!-- Brand Logo -->
         <div class="navbar-brand">
@@ -13,7 +13,12 @@
                 <li *ngFor="let item of menuItems">
                     <ng-container *ngIf="!item['requiresAuth'] || authService.isLoggedIn()">
                         <a [routerLink]="item.route" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{exact: item.route === '/'}" (click)="closeMobileMenu()">
+                            [routerLinkActiveOptions]="{exact: item.route === '/'}"
+                            (click)="closeMobileMenu()"
+                            [class.rewards-link]="item.route === '/rewards'">
+                            <span class="rewards-flash" *ngIf="item.route === '/rewards'">
+                                <i class="fa-solid fa-bolt"></i>
+                            </span>
                             {{ item.label | translate }}
                         </a>
                     </ng-container>

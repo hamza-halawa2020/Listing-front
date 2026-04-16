@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+﻿import { Routes } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { HomeDemoOneComponent } from './demos/home-demo-one/home-demo-one.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
@@ -80,6 +80,10 @@ export const routes: Routes = [
     {
         path: 'company-solutions',
         loadComponent: () => import('./pages/company-solutions-page/company-solutions-page.component').then(m => m.CompanySolutionsPageComponent)
+    },
+    {
+        path: 'rewards',
+        loadComponent: () => import('./pages/rewards-page/rewards-page.component').then(m => m.RewardsPageComponent)
     },
 
     { path: '**', component: ErrorPageComponent },

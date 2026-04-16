@@ -1,4 +1,4 @@
-// Colors
+﻿// Colors
 $primary: #f15a24;
 /* Orange from logo */
 $secondary: #2563eb;
@@ -845,3 +845,28 @@ $gray: #9ca3af;
     }
 }
 
+
+// Rewards flash link
+.rewards-link {
+    position: relative;
+    color: $primary !important;
+    font-weight: 700 !important;
+
+    .rewards-flash {
+        display: inline-flex;
+        align-items: center;
+        margin-inline-end: 5px;
+
+        i {
+            color: $primary;
+            animation: flash-bolt 1.4s ease-in-out infinite;
+            font-size: 0.85em;
+        }
+    }
+}
+
+@keyframes flash-bolt {
+    0%, 100% { opacity: 1; transform: scale(1); color: $primary; }
+    40% { opacity: 0.2; transform: scale(0.8); }
+    60% { opacity: 1; transform: scale(1.2); color: #fbbf24; }
+}
