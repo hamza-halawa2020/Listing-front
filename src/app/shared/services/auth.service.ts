@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
@@ -111,6 +111,18 @@ export class AuthService {
         localStorage.setItem(this.USER_KEY, JSON.stringify(normalizedUser));
         this.currentUserSubject.next(normalizedUser);
     }
+    sendResetCode(phone: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/forgot-password/send-code`, { phone });
+    }
+
+    verifyResetCode(phone: string, code: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/forgot-password/verify-code`, { phone, code });
+    }
+
+    resetPassword(phone: string, code: string, password: string, password_confirmation: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/forgot-password/reset`, { phone, code, password, password_confirmation });
+    }
+
 
     private normalizeUser(user: any): any {
         if (!user) {

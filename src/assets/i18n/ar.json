@@ -815,5 +815,20 @@
   "POINTS_AWARDED": "النقاط الممنوحة",
   "UNKNOWN_USER": "مستخدم غير معروف",
   "register_business": "تسجيل نشاط تجاري",
-  "our_solutions": "حلولنا"
+  "our_solutions": "حلولنا",
+  "FORGOT_PASSWORD": "نسيت كلمة المرور",
+  "FORGOT_PASSWORD_SUBTITLE": "أدخل رقم هاتفك وسنرسل رمز إعادة التعيين إلى بريدك الإلكتروني",
+  "ENTER_PHONE_FOR_RESET": "أدخل رقم الهاتف المرتبط بحسابك",
+  "SEND_RESET_CODE": "إرسال رمز إعادة التعيين",
+  "CODE_SENT_TO": "تم إرسال رمز مكون من 6 أرقام إلى",
+  "RESET_CODE": "رمز إعادة التعيين",
+  "VERIFY_CODE": "تأكيد الرمز",
+  "RESEND_CODE": "إعادة إرسال الرمز",
+  "ENTER_NEW_PASSWORD": "أدخل كلمة المرور الجديدة",
+  "RESET_PASSWORD": "إعادة تعيين كلمة المرور",
+  "PASSWORD_RESET_SUCCESS": "تم إعادة تعيين كلمة المرور بنجاح! جارٍ التحويل إلى تسجيل الدخول...",
+  "BACK_TO_LOGIN": "العودة إلى تسجيل الدخول",
+  "INVALID_CODE": "الرمز غير صالح أو منتهي الصلاحية، حاول مرة أخرى",
+  "PASSWORD_MIN_LENGTH": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+  "PASSWORDS_DO_NOT_MATCH": "كلمتا المرور غير متطابقتين"
 }

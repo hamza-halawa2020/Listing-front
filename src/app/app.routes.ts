@@ -86,5 +86,9 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/rewards-page/rewards-page.component').then(m => m.RewardsPageComponent)
     },
 
+    {
+        path: 'forgot-password',
+        loadComponent: () => import('./pages/forgot-password-page/forgot-password-page.component').then(m => m.ForgotPasswordPageComponent)
+    },
     { path: '**', component: ErrorPageComponent },
 ];

@@ -739,5 +739,20 @@
   "POINTS_AWARDED": "Points Awarded",
   "UNKNOWN_USER": "Unknown User",
   "register_business": "Register Business",
-  "our_solutions": "Our Solutions"
+  "our_solutions": "Our Solutions",
+  "FORGOT_PASSWORD": "Forgot Password",
+  "FORGOT_PASSWORD_SUBTITLE": "Enter your phone number and we will send a reset code to your email",
+  "ENTER_PHONE_FOR_RESET": "Enter the phone number linked to your account",
+  "SEND_RESET_CODE": "Send Reset Code",
+  "CODE_SENT_TO": "A 6-digit code was sent to",
+  "RESET_CODE": "Reset Code",
+  "VERIFY_CODE": "Verify Code",
+  "RESEND_CODE": "Resend Code",
+  "ENTER_NEW_PASSWORD": "Enter your new password",
+  "RESET_PASSWORD": "Reset Password",
+  "PASSWORD_RESET_SUCCESS": "Password reset successfully! Redirecting to login...",
+  "BACK_TO_LOGIN": "Back to Login",
+  "INVALID_CODE": "Invalid or expired code. Please try again.",
+  "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
+  "PASSWORDS_DO_NOT_MATCH": "Passwords do not match"
 }
