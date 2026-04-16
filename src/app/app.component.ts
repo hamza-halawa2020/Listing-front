@@ -8,11 +8,12 @@ import { FooterComponent } from './common/footer/footer.component';
 import { BackToTopComponent } from './common/back-to-top/back-to-top.component';
 import { AppDownloadComponent } from './shared/components/app-download/app-download.component';
 import { ChatDockComponent } from './shared/components/chat-dock/chat-dock.component';
+import { RewardsBannerComponent } from './shared/components/rewards-banner/rewards-banner.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, BackToTopComponent, AppDownloadComponent, ChatDockComponent],
+    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, BackToTopComponent, AppDownloadComponent, ChatDockComponent, RewardsBannerComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

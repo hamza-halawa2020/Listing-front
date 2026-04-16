@@ -1,0 +1,30 @@
+<div class="rewards-pill-container" routerLink="/rewards" [class.hidden]="isHidden">
+  <div class="rewards-pill shadow-lg">
+    <!-- Animated Particles -->
+    <div class="particles">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    
+    <!-- Neon Glow Overlay -->
+    <div class="neon-glow"></div>
+    
+    <div class="content-pill">
+      <div class="gift-icon-wrap">
+        <div class="icon-orb"></div>
+        <i class="fa-solid fa-gift shake-anim"></i>
+      </div>
+      <div class="text-wrap">
+        <span class="pill-title">{{ 'REWARDS_BANNER_TITLE' | translate }}</span>
+        <span class="pill-sparkle-text">🎁 {{ 'EXPLORE_NOW' | translate }}</span>
+      </div>
+      <div class="arrow-wrap">
+        <div class="circular-arrow">
+          <i class="fa-solid fa-arrow-right-long arrow-anim"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Moving Light Ray (Shimmer) -->
+    <div class="shimmer-ray"></div>
+  </div>
+</div>

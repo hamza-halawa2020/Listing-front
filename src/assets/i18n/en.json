@@ -1,4 +1,4 @@
-﻿{
+{
   "dir": "ltr",
   "010 687 43 0 43": "010 687 43 0 43",
   "name": "name",
@@ -754,5 +754,8 @@
   "BACK_TO_LOGIN": "Back to Login",
   "INVALID_CODE": "Invalid or expired code. Please try again.",
   "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
-  "PASSWORDS_DO_NOT_MATCH": "Passwords do not match"
+  "PASSWORDS_DO_NOT_MATCH": "Passwords do not match",
+  "REWARDS_BANNER_TITLE": "Exclusive Rewards",
+  "REWARDS_BANNER_DESC": "Earn points and unlock amazing benefits every time you use our services.",
+  "REWARDS_BANNER_CTA": "Check Rewards"
 }

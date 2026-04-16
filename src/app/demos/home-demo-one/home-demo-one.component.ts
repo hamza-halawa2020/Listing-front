@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 import { ReviewsSliderComponent } from '../../shared/components/reviews-slider/reviews-slider.component';
 import { AddReviewModalComponent } from '../../shared/components/add-review-modal/add-review-modal.component';
+import { RewardsBannerComponent } from '../../shared/components/rewards-banner/rewards-banner.component';
 
 @Component({
     selector: 'app-home-demo-one',
@@ -33,6 +34,7 @@ import { AddReviewModalComponent } from '../../shared/components/add-review-moda
         SearchableSelectComponent,
         AddReviewModalComponent,
         ReviewsSliderComponent,
+        RewardsBannerComponent,
     ],
     templateUrl: './home-demo-one.component.html',
     styleUrl: './home-demo-one.component.scss',
