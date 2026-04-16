@@ -295,7 +295,7 @@ export class ListingApplicationPageComponent implements OnInit, AfterViewInit, O
 
     loadCategoriesAndLocations(): void {
         this.isLoading = true;
-        this.listingsService.getCategories().subscribe({
+        this.listingsService.getALlCategories().subscribe({
             next: (response: any) => {
                 this.categories = response.data || response;
                 this.parentCategories = this.categories.filter(c => !c.parent_id);

@@ -22,6 +22,9 @@ export class ListingsService {
     getCategories(): Observable<any> {
         return this.http.get(`${this.apiUrl}/categories?limit=999`);
     }
+    getALlCategories(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/all-categories?limit=999`);
+    }
 
 
     getLocations(): Observable<any> {

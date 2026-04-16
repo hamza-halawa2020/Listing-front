@@ -129,7 +129,10 @@
                                     <i class="fa-solid fa-magnifying-glass-location text-indigo"></i>
                                 </div>
                                 <div class="feature-text">
-                                    <h4 class="fw-bold mb-1">{{ 'FIND_BEST_PLACES' | translate }}</h4>
+                                    <a routerLink="/listings" class="stretched-link text-decoration-none">
+                                        <h4 class="fw-bold mb-1">{{ 'FIND_BEST_PLACES' | translate }}</h4>
+                                    </a>
+
                                     <p class="text-muted mb-0">{{ 'FIND_BEST_PLACES_DESC' | translate }}</p>
                                 </div>
                             </div>
@@ -144,7 +147,7 @@
                             </div>
                         </div>
                         <div class="about-cta mt-3">
-                            <a routerLink="/listings" class="btn btn-primary px-5 py-3 rounded-pill fw-bold">
+                            <a routerLink="/pricing" class="btn btn-primary px-5 py-3 rounded-pill fw-bold">
                                 {{ 'EXPLORE_NOW' | translate }}
                                 <i class="fa-solid ms-2"
                                     [ngClass]="{'fa-arrow-right': translate.currentLang === 'en', 'fa-arrow-left': translate.currentLang === 'ar'}"></i>
@@ -157,11 +160,11 @@
                         <div class="image-stack">
                             <img src="assets/images/care-and-share-bannar.svg" alt="Experience"
                                 class="img-fluid rounded-4 shadow-lg main-img">
-                            <div class="experience-card-glass glass-bg premium-shadow">
+                            <!-- <div class="experience-card-glass glass-bg premium-shadow">
                                 <h3 class="display-4 fw-bold text-indigo mb-0">{{ homeData.stats.satisfiedClients }}+
                                 </h3>
                                 <p class="mb-0 fw-semibold text-muted">{{ 'HAPPY_USERS' | translate }}</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

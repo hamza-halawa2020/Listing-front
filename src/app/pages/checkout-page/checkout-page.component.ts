@@ -30,7 +30,7 @@ export class CheckoutPageComponent implements OnInit {
         {
             value: 'vodafone_cash',
             labelKey: 'VODAFONE_CASH',
-            phone:'01030032281',
+            phone:'01050088281',
             icon: 'fa-mobile-screen-button'
         },
         {
