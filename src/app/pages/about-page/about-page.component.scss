@@ -276,7 +276,7 @@ $glass: rgba(255, 255, 255, 0.85);
 .about-message-card {
     min-height: 540px;
     // border-radius: 36px;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     display: flex;
     align-items: center;
@@ -291,6 +291,7 @@ $glass: rgba(255, 255, 255, 0.85);
         position: relative;
         z-index: 1;
         max-width: 840px;
+        width: 100%;
         text-align: center;
     }
 
@@ -521,7 +522,7 @@ $glass: rgba(255, 255, 255, 0.85);
 .vision-inline-hero {
     min-height: 440px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1044,6 +1045,13 @@ $glass: rgba(255, 255, 255, 0.85);
         margin-inline-start: -72px;
     }
 
+    @media (max-width: 991px) {
+        .story-feature-content,
+        .story-feature-secondary .story-feature-content {
+            margin-inline: 0;
+        }
+    }
+
     .story-feature-badge {
         left: auto;
         right: 24px;
@@ -1101,17 +1109,29 @@ $glass: rgba(255, 255, 255, 0.85);
 
     .story-feature {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 0;
     }
 
     .story-feature-content,
     .story-feature-secondary .story-feature-content {
         margin-inline: 0;
+        margin-top: -24px;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 12px 30px rgba($dark, 0.1);
     }
 
     .story-feature-secondary .story-feature-content,
     .story-feature-secondary .story-feature-media {
         order: initial;
+    }
+
+    .story-feature-media {
+        border-radius: 20px 20px 0 0;
+        min-height: 260px;
+
+        img {
+            min-height: 260px;
+        }
     }
 
     .vision-inline-grid,
@@ -1140,7 +1160,7 @@ $glass: rgba(255, 255, 255, 0.85);
     }
 
     .about-message-banner {
-        padding: 140px 0 50px;
+        padding: 100px 0 0;
     }
 
     .about-story-addition {
@@ -1152,137 +1172,302 @@ $glass: rgba(255, 255, 255, 0.85);
     }
 
     .about-message-card {
-        min-height: 340px;
-        padding: 28px 22px;
+        min-height: unset;
+        height: auto;
+        padding: 48px 20px;
+        align-items: flex-start;
 
-        &::before {
-            inset: 14px;
+        .about-message-overlay {
+            width: 100%;
+            max-width: 100%;
         }
 
         .about-message-subtitle {
-            margin-bottom: 18px;
-            padding: 10px 18px;
-            font-size: 0.85rem;
-            letter-spacing: 0.16em;
+            margin-bottom: 14px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            white-space: normal;
+            word-break: break-word;
         }
 
         p {
-            line-height: 1.7;
+            font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+            line-height: 1.6;
+            word-break: break-word;
         }
 
         .breadcrumb {
-            padding: 10px 16px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
         }
     }
 
     .story-addition-wrapper {
-        gap: 36px;
+        gap: 28px;
     }
 
     .story-feature-media {
-        border-radius: 22px;
-        min-height: 240px;
+        border-radius: 20px 20px 0 0;
+        min-height: 220px;
 
         img {
-            min-height: 240px;
+            min-height: 220px;
         }
     }
 
     .story-feature-badge {
-        top: 16px;
-        left: 16px;
+        top: 12px;
+        left: 12px;
         right: auto;
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
-        font-size: 1rem;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        font-size: 0.9rem;
     }
 
     .story-feature-content {
-        padding: 24px 22px;
-        border-radius: 22px;
+        padding: 20px 18px;
+        border-radius: 0 0 18px 18px;
+        margin-top: -20px;
 
         h3 {
-            line-height: 1.6;
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+
+        .h3 {
+            font-size: 1.4rem;
+            padding: 0 !important;
         }
     }
 
     .story-feature-label {
-        margin-bottom: 14px;
-        font-size: 0.8rem;
+        margin-bottom: 12px;
+        font-size: 0.78rem;
     }
 
     .story-summary-block {
-        padding: 26px 22px;
+        padding: 22px 18px;
         text-align: start;
 
         .story-summary-lead {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
     }
 
     .story-summary-columns {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 14px;
 
         p {
-            font-size: 1rem;
-            line-height: 1.85;
+            font-size: 0.95rem;
+            line-height: 1.8;
         }
     }
 
     .vision-inline-hero {
-        min-height: 320px;
-        padding: 28px 22px;
-        border-radius: 24px;
+        min-height: unset;
+        height: auto;
+        padding: 48px 20px;
+        margin-bottom: 24px;
+        align-items: flex-start;
+
+        .vision-inline-hero-overlay {
+            width: 100%;
+        }
 
         &::before {
-            inset: 14px;
-            border-radius: 18px;
+            inset: 12px;
+            border-radius: 16px;
+        }
+
+        h2 {
+            font-size: clamp(1.6rem, 6vw, 2.4rem);
+            word-break: break-word;
         }
 
         p {
-            font-size: 1rem;
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            word-break: break-word;
         }
     }
 
     .vision-inline-card,
     .vision-inline-contact,
     .vision-inline-impact {
-        border-radius: 22px;
-        padding: 24px;
+        border-radius: 20px;
+        padding: 22px 18px;
+    }
+
+    .vision-inline-card {
+        .h3 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+
+    .vision-inline-contact {
+        h3, .h3 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+
+    .vision-inline-icon {
+        width: 58px;
+        height: 58px;
+        font-size: 1.5rem;
+        border-radius: 18px;
+        margin-bottom: 16px;
+    }
+
+    .btn-search-premium {
+        height: 52px;
+        font-size: 1rem;
+        border-radius: 14px;
     }
 
     .vision-impact-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
     }
 
     .vision-impact-card {
-        padding: 20px 18px;
+        padding: 18px 14px;
+        border-radius: 18px;
     }
 
     .vision-impact-header {
-        margin-bottom: 22px;
+        margin-bottom: 20px;
+
+        h3 {
+            font-size: 1.5rem;
+        }
 
         p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.7;
         }
     }
 
     .vision-impact-icon {
-        margin-bottom: 14px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        border-radius: 14px;
+        margin-bottom: 12px;
+    }
+
+    .vision-impact-value {
+        font-size: 1.8rem;
     }
 
     .vision-impact-label {
-        font-size: 0.95rem;
-        line-height: 1.7;
+        font-size: 0.88rem;
+        line-height: 1.6;
     }
 
     .vision-inline-number strong {
         display: block;
         margin-inline-start: 0;
-        margin-top: 8px;
+        margin-top: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-message-banner {
+        padding: 80px 0 0;
+    }
+
+    .about-message-card {
+        min-height: unset;
+        height: auto;
+        padding: 36px 14px;
+
+        .about-message-subtitle {
+            font-size: 0.75rem;
+            padding: 7px 12px;
+        }
+
+        p {
+            font-size: clamp(1rem, 4.5vw, 1.3rem);
+            word-break: break-word;
+        }
+    }
+
+    .story-feature-media {
+        min-height: 190px;
+        border-radius: 16px 16px 0 0;
+
+        img {
+            min-height: 190px;
+        }
+    }
+
+    .story-feature-content {
+        padding: 16px 14px;
+        border-radius: 0 0 16px 16px;
+
+        .h3 {
+            font-size: 1.2rem;
+        }
+    }
+
+    .story-summary-block {
+        padding: 18px 14px;
+
+        .story-summary-lead {
+            font-size: 1rem;
+        }
+    }
+
+    .vision-inline-hero {
+        min-height: unset;
+        height: auto;
+        padding: 36px 14px;
+
+        h2 {
+            font-size: clamp(1.4rem, 5.5vw, 2rem);
+            word-break: break-word;
+        }
+
+        p {
+            font-size: 0.88rem;
+            word-break: break-word;
+        }
+    }
+
+    .vision-impact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .vision-impact-value {
+        font-size: 1.5rem;
+    }
+
+    .vision-impact-card {
+        padding: 14px 12px;
+    }
+
+    .vision-inline-card,
+    .vision-inline-contact,
+    .vision-inline-impact {
+        padding: 18px 14px;
+    }
+
+    .btn-search-premium {
+        height: 48px;
+        font-size: 0.95rem;
     }
 }
