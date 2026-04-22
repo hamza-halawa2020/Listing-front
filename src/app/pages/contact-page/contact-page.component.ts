@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from '../../common/footer/footer.component';
 import { ContactComponent } from '../../common/contact/contact.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
@@ -13,7 +12,6 @@ import { NgIf, NgFor } from '@angular/common';
     imports: [
         RouterLink,
         ContactComponent,
-        FooterComponent,
         TranslateModule,
         NgIf,
         NgFor

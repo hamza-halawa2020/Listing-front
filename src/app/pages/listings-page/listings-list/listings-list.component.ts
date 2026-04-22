@@ -571,7 +571,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                 const address = listing.address || '';
                 let imageUrl = listing.image_url || listing.featured_image;
                 if (!imageUrl && listing.image) {
-                    imageUrl = `${environment.imgUrl}storage/${listing.image}`;
+                    imageUrl = `${environment.imgUrl}files/${listing.image}`;
                 }
                 if (!imageUrl) imageUrl = 'assets/images/placeholder.jpg';
 

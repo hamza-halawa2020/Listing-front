@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from '../../common/footer/footer.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { Subscription } from 'rxjs';
@@ -22,7 +21,6 @@ interface ImpactStat {
     standalone: true,
     imports: [
         RouterLink,
-        FooterComponent,
         TranslateModule,
         NgIf,
         NgFor,
@@ -35,6 +33,7 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly baseMembersCount = 5000;
     private readonly baseListingsCount = 2000;
     private readonly fixedMaxDiscountPercentage = 75;
+    private readonly governoratesCount = 27;
 
     @ViewChild('impactSection') impactSection?: ElementRef<HTMLElement>;
 
@@ -183,6 +182,8 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
                 return this.baseMembersCount + data.members_count;
             case 'listings_count':
                 return this.baseListingsCount + data.listings_count;
+            case 'governorates_count':
+                return this.governoratesCount ;
             case 'max_discount_percentage':
                 return this.fixedMaxDiscountPercentage;
             default:

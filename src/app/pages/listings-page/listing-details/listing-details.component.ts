@@ -91,17 +91,17 @@ export class ListingDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 // Image processing
                 if (this.listing.images && Array.isArray(this.listing.images) && this.listing.images.length > 0) {
                     const cover = this.listing.images.find((img: any) => img.is_cover) || this.listing.images[0];
-                    this.featuredImageUrl = `${environment.imgUrl}/storage/${cover.image_path}`;
+                    this.featuredImageUrl = `${environment.imgUrl}/files/${cover.image_path}`;
 
                     // Populate gallery with all other images
                     this.mockData.gallery = this.listing.images
                         .filter((img: any) => img.id !== cover.id)
-                        .map((img: any) => `${environment.imgUrl}/storage/${img.image_path}`);
+                        .map((img: any) => `${environment.imgUrl}/files/${img.image_path}`);
                 } else if (this.listing.image_url) {
                     this.featuredImageUrl = this.listing.image_url;
                     this.mockData.gallery = [];
                 } else if (this.listing.image) {
-                    this.featuredImageUrl = `${environment.imgUrl}/storage/${this.listing.image}`;
+                    this.featuredImageUrl = `${environment.imgUrl}/files/${this.listing.image}`;
                     this.mockData.gallery = [];
                 } else if (this.listing.featured_image) {
                     this.featuredImageUrl = this.listing.featured_image;

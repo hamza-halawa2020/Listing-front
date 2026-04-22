@@ -4,8 +4,6 @@ import { NgClass, NgFor, NgIf, SlicePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CarouselModule, OwlOptions, CarouselComponent } from 'ngx-owl-carousel-o';
-import { FooterComponent } from '../../common/footer/footer.component';
-import { BackToTopComponent } from '../../common/back-to-top/back-to-top.component';
 import { MainSlider } from '../../common/main-slider/main-slider.component';
 import { HomeService, HomeData } from './home.service';
 import { ListingsService } from '../../pages/listings-page/listings.service';
@@ -28,8 +26,6 @@ import { RewardsBannerComponent } from '../../shared/components/rewards-banner/r
         TranslateModule,
         CarouselModule,
         MainSlider,
-        FooterComponent,
-        BackToTopComponent,
         FormsModule,
         SearchableSelectComponent,
         AddReviewModalComponent,

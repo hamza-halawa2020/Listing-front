@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from '../../common/footer/footer.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { ReviewsService } from '../../shared/services/reviews.service';
@@ -16,7 +15,6 @@ import { takeUntil } from 'rxjs/operators';
     imports: [
         CommonModule,
         RouterLink,
-        FooterComponent,
         TranslateModule,
         AddReviewModalComponent,
         PaginationComponent
