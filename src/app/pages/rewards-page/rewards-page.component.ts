@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { ReferralService, ReferralData } from '../../shared/services/referral.service';
+import { forkJoin } from 'rxjs';
+import {
+  ReferralService, ReferralData, PointsSummary
+} from '../../shared/services/referral.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -15,7 +18,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class RewardsPageComponent implements OnInit, OnDestroy {
   referralData: ReferralData | null = null;
-  pointRate: number = 0;
+  pointsSummary: PointsSummary | null = null;
   isLoading = true;
   isLoggedIn = false;
   copiedCode = false;
@@ -28,7 +31,6 @@ export class RewardsPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.loadPointData();
     if (this.isLoggedIn) {
       this.loadData();
     } else {
@@ -38,20 +40,16 @@ export class RewardsPageComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.subs.add(
-      this.referralService.getReferralDetails().subscribe({
-        next: (data) => {
-          this.referralData = data;
+      forkJoin({
+        referral: this.referralService.getReferralDetails(),
+        points:   this.referralService.getPointsSummary(),
+      }).subscribe({
+        next: ({ referral, points }) => {
+          this.referralData  = referral;
+          this.pointsSummary = points;
           this.isLoading = false;
         },
         error: () => { this.isLoading = false; }
-      })
-    );
-
-  }
-  loadPointData(): void {
-    this.subs.add(
-      this.referralService.getPointSettings().subscribe({
-        next: (s) => { this.pointRate = s.current_rate; }
       })
     );
   }
@@ -65,30 +63,37 @@ export class RewardsPageComponent implements OnInit, OnDestroy {
   }
 
   pointsToEgp(points: number): string {
-    return (points * this.pointRate).toFixed(2);
-  }
-
-  getStatusLabel(status: string): string {
-    const map: Record<string, string> = {
-      pending: 'pending',
-      qualified: 'qualified',
-      rewarded: 'rewarded',
-      rejected: 'rejected'
-    };
-    return map[status] ?? status;
+    const rate = this.pointsSummary?.rate ?? 0;
+    return (points * rate).toFixed(2);
   }
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      pending: 'badge-pending',
-      qualified: 'badge-qualified',
-      rewarded: 'badge-rewarded',
-      rejected: 'badge-rejected'
+      pending: 'badge-pending', qualified: 'badge-qualified',
+      rewarded: 'badge-rewarded', rejected: 'badge-rejected'
     };
     return map[status] ?? '';
   }
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
+  getTxIcon(type: string): string {
+    const map: Record<string, string> = {
+      signup_bonus:       'fa-user-plus',
+      subscription_bonus: 'fa-id-card',
+      referral_bonus:     'fa-share-nodes',
+      referee_bonus:      'fa-gift',
+      redeem:             'fa-shopping-cart',
+      admin_add:          'fa-plus-circle',
+      admin_deduct:       'fa-minus-circle',
+      expire:             'fa-clock',
+      adjustment:         'fa-sliders',
+    };
+    return map[type] ?? 'fa-circle';
   }
+
+  getTxClass(type: string): string {
+    if (['redeem','admin_deduct','expire'].includes(type)) return 'tx-debit';
+    return 'tx-credit';
+  }
+
+  ngOnDestroy(): void { this.subs.unsubscribe(); }
 }

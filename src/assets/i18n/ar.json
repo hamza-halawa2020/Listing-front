@@ -1,4 +1,4 @@
-{
+﻿{
   "dir": "rtl",
   "010 687 43 0 43": "43 0 43 687 010",
   "name": "الاسم",
@@ -833,5 +833,15 @@
   "PASSWORDS_DO_NOT_MATCH": "كلمتا المرور غير متطابقتين",
   "REWARDS_BANNER_TITLE": "مكافآتك الحصرية بانتظارك",
   "REWARDS_BANNER_DESC": "اجمع النقاط واستمتع بمزايا مذهلة في كل مرة تستخدم فيها خدماتنا.",
-  "REWARDS_BANNER_CTA": "اكتشف مكافآتك"
+  "REWARDS_BANNER_CTA": "اكتشف مكافآتك",
+  "YOUR_POINTS_BALANCE": "رصيد نقاطك",
+  "TOTAL_BALANCE": "إجمالي الرصيد",
+  "SIGNUP_BONUS_POINTS": "نقاط مكافأة التسجيل",
+  "SUBSCRIPTION_BONUS_POINTS": "نقاط مكافأة الاشتراك",
+  "REFERRAL_BONUS_POINTS": "نقاط مكافأة الإحالة",
+  "REFEREE_BONUS_POINTS": "نقاط مكافأة المُحال",
+  "RECENT_TRANSACTIONS": "أحدث المعاملات",
+  "BALANCE": "الرصيد",
+  "STEP_SUBSCRIBE": "اشترك",
+  "STEP_SUBSCRIBE_DESC": "قم بالاشتراك في إحدى الخطط للحصول على نقاط ومزايا إضافية"
 }

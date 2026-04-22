@@ -30,6 +30,31 @@ export interface PointSettings {
   current_rate: number;
 }
 
+export interface PointsEarned {
+  signup_bonus: number;
+  subscription_bonus: number;
+  referral_bonus: number;
+  referee_bonus: number;
+  total: number;
+}
+
+export interface PointTransaction {
+  type: string;
+  points: number;
+  balance_after: number;
+  note: string | null;
+  created_at: string;
+}
+
+export interface PointsSummary {
+  balance: number;
+  balance_egp: number;
+  rate: number;
+  earned: PointsEarned;
+  redeemed: number;
+  recent_transactions: PointTransaction[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class ReferralService {
     private apiUrl = environment.backEndUrl;
@@ -41,5 +66,9 @@ export class ReferralService {
 
     getPointSettings(): Observable<PointSettings> {
         return this.http.get<PointSettings>(this.apiUrl + '/point-settings');
+    }
+
+    getPointsSummary(): Observable<PointsSummary> {
+        return this.http.get<PointsSummary>(this.apiUrl + '/points/summary');
     }
 }
