@@ -8,7 +8,7 @@ import {
 } from 'ngx-owl-carousel-o';
 import { MainSliderService } from './main-slider.service';
 import { HttpClientModule } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
