@@ -4,7 +4,7 @@ import { ContactComponent } from '../../common/contact/contact.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingService, Settings } from '../../shared/services/setting.service';
 import { Subscription } from 'rxjs';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-contact-page',
@@ -14,7 +14,6 @@ import { NgIf, NgFor } from '@angular/common';
         ContactComponent,
         TranslateModule,
         NgIf,
-        NgFor
     ],
     templateUrl: './contact-page.component.html',
     styleUrl: './contact-page.component.scss',

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListingsService } from '../listings.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
@@ -14,7 +14,7 @@ declare var L: any;
 @Component({
     selector: 'app-listings-list',
     standalone: true,
-    imports: [CommonModule, RouterLink, TranslateModule, PaginationComponent, ContentCardComponent, FormsModule, SearchableSelectComponent],
+    imports: [CommonModule, TranslateModule, PaginationComponent, ContentCardComponent, FormsModule, SearchableSelectComponent],
     templateUrl: './listings-list.component.html',
     styleUrls: ['./listings-list.component.scss']
 })

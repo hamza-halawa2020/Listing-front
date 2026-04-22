@@ -1,17 +1,15 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NgClass, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CarouselModule, OwlOptions, CarouselComponent } from 'ngx-owl-carousel-o';
-import { MainSlider } from '../../common/main-slider/main-slider.component';
 import { HomeService, HomeData } from './home.service';
 import { ListingsService } from '../../pages/listings-page/listings.service';
 import { FormsModule } from '@angular/forms';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 import { ReviewsSliderComponent } from '../../shared/components/reviews-slider/reviews-slider.component';
 import { AddReviewModalComponent } from '../../shared/components/add-review-modal/add-review-modal.component';
-import { RewardsBannerComponent } from '../../shared/components/rewards-banner/rewards-banner.component';
 
 @Component({
     selector: 'app-home-demo-one',
@@ -21,16 +19,13 @@ import { RewardsBannerComponent } from '../../shared/components/rewards-banner/r
         NgClass,
         NgFor,
         NgIf,
-        SlicePipe,
         HttpClientModule,
         TranslateModule,
         CarouselModule,
-        MainSlider,
         FormsModule,
         SearchableSelectComponent,
         AddReviewModalComponent,
         ReviewsSliderComponent,
-        RewardsBannerComponent,
     ],
     templateUrl: './home-demo-one.component.html',
     styleUrl: './home-demo-one.component.scss',
