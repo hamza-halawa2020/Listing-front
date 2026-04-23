@@ -4,7 +4,9 @@ import { RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { VisitService, Visit, VisitsMeta } from '../../shared/services/visit.service';
+import {
+  VisitService, Visit, ListingVisitGroup, ListingVisitsDetail
+} from '../../shared/services/visit.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -15,9 +17,16 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['./visits-page.component.scss']
 })
 export class VisitsPageComponent implements OnInit, OnDestroy {
-  visits: Visit[] = [];
-  meta: VisitsMeta = { current_page: 1, last_page: 1, total: 0 };
-  isLoading = true;
+  // Groups view
+  groups: ListingVisitGroup[] = [];
+  isLoadingGroups = true;
+
+  // Detail view
+  selectedGroup: ListingVisitGroup | null = null;
+  detail: ListingVisitsDetail | null = null;
+  isLoadingDetail = false;
+  selectedVisit: Visit | null = null;
+
   isLoggedIn = false;
 
   // Submit form
@@ -55,21 +64,44 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
-      this.loadVisits();
+      this.loadGroups();
       this.loadListings();
     } else {
-      this.isLoading = false;
+      this.isLoadingGroups = false;
     }
   }
 
-  loadVisits(page = 1): void {
-    this.isLoading = true;
+  loadGroups(): void {
+    this.isLoadingGroups = true;
     this.subs.add(
-      this.visitService.getVisits(page).subscribe({
-        next: (res) => { this.visits = res.data; this.meta = res.meta; this.isLoading = false; },
-        error: () => { this.isLoading = false; }
+      this.visitService.getVisitGroups().subscribe({
+        next: (res) => { this.groups = res.data; this.isLoadingGroups = false; },
+        error: () => { this.isLoadingGroups = false; }
       })
     );
+  }
+
+  openListing(group: ListingVisitGroup): void {
+    this.selectedGroup = group;
+    this.isLoadingDetail = true;
+    this.detail = null;
+    this.selectedVisit = null;
+    this.subs.add(
+      this.visitService.getVisitsByListing(group.listing_id).subscribe({
+        next: (res) => { this.detail = res; this.isLoadingDetail = false; },
+        error: () => { this.isLoadingDetail = false; }
+      })
+    );
+  }
+
+  backToGroups(): void {
+    this.selectedGroup = null;
+    this.detail = null;
+    this.selectedVisit = null;
+  }
+
+  openVisit(visit: Visit): void {
+    this.selectedVisit = this.selectedVisit?.id === visit.id ? null : visit;
   }
 
   loadListings(): void {
@@ -103,13 +135,16 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.visitService.submitVisit(fd).subscribe({
-        next: (res) => {
+        next: () => {
           this.isSubmitting = false;
           this.submitSuccess = 'VISIT_SUBMITTED_SUCCESS';
           this.showForm = false;
           this.submitForm.reset({ service_type: 'checkup' });
           this.selectedFiles = [];
-          this.loadVisits();
+          this.loadGroups();
+          if (this.selectedGroup) {
+            this.openListing(this.selectedGroup);
+          }
         },
         error: (err) => {
           this.isSubmitting = false;
@@ -129,6 +164,10 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
 
   todayDate(): string {
     return new Date().toISOString().slice(0, 16);
+  }
+
+  isImage(mime: string): boolean {
+    return mime?.startsWith('image/') ?? false;
   }
 
   ngOnDestroy(): void { this.subs.unsubscribe(); }

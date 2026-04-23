@@ -21,16 +21,33 @@ export interface Visit {
   attachments: VisitAttachment[];
 }
 
-export interface VisitsMeta { current_page: number; last_page: number; total: number; }
-export interface VisitsResponse { data: Visit[]; meta: VisitsMeta; }
+export interface ListingVisitGroup {
+  listing_id: number;
+  listing_name: string;
+  listing_address: string;
+  total_visits: number;
+  approved: number;
+  pending: number;
+  rejected: number;
+  last_visit_at: string;
+}
+
+export interface ListingVisitsDetail {
+  listing: VisitListing;
+  visits: Visit[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class VisitService {
   private api = environment.backEndUrl;
   constructor(private http: HttpClient) {}
 
-  getVisits(page = 1): Observable<VisitsResponse> {
-    return this.http.get<VisitsResponse>(`${this.api}/visits?page=${page}`);
+  getVisitGroups(): Observable<{ data: ListingVisitGroup[] }> {
+    return this.http.get<{ data: ListingVisitGroup[] }>(`${this.api}/visits`);
+  }
+
+  getVisitsByListing(listingId: number): Observable<ListingVisitsDetail> {
+    return this.http.get<ListingVisitsDetail>(`${this.api}/visits/listing/${listingId}`);
   }
 
   submitVisit(formData: FormData): Observable<{ message: string; visit: Visit }> {
@@ -38,6 +55,6 @@ export class VisitService {
   }
 
   getListings(search = ''): Observable<any> {
-    return this.http.get<any>(`${this.api}/listings?search=${search}&per_page=20`);
+    return this.http.get<any>(`${this.api}/listings?search=${search}&per_page=50`);
   }
 }

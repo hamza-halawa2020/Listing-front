@@ -10,7 +10,7 @@
   <div class="visits-container">
 
     <!-- Not logged in -->
-    <div class="prompt-card" *ngIf="!isLoggedIn && !isLoading">
+    <div class="prompt-card" *ngIf="!isLoggedIn && !isLoadingGroups">
       <i class="fa-solid fa-lock"></i>
       <h3>{{ 'LOGIN_TO_SEE_REWARDS' | translate }}</h3>
       <a routerLink="/login" class="btn-primary-action">{{ 'Login' | translate }}</a>
@@ -18,149 +18,247 @@
 
     <ng-container *ngIf="isLoggedIn">
 
-      <!-- Success message -->
+      <!-- Success -->
       <div class="alert-success" *ngIf="submitSuccess">
-        <i class="fa-solid fa-circle-check"></i>
-        {{ submitSuccess | translate }}
+        <i class="fa-solid fa-circle-check"></i> {{ submitSuccess | translate }}
       </div>
 
-      <!-- Header row -->
-      <div class="page-header">
-        <div>
-          <h2 class="section-title">{{ 'VISITS_LIST' | translate }}</h2>
-          <p class="section-sub">{{ 'VISITS_TOTAL' | translate }}: {{ meta.total }}</p>
-        </div>
-        <button class="btn-primary-action" (click)="showForm = !showForm">
-          <i class="fa-solid" [class.fa-plus]="!showForm" [class.fa-xmark]="showForm"></i>
-          {{ (showForm ? 'CANCEL' : 'REGISTER_VISIT') | translate }}
-        </button>
-      </div>
+   
+      <ng-container *ngIf="!selectedGroup">
 
-      <!-- Submit form -->
-      <div class="submit-form-card" *ngIf="showForm">
-        <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
-
-        <div class="alert-error" *ngIf="submitError">
-          <i class="fa-solid fa-circle-exclamation"></i> {{ submitError | translate }}
+        <div class="page-header">
+          <div>
+            <h2 class="section-title">{{ 'VISITS_LIST' | translate }}</h2>
+            <p class="section-sub">{{ groups.length }} {{ 'PLACES_VISITED' | translate }}</p>
+          </div>
+          <button class="btn-primary-action" (click)="showForm = !showForm">
+            <i class="fa-solid" [class.fa-plus]="!showForm" [class.fa-xmark]="showForm"></i>
+            {{ (showForm ? 'CANCEL' : 'REGISTER_VISIT') | translate }}
+          </button>
         </div>
 
-        <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>{{ 'SELECT_LISTING' | translate }} *</label>
-              <select formControlName="listing_id" class="form-control">
-                <option value="">{{ 'SELECT_LISTING' | translate }}</option>
-                <option *ngFor="let l of listings" [value]="l.id">{{ l.name }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>{{ 'SERVICE_TYPE' | translate }} *</label>
-              <select formControlName="service_type" class="form-control">
-                <option *ngFor="let s of serviceTypes" [value]="s.value">{{ s.label }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>{{ 'VISIT_DATE' | translate }} *</label>
-              <input type="datetime-local" formControlName="visited_at"
-                     [max]="todayDate()" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label>{{ 'NOTES' | translate }}</label>
-              <textarea formControlName="notes" class="form-control" rows="2"
-                        placeholder="{{ 'OPTIONAL' | translate }}"></textarea>
-            </div>
-
-            <div class="form-group form-group--full">
-              <label>{{ 'ATTACHMENTS' | translate }} * <span class="hint">({{ 'ATTACHMENT_HINT' | translate }})</span></label>
-              <div class="file-upload-area" (click)="fileInput.click()">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
-                <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
-                <input #fileInput type="file" multiple accept=".jpg,.jpeg,.png,.pdf"
-                       (change)="onFilesChange($event)" style="display:none">
+        <!-- Submit form -->
+        <div class="submit-form-card" *ngIf="showForm">
+          <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
+          <div class="alert-error" *ngIf="submitError">
+            <i class="fa-solid fa-circle-exclamation"></i> {{ submitError | translate }}
+          </div>
+          <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>{{ 'SELECT_LISTING' | translate }} *</label>
+                <select formControlName="listing_id" class="form-control">
+                  <option value="">{{ 'SELECT_LISTING' | translate }}</option>
+                  <option *ngFor="let l of listings" [value]="l.id">{{ l.name }}</option>
+                </select>
               </div>
-              <div class="file-list" *ngIf="selectedFiles.length > 0">
-                <span class="file-chip" *ngFor="let f of selectedFiles">
-                  <i class="fa-solid fa-file"></i> {{ f.name }}
+              <div class="form-group">
+                <label>{{ 'SERVICE_TYPE' | translate }} *</label>
+                <select formControlName="service_type" class="form-control">
+                  <option *ngFor="let s of serviceTypes" [value]="s.value">{{ s.label }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>{{ 'VISIT_DATE' | translate }} *</label>
+                <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>{{ 'NOTES' | translate }}</label>
+                <textarea formControlName="notes" class="form-control" rows="2" placeholder="{{ 'OPTIONAL' | translate }}"></textarea>
+              </div>
+              <div class="form-group form-group--full">
+                <label>{{ 'ATTACHMENTS' | translate }} * <span class="hint">({{ 'ATTACHMENT_HINT' | translate }})</span></label>
+                <div class="file-upload-area" (click)="fileInput.click()">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
+                  <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
+                  <input #fileInput type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
+                </div>
+                <div class="file-list" *ngIf="selectedFiles.length > 0">
+                  <span class="file-chip" *ngFor="let f of selectedFiles"><i class="fa-solid fa-file"></i> {{ f.name }}</span>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary-action mt-4" [disabled]="isSubmitting">
+              <span *ngIf="!isSubmitting"><i class="fa-solid fa-paper-plane me-2"></i>{{ 'SUBMIT_VISIT' | translate }}</span>
+              <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-state" *ngIf="isLoadingGroups">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+
+        <!-- Empty -->
+        <div class="empty-state" *ngIf="!isLoadingGroups && groups.length === 0">
+          <i class="fa-solid fa-hospital-user"></i>
+          <p>{{ 'NO_VISITS_YET' | translate }}</p>
+        </div>
+
+        <!-- Listing cards -->
+        <div class="listing-cards" *ngIf="!isLoadingGroups && groups.length > 0">
+          <div class="listing-card" *ngFor="let g of groups" (click)="openListing(g)">
+            <div class="listing-card__icon">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div class="listing-card__body">
+              <h3 class="listing-card__name">{{ g.listing_name }}</h3>
+              <p class="listing-card__address">{{ g.listing_address }}</p>
+              <div class="listing-card__stats">
+                <span class="stat-pill stat-pill--total">
+                  <i class="fa-solid fa-calendar-check"></i> {{ g.total_visits }} {{ 'VISITS' | translate }}
+                </span>
+                <span class="stat-pill stat-pill--approved" *ngIf="g.approved > 0">
+                  <i class="fa-solid fa-circle-check"></i> {{ g.approved }}
+                </span>
+                <span class="stat-pill stat-pill--pending" *ngIf="g.pending > 0">
+                  <i class="fa-solid fa-clock"></i> {{ g.pending }}
+                </span>
+                <span class="stat-pill stat-pill--rejected" *ngIf="g.rejected > 0">
+                  <i class="fa-solid fa-circle-xmark"></i> {{ g.rejected }}
                 </span>
               </div>
             </div>
-
+            <div class="listing-card__arrow">
+              <i class="fa-solid fa-chevron-left"></i>
+            </div>
           </div>
+        </div>
 
-          <button type="submit" class="btn-primary-action mt-4" [disabled]="isSubmitting">
-            <span *ngIf="!isSubmitting"><i class="fa-solid fa-paper-plane me-2"></i>{{ 'SUBMIT_VISIT' | translate }}</span>
-            <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+      </ng-container>
+
+      <ng-container *ngIf="selectedGroup">
+
+        <!-- Back button + header -->
+        <div class="detail-header">
+          <button class="back-btn" (click)="backToGroups()">
+            <i class="fa-solid fa-arrow-right"></i>
+            {{ 'BACK' | translate }}
           </button>
-        </form>
-      </div>
+          <div class="detail-header__info">
+            <h2 class="section-title">{{ selectedGroup.listing_name }}</h2>
+            <p class="section-sub">{{ selectedGroup.listing_address }}</p>
+          </div>
+          <button class="btn-primary-action btn-sm" (click)="showForm = !showForm">
+            <i class="fa-solid" [class.fa-plus]="!showForm" [class.fa-xmark]="showForm"></i>
+            {{ (showForm ? 'CANCEL' : 'REGISTER_VISIT') | translate }}
+          </button>
+        </div>
 
-      <!-- Loading -->
-      <div class="loading-state" *ngIf="isLoading">
-        <i class="fa-solid fa-spinner fa-spin"></i>
-      </div>
-
-      <!-- Empty -->
-      <div class="empty-state" *ngIf="!isLoading && visits.length === 0">
-        <i class="fa-solid fa-hospital-user"></i>
-        <p>{{ 'NO_VISITS_YET' | translate }}</p>
-      </div>
-
-      <!-- Visits list -->
-      <div class="visits-list" *ngIf="!isLoading && visits.length > 0">
-        <div class="visit-card" *ngFor="let v of visits">
-
-          <div class="visit-card__header">
-            <div class="visit-card__listing">
-              <i class="fa-solid fa-building-columns"></i>
-              <div>
-                <span class="visit-card__name">{{ v.listing.name }}</span>
-                <span class="visit-card__address">{{ v.listing.address }}</span>
+        <!-- Submit form (in detail view) -->
+        <div class="submit-form-card" *ngIf="showForm">
+          <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
+          <div class="alert-error" *ngIf="submitError">
+            <i class="fa-solid fa-circle-exclamation"></i> {{ submitError | translate }}
+          </div>
+          <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>{{ 'SELECT_LISTING' | translate }} *</label>
+                <select formControlName="listing_id" class="form-control">
+                  <option value="">{{ 'SELECT_LISTING' | translate }}</option>
+                  <option *ngFor="let l of listings" [value]="l.id">{{ l.name }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>{{ 'SERVICE_TYPE' | translate }} *</label>
+                <select formControlName="service_type" class="form-control">
+                  <option *ngFor="let s of serviceTypes" [value]="s.value">{{ s.label }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>{{ 'VISIT_DATE' | translate }} *</label>
+                <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>{{ 'NOTES' | translate }}</label>
+                <textarea formControlName="notes" class="form-control" rows="2"></textarea>
+              </div>
+              <div class="form-group form-group--full">
+                <label>{{ 'ATTACHMENTS' | translate }} *</label>
+                <div class="file-upload-area" (click)="fileInput2.click()">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
+                  <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
+                  <input #fileInput2 type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
+                </div>
               </div>
             </div>
-            <span class="visit-status" [ngClass]="getStatusClass(v.status)">
-              <i class="fa-solid" [ngClass]="getStatusIcon(v.status)"></i>
-              {{ ('VISIT_STATUS_' + v.status.toUpperCase()) | translate }}
-            </span>
-          </div>
-
-          <div class="visit-card__body">
-            <div class="visit-meta">
-              <span class="meta-chip"><i class="fa-solid fa-stethoscope"></i> {{ v.service_label }}</span>
-              <span class="meta-chip"><i class="fa-solid fa-calendar"></i> {{ v.visited_at | date:'mediumDate' }}</span>
-              <span class="meta-chip"><i class="fa-solid fa-paperclip"></i> {{ v.attachments.length }} {{ 'FILES' | translate }}</span>
-            </div>
-
-            <!-- Points badge -->
-            <div class="points-badge" [ngClass]="{'points-badge--earned': v.status === 'approved', 'points-badge--pending': v.status === 'pending', 'points-badge--rejected': v.status === 'rejected'}">
-              <i class="fa-solid fa-coins"></i>
-              <span *ngIf="v.status === 'approved'">{{ 'rewarded' | translate }}</span>
-              <span *ngIf="v.status === 'pending'">{{ v.points_reward }} {{ 'POINT' | translate }} {{ 'PENDING_APPROVAL' | translate }}</span>
-              <span *ngIf="v.status === 'rejected'">{{ 'VISIT_REJECTED' | translate }}</span>
-            </div>
-
-            <!-- Rejection reason -->
-            <div class="rejection-reason" *ngIf="v.status === 'rejected' && v.rejection_reason">
-              <i class="fa-solid fa-circle-info"></i> {{ v.rejection_reason }}
-            </div>
-          </div>
-
+            <button type="submit" class="btn-primary-action mt-4" [disabled]="isSubmitting">
+              <span *ngIf="!isSubmitting">{{ 'SUBMIT_VISIT' | translate }}</span>
+              <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+            </button>
+          </form>
         </div>
-      </div>
 
-      <!-- Pagination -->
-      <div class="pagination" *ngIf="meta.last_page > 1">
-        <button *ngFor="let p of [].constructor(meta.last_page); let i = index"
-                (click)="loadVisits(i + 1)"
-                [class.active]="meta.current_page === i + 1"
-                class="page-btn">
-          {{ i + 1 }}
-        </button>
-      </div>
+        <!-- Loading detail -->
+        <div class="loading-state" *ngIf="isLoadingDetail">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+
+        <!-- Visits accordion -->
+        <div class="visits-accordion" *ngIf="!isLoadingDetail && detail">
+          <div class="visit-item" *ngFor="let v of detail.visits"
+               [class.visit-item--open]="selectedVisit?.id === v.id">
+
+            <!-- Visit row (clickable) -->
+            <div class="visit-item__header" (click)="openVisit(v)">
+              <div class="visit-item__left">
+                <span class="visit-status" [ngClass]="getStatusClass(v.status)">
+                  <i class="fa-solid" [ngClass]="getStatusIcon(v.status)"></i>
+                </span>
+                <div>
+                  <span class="visit-item__service">{{ v.service_label }}</span>
+                  <span class="visit-item__date">{{ v.visited_at | date:'d MMM yyyy HH:mm' }}</span>
+                </div>
+              </div>
+              <div class="visit-item__right">
+                <div class="points-badge" [ngClass]="{'points-badge--earned': v.status === 'approved', 'points-badge--pending': v.status === 'pending', 'points-badge--rejected': v.status === 'rejected'}">
+                  <i class="fa-solid fa-coins"></i>
+                  <span *ngIf="v.status === 'approved'">{{ 'rewarded' | translate }}</span>
+                  <span *ngIf="v.status === 'pending'">{{ v.points_reward }} {{ 'POINT' | translate }} {{ 'PENDING_APPROVAL' | translate }}</span>
+                  <span *ngIf="v.status === 'rejected'">{{ 'VISIT_REJECTED' | translate }}</span>
+                </div>
+                <i class="fa-solid fa-chevron-down visit-item__chevron"></i>
+              </div>
+            </div>
+
+            <!-- Expanded details -->
+            <div class="visit-item__body" *ngIf="selectedVisit?.id === v.id">
+
+              <!-- Rejection reason -->
+              <div class="rejection-reason" *ngIf="v.status === 'rejected' && v.rejection_reason">
+                <i class="fa-solid fa-circle-info"></i> {{ v.rejection_reason }}
+              </div>
+
+              <!-- Notes -->
+              <p class="visit-notes" *ngIf="v.notes">
+                <i class="fa-solid fa-note-sticky"></i> {{ v.notes }}
+              </p>
+
+              <!-- Attachments -->
+              <div class="attachments-grid" *ngIf="v.attachments.length > 0">
+                <a *ngFor="let a of v.attachments"
+                   [href]="a.url" target="_blank"
+                   class="attachment-thumb">
+                  <img *ngIf="isImage(a.mime_type)" [src]="a.url" [alt]="a.file_name">
+                  <div *ngIf="!isImage(a.mime_type)" class="attachment-thumb__doc">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </div>
+                  <span class="attachment-thumb__name">{{ a.file_name }}</span>
+                </a>
+              </div>
+              <p class="no-attachments" *ngIf="v.attachments.length === 0">
+                {{ 'NO_ATTACHMENTS' | translate }}
+              </p>
+
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
 
     </ng-container>
   </div>

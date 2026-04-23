@@ -39,7 +39,7 @@
   "Saturday - Thursday": "Saturday - Thursday",
   "Friday": "Friday",
   "Closed": "Closed",
-  "Copyright Â© care_and_share, All Right Reserved.": "All Rights Reserved Â© Care & Share 2026",
+  "Copyright © care_and_share, All Right Reserved.": "All Rights Reserved © Care & Share 2026",
   "Made with": "Made with",
   "by": "by",
   "Our Services": "Our Services",
@@ -166,7 +166,7 @@
   "TERMS_OF_SERVICE": "Terms of Service",
   "SITE_NAME": "Care & Share",
   "FOOTER_BRAND_DESC": "A platform that helps you discover services and businesses easily, with faster access to essential details and contact options.",
-  "COPYRIGHT": "Â© 2026 Care & Share. All rights reserved.",
+  "COPYRIGHT": "© 2026 Care & Share. All rights reserved.",
   "PRIVACY_POLICY": "Privacy Policy",
   "QUALITY_EDUCATION": "Premium Services",
   "QUALITY_EDUCATION_DESC": "We provide you with quick access to the best trusted services and establishments.",
@@ -788,5 +788,10 @@
   "VISIT_STATUS_REJECTED": "Rejected",
   "PENDING_APPROVAL": "pending approval",
   "VISIT_REJECTED": "Not granted",
-  "CANCEL": "Cancel"
+  "CANCEL": "Cancel",
+  "PLACES_VISITED": "places visited",
+  "VISITS": "visits",
+  "BACK": "Back",
+  "NO_ATTACHMENTS": "No attachments",
+  "VISIT_BONUS_POINTS": "Visit Bonus"
 }

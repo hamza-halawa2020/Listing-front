@@ -864,6 +864,10 @@
   "PENDING_APPROVAL": "بانتظار الموافقة",
   "VISIT_REJECTED": "غير مقبولة",
   "rewarded":"تمت المكافأة",
-  "CANCEL": "إلغاء"
-
+  "CANCEL": "إلغاء",
+  "PLACES_VISITED": "الأماكن التي تمت زيارتها",
+  "VISITS": "الزيارات",
+  "BACK": "رجوع",
+  "NO_ATTACHMENTS": "لا توجد مرفقات",
+  "VISIT_BONUS_POINTS": "نقاط مكافأة الزيارة"
 }
