@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import {  NgIf } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-footer',
     standalone: true,
-    imports: [RouterLink, NgIf, NgClass, TranslateModule],
+    imports: [RouterLink, NgIf, TranslateModule],
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss'],
 })

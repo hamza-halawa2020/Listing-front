@@ -1,6 +1,6 @@
-import { CommonModule, NgClass, NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ContactService } from './contact.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -13,7 +13,7 @@ import {
 @Component({
     selector: 'app-contact',
     standalone: true,
-    imports: [RouterLink, CommonModule, NgIf, NgClass, ReactiveFormsModule, TranslateModule],
+    imports: [ CommonModule, NgIf,  ReactiveFormsModule, TranslateModule],
     templateUrl: './contact.component.html',
     styleUrl: './contact.component.scss',
     providers: [ContactService],
