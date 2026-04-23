@@ -22,11 +22,6 @@ export class ChatPageComponent implements OnInit, AfterViewChecked {
   constructor(public chatUi: ChatUiService) {}
 
   ngOnInit(): void {
-    console.log('[chat-page] init', {
-      currentUserId: this.chatUi.currentUserId,
-      conversationsCount: this.chatUi.conversations.length,
-      activeConversationId: this.chatUi.activeConversationId,
-    });
     this.chatUi.ensureInitialized(true);
   }
 
@@ -128,7 +123,6 @@ export class ChatPageComponent implements OnInit, AfterViewChecked {
     const debugSignature = JSON.stringify(debugState);
 
     if (debugSignature !== this.lastDebugSignature) {
-      console.log('[chat-page] state', debugState);
       this.lastDebugSignature = debugSignature;
     }
 

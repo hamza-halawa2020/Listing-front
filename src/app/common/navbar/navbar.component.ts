@@ -80,6 +80,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             label: 'PRICING',
             route: '/pricing'
         },        {
+            label: 'MY_VISITS',
+            route: '/visits',
+            requiresAuth: true
+        },        {
             label: 'REWARDS',
             route: '/rewards',
         },
@@ -335,3 +339,4 @@ export class NavbarComponent implements OnInit, OnDestroy {
         );
     }
 }
+

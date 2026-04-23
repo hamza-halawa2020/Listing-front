@@ -90,5 +90,10 @@ export const routes: Routes = [
         path: 'forgot-password',
         loadComponent: () => import('./pages/forgot-password-page/forgot-password-page.component').then(m => m.ForgotPasswordPageComponent)
     },
+    {
+        path: 'visits',
+        loadComponent: () => import('./pages/visits-page/visits-page.component').then(m => m.VisitsPageComponent),
+        canActivate: [AuthGuard]
+    },
     { path: '**', component: ErrorPageComponent },
 ];

@@ -677,6 +677,6 @@ export class ChatUiService implements OnDestroy {
   }
 
   private debug(message: string, payload?: unknown): void {
-    console.log(`[chat-ui] ${message}`, payload ?? '');
+    // console.log(`[chat-ui] ${message}`, payload ?? '');
   }
 }
