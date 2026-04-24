@@ -9,9 +9,7 @@ export interface VisitAttachment { id: number; file_name: string; url: string; m
 export interface Visit {
   id: number;
   listing: VisitListing;
-  service_type: string;
-  service_label: string;
-  notes: string | null;
+    notes: string | null;
   status: 'pending' | 'approved' | 'rejected';
   rejection_reason: string | null;
   points_reward: number;
@@ -58,3 +56,4 @@ export class VisitService {
     return this.http.get<any>(`${this.api}/listings?search=${search}&per_page=50`);
   }
 }
+

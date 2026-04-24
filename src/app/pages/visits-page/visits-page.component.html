@@ -53,12 +53,6 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>{{ 'SERVICE_TYPE' | translate }} *</label>
-                <select formControlName="service_type" class="form-control">
-                  <option *ngFor="let s of serviceTypes" [value]="s.value">{{ s.label }}</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <label>{{ 'VISIT_DATE' | translate }} *</label>
                 <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
               </div>
@@ -163,12 +157,6 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>{{ 'SERVICE_TYPE' | translate }} *</label>
-                <select formControlName="service_type" class="form-control">
-                  <option *ngFor="let s of serviceTypes" [value]="s.value">{{ s.label }}</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <label>{{ 'VISIT_DATE' | translate }} *</label>
                 <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
               </div>
@@ -210,7 +198,6 @@
                   <i class="fa-solid" [ngClass]="getStatusIcon(v.status)"></i>
                 </span>
                 <div>
-                  <span class="visit-item__service">{{ v.service_label }}</span>
                   <span class="visit-item__date">{{ v.visited_at | date:'d MMM yyyy HH:mm' }}</span>
                 </div>
               </div>
@@ -263,3 +250,4 @@
     </ng-container>
   </div>
 </div>
+

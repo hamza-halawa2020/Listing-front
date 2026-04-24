@@ -38,14 +38,6 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   submitError = '';
   submitSuccess = '';
 
-  readonly serviceTypes = [
-    { value: 'checkup',      label: 'checkup' },
-    { value: 'xray',         label: 'xray' },
-    { value: 'analysis',     label: 'analysis' },
-    { value: 'prescription', label: 'prescription' },
-    { value: 'other',        label: 'other' },
-  ];
-
   private subs = new Subscription();
 
   constructor(
@@ -55,7 +47,6 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   ) {
     this.submitForm = this.fb.group({
       listing_id:   ['', Validators.required],
-      service_type: ['checkup', Validators.required],
       visited_at:   ['', Validators.required],
       notes:        [''],
     });
@@ -128,7 +119,6 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
 
     const fd = new FormData();
     fd.append('listing_id',   this.submitForm.value.listing_id);
-    fd.append('service_type', this.submitForm.value.service_type);
     fd.append('visited_at',   this.submitForm.value.visited_at);
     fd.append('notes',        this.submitForm.value.notes ?? '');
     this.selectedFiles.forEach(f => fd.append('attachments[]', f));
@@ -172,3 +162,4 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void { this.subs.unsubscribe(); }
 }
+
