@@ -1,37 +1,27 @@
 .listings-full-page {
   background: #f8fafc;
-  height: calc(100vh - 70px); // subtract header height
-  overflow: hidden;
-  padding: 150px 0 0 0;
-
+  padding: 150px 0 60px 0;
 
   .container-fluid {
-    height: 100%;
+    height: auto;
   }
 
-  .row {
-    height: 100%;
+  .row.flex-nowrap {
+    flex-wrap: wrap !important;
+    height: auto;
   }
 
   .listings-panel {
-    height: 100%;
-    overflow-y: auto;
+    height: auto;
+    overflow-y: visible;
     background: white;
     border-right: 1px solid #e2e8f0;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 10px;
-    }
   }
 
   .map-panel {
-    height: 100%;
-    position: relative;
+    height: 100vh;
+    position: sticky;
+    top: 70px;
     background: #f1f5f9;
 
     #listings-map-sticky {

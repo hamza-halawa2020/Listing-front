@@ -1,6 +1,6 @@
 <section class="listings-full-page">
     <div class="container-fluid p-0">
-        <div class="row g-0 flex-nowrap">
+        <div class="row g-0">
             <!-- Listings Panel -->
             <div class="col-lg-7 listings-panel">
                 <div class="listings-scroll-content p-4">
@@ -81,13 +81,13 @@
 
                     <!-- Listings List -->
                     <div class="row" *ngIf="isLoading">
-                        <div class="col-md-6 mb-4" *ngFor="let item of [1,2,3,4]">
+                        <div class="col-md-4 mb-4" *ngFor="let item of [1,2,3,4,5,6]">
                             <div class="skeleton-loader card-skeleton"></div>
                         </div>
                     </div>
 
                     <div class="row" *ngIf="!isLoading">
-                        <div class="col-md-6 mb-4" *ngFor="let listing of listings; let i = index">
+                        <div class="col-md-4 mb-4" *ngFor="let listing of listings; let i = index">
                             <app-content-card [item]="listing" [routePath]="'/listings'" [animationDelay]="i * 0.1">
                             </app-content-card>
                         </div>
