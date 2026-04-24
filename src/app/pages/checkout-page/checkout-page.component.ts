@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +6,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ListingsService } from '../listings-page/listings.service';
 import { PaymentService } from '../../shared/services/payment.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { SettingService } from '../../shared/services/setting.service';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-checkout-page',
@@ -15,7 +17,7 @@ import { SearchableSelectComponent } from '../../shared/components/searchable-se
     templateUrl: './checkout-page.component.html',
     styleUrls: ['./checkout-page.component.scss']
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent implements OnInit, OnDestroy {
     @ViewChild('checkoutFeedback') checkoutFeedbackRef?: ElementRef<HTMLElement>;
 
     planId: string | null = null;
@@ -25,19 +27,19 @@ export class CheckoutPageComponent implements OnInit {
     governorates: any[] = [];
     currentUser: any = null;
     isNationalIdRequired = false;
+    private subscription = new Subscription();
 
     paymentMethods = [
         {
             value: 'vodafone_cash',
             labelKey: 'VODAFONE_CASH',
-            phone:'01050088281',
+            phone: '',
             icon: 'fa-mobile-screen-button'
         },
         {
             value: 'instapay',
             labelKey: 'INSTAPAY',
-
-            phone:'01050088281',
+            phone: '',
             icon: 'fa-money-bill-wave'
         }
     ];
@@ -71,10 +73,23 @@ export class CheckoutPageComponent implements OnInit {
         private router: Router,
         private listingsService: ListingsService,
         private paymentService: PaymentService,
-        private authService: AuthService
+        private authService: AuthService,
+        private settingService: SettingService
     ) { }
 
     ngOnInit(): void {
+        this.subscription.add(
+            this.settingService.settings$.subscribe(settings => {
+                if (settings) {
+                    const vodafone = settings.vodafonecash || settings.phone || '';
+                    const instapay = settings.instapay || settings.phone || '';
+                    this.paymentMethods = this.paymentMethods.map(m => ({
+                        ...m,
+                        phone: m.value === 'vodafone_cash' ? vodafone : instapay
+                    }));
+                }
+            })
+        );
         this.planId = this.route.snapshot.paramMap.get('planId');
         this.loadGovernorates();
         this.loadCurrentUser();
@@ -83,6 +98,10 @@ export class CheckoutPageComponent implements OnInit {
         } else {
             this.router.navigate(['/pricing']);
         }
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     loadCurrentUser(): void {

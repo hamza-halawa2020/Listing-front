@@ -12,7 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     styleUrls: ['./phone-float.component.scss']
 })
 export class PhoneFloatComponent implements OnInit, OnDestroy {
-    phone: string = '201030032281'; // Default phone
+    phone: string = ''; // Default phone
     private subscription: Subscription = new Subscription();
 
     constructor(
@@ -22,11 +22,9 @@ export class PhoneFloatComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription.add(
-            this.settingService.getSettings().subscribe({
-                next: (settings) => {
-                    if (settings.phone) {
-                        this.phone = settings.phone.replace(/\D/g, ''); // Remove non-digits
-                    }
+            this.settingService.settings$.subscribe(settings => {
+                if (settings?.phone) {
+                    this.phone = settings.phone.replace(/\D/g, '');
                 }
             })
         );

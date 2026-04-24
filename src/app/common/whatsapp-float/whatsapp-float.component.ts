@@ -12,7 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     styleUrls: ['./whatsapp-float.component.scss']
 })
 export class WhatsappFloatComponent implements OnInit, OnDestroy {
-    phone: string = '201030032281'; // Default WhatsApp
+    phone: string = ''; // Default WhatsApp
     private subscription: Subscription = new Subscription();
 
     constructor(
@@ -21,17 +21,15 @@ export class WhatsappFloatComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        // this.subscription.add(
-        //     this.settingService.getSettings().subscribe({
-        //         next: (data: Settings) => {
-        //             if (data.whatsapp) {
-        //                 this.phone = data.whatsapp.replace('+', '');
-        //             } else if (data.phone) {
-        //                 this.phone = data.phone.replace('+', '');
-        //             }
-        //         }
-        //     })
-        // );
+        this.subscription.add(
+            this.settingService.settings$.subscribe(settings => {
+                if (settings?.whatsapp) {
+                    this.phone = settings.whatsapp.replace(/\D/g, '');
+                } else if (settings?.phone) {
+                    this.phone = settings.phone.replace(/\D/g, '');
+                }
+            })
+        );
     }
 
     ngOnDestroy() {

@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 export interface Settings {
     phone?: string;
     whatsapp?: string;
-    facebook?: string;
-    instagram?: string;
-    twitter?: string;
-    linkedin?: string;
-    email?: string;
-    address?: string;
-    about_us?: string;
-    about_us_footer?: string;
-    privacy_policy?: string;
-    terms_conditions?: string;
+    instapay?: string;
+    vodafonecash?: string;
+
     logo_url?: string;
+    referral_enabled?: boolean;
     [key: string]: any;
 }
 
@@ -27,17 +21,38 @@ export interface Settings {
 export class SettingService {
     private apiUrl = environment.backEndUrl;
     private endpoint = '/settings';
+    private settingsSubject = new BehaviorSubject<Settings | null>(null);
+    public settings$ = this.settingsSubject.asObservable();
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        this.loadSettings();
+    }
+
+    private loadSettings(): void {
+        this.http.get<{ data: Settings }>(`${this.apiUrl}${this.endpoint}`).pipe(
+            map(response => {
+                const data = response.data || {};
+                data.logo_url = 'assets/images/logo.svg';
+                return data;
+            })
+        ).subscribe({
+            next: (settings) => this.settingsSubject.next(settings),
+            error: () => this.settingsSubject.next({})
+        });
+    }
 
     getSettings(): Observable<Settings> {
         return this.http.get<{ data: Settings }>(`${this.apiUrl}${this.endpoint}`).pipe(
             map(response => {
                 const data = response.data || {};
-                // Force new logo URL as requested
                 data.logo_url = 'assets/images/logo.svg';
                 return data;
-            })
+            }),
+            tap(settings => this.settingsSubject.next(settings))
         );
+    }
+
+    getCurrentSettings(): Settings | null {
+        return this.settingsSubject.value;
     }
 }

@@ -66,9 +66,9 @@
                         <div class="hub-icon"><i class="fa-solid fa-at"></i></div>
                         <div class="hub-text"><a href="mailto:{{ email }}">{{ email }}</a></div>
                     </div>
-                    <div class="hub-item mb-3" *ngIf="phone">
+                    <div class="hub-item mb-3" *ngIf="settings.phone">
                         <div class="hub-icon"><i class="fa-solid fa-headset"></i></div>
-                        <div class="hub-text"><a dir="ltr" href="tel:{{ phone }}">{{ phone }}</a>
+                        <div class="hub-text"><a dir="ltr" href="tel:{{ settings.phone }}">{{ settings.phone }}</a>
                         </div>
                     </div>
                 </div>

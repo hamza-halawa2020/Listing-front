@@ -89,7 +89,7 @@
                 <p class="vision-inline-number">
                     {{ 'VISION_MISSION_CONTACT_NUMBER_LABEL' | translate }}
                     <strong>
-                        <a dir="ltr" href="tel:01030032281">01030032281</a>
+                        <a dir="ltr" [href]="'tel:' + (settings.phone || '')">{{ settings.phone || '' }}</a>
                     </strong>
                 </p>
             </div>

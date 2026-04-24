@@ -87,12 +87,8 @@ export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         this.subscription.add(
-            this.settingService.getSettings().subscribe({
-                next: (data: Settings) => {
-                    this.settings = data;
-                },
-                error: (error: any) => {
-                }
+            this.settingService.settings$.subscribe(data => {
+                if (data) this.settings = data;
             })
         );
 

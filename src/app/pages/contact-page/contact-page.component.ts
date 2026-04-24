@@ -22,30 +22,22 @@ export class ContactPageComponent implements OnInit, OnDestroy {
     settings: Settings = {};
     isLoading: boolean = true;
     email: any = 'info@careandshare-eg.com';
-    phone: any = '+201050088281';
-    whatsapp: any = '+201030032281';
     private subscription: Subscription = new Subscription();
 
     constructor(private settingService: SettingService) { }
 
     ngOnInit() {
-        this.fetchSettings();
-    }
-
-    fetchSettings() {
-        this.isLoading = true;
         this.subscription.add(
-            this.settingService.getSettings().subscribe({
-                next: (data: Settings) => {
+            this.settingService.settings$.subscribe(data => {
+                if (data) {
                     this.settings = data;
-                    this.isLoading = false;
-                },
-                error: (error: any) => {
                     this.isLoading = false;
                 }
             })
         );
     }
+
+    fetchSettings() {}
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

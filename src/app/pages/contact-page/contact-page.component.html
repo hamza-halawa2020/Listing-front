@@ -45,10 +45,8 @@
                                 <div class="info-content">
                                     <h4>{{ 'TELEPHONE' | translate }}</h4>
                                     <p dir="ltr" class="phone-list">
-                                        <a href="tel:{{ settings.phone }}" *ngIf="phone">{{ phone
-                                            }}</a>
-                                        <a href="tel:{{ whatsapp }}" *ngIf="whatsapp">{{
-                                            settings.whatsapp }}</a>
+                                        <a href="tel:{{ settings.phone }}" *ngIf="settings.phone">{{ settings.phone }}</a>
+                                        <a href="tel:{{ settings.whatsapp }}" *ngIf="settings.whatsapp">{{ settings.whatsapp }}</a>
                                     </p>
                                 </div>
                             </div>

@@ -16,9 +16,8 @@ export class FooterComponent implements OnInit, OnDestroy {
     settings: Settings = {
         logo_url: 'assets/images/logo.svg',
     };
-    
     email: any = 'info@careandshare-eg.com';
-    phone: any = '+201030032281';
+
     private subscription: Subscription = new Subscription();
 
     constructor(
@@ -27,20 +26,14 @@ export class FooterComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.fetchSettings();
-    }
-
-    fetchSettings() {
         this.subscription.add(
-            this.settingService.getSettings().subscribe({
-                next: (data: Settings) => {
-                    this.settings = data;
-                },
-                error: (error: any) => {
-                }
+            this.settingService.settings$.subscribe(data => {
+                if (data) this.settings = { logo_url: 'assets/images/logo.svg', ...data };
             })
         );
     }
+
+    fetchSettings() {}
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
