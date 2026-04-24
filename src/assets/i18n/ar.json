@@ -869,5 +869,10 @@
   "VISITS": "الزيارات",
   "BACK": "رجوع",
   "NO_ATTACHMENTS": "لا توجد مرفقات",
-  "VISIT_BONUS_POINTS": "نقاط مكافأة الزيارة"
+  "VISIT_BONUS_POINTS": "نقاط مكافأة الزيارة",
+  "FILTER": "تصفية",
+  "VISIT_DETAILS": "تفاصيل الزيارة",
+  "CATEGORY": "الفئة",
+  "CHANGE": "تغيير",
+  "ATTACHMENTS": "المرفقات"
 }

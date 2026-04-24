@@ -622,3 +622,301 @@ textarea.form-control {
         align-items: flex-start;
     }
 }
+
+// ── Steps Indicator ───────────────────────────────────────────────────────────
+.steps-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 28px;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #94a3b8;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .25s;
+    }
+
+    .step-label {
+      font-size: 11px;
+      color: #94a3b8;
+      white-space: nowrap;
+      transition: color .25s;
+    }
+
+    &.active .step-num  { background: $primary; color: #fff; }
+    &.active .step-label { color: $primary; font-weight: 600; }
+    &.done .step-num    { background: #10b981; color: #fff; }
+    &.done .step-label  { color: #10b981; }
+  }
+
+  .step-line {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 6px;
+    margin-bottom: 18px;
+    transition: background .25s;
+    &.done { background: #10b981; }
+  }
+}
+
+// ── Listing Picker ────────────────────────────────────────────────────────────
+.listing-picker-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  i {
+    position: absolute;
+    right: 14px;
+    color: #94a3b8;
+  }
+
+  .form-control {
+    padding-right: 40px;
+    border-radius: 10px;
+  }
+}
+
+.listing-picker-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+}
+
+.picker-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .2s;
+
+  &:hover {
+    border-color: $primary;
+    background: rgba($primary, .04);
+
+    .picker-card__check { opacity: 1; color: $primary; }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba($primary, .1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    i { color: $primary; font-size: 18px; }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__address {
+    font-size: 12px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__check {
+    opacity: 0;
+    font-size: 18px;
+    transition: opacity .2s;
+    flex-shrink: 0;
+  }
+}
+
+// ── Selected listing badge ────────────────────────────────────────────────────
+.selected-listing-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba($primary, .06);
+  border: 1.5px solid rgba($primary, .25);
+  border-radius: 12px;
+
+  > i { font-size: 22px; color: $primary; flex-shrink: 0; }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name    { font-weight: 700; font-size: 14px; color: #0f172a; }
+  &__address { font-size: 12px; color: #64748b; }
+}
+
+.btn-change {
+  background: none;
+  border: 1px solid $primary;
+  color: $primary;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+  &:hover { background: $primary; color: #fff; }
+}
+
+.btn-back {
+  background: #f1f5f9;
+  border: none;
+  color: #475569;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+  &:hover { background: #e2e8f0; }
+}
+
+.step-content { animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+// ── Cascade Select ────────────────────────────────────────────────────────────
+.cascade-select {
+  position: relative;
+
+  .cascade-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color .2s;
+    min-height: 44px;
+
+    &:hover { border-color: $primary; }
+
+    span {
+      flex: 1;
+      font-size: 14px;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.placeholder { color: #94a3b8; }
+    }
+
+    i.fa-chevron-down {
+      font-size: 11px;
+      color: #94a3b8;
+      transition: transform .2s;
+      &.open { transform: rotate(180deg); }
+    }
+  }
+
+  .cascade-clear {
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 12px;
+    &:hover { color: #ef4444; }
+  }
+
+  .cascade-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    inset-inline-start: 0;
+    width: 100%;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    z-index: 999;
+    overflow: hidden;
+  }
+
+  .cascade-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    border-bottom: 1px solid #f1f5f9;
+    outline: none;
+    font-size: 13px;
+    background: #f8fafc;
+
+    &:focus { background: #fff; }
+  }
+
+  .cascade-options {
+    max-height: 200px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  }
+
+  .cascade-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .15s;
+
+    &:hover { background: #f0f9ff; color: $primary; }
+
+    .sub-arrow { font-size: 10px; color: #94a3b8; }
+  }
+
+  .cascade-empty {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #94a3b8;
+    text-align: center;
+  }
+}

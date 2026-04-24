@@ -31,53 +31,218 @@
             <h2 class="section-title">{{ 'VISITS_LIST' | translate }}</h2>
             <p class="section-sub">{{ groups.length }} {{ 'PLACES_VISITED' | translate }}</p>
           </div>
-          <button class="btn-primary-action" (click)="showForm = !showForm">
+          <button class="btn-primary-action" (click)="openForm()">
             <i class="fa-solid" [class.fa-plus]="!showForm" [class.fa-xmark]="showForm"></i>
             {{ (showForm ? 'CANCEL' : 'REGISTER_VISIT') | translate }}
           </button>
         </div>
 
-        <!-- Submit form -->
+        <!-- Submit form - 3 steps -->
         <div class="submit-form-card" *ngIf="showForm">
           <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
+
+          <!-- Step indicators -->
+          <div class="steps-indicator">
+            <div class="step" [class.active]="formStep >= 1" [class.done]="formStep > 1">
+              <span class="step-num">1</span>
+              <span class="step-label">{{ 'FILTER' | translate }}</span>
+            </div>
+            <div class="step-line" [class.done]="formStep > 1"></div>
+            <div class="step" [class.active]="formStep >= 2" [class.done]="formStep > 2">
+              <span class="step-num">2</span>
+              <span class="step-label">{{ 'SELECT_LISTING' | translate }}</span>
+            </div>
+            <div class="step-line" [class.done]="formStep > 2"></div>
+            <div class="step" [class.active]="formStep >= 3">
+              <span class="step-num">3</span>
+              <span class="step-label">{{ 'VISIT_DETAILS' | translate }}</span>
+            </div>
+          </div>
+
           <div class="alert-error" *ngIf="submitError">
             <i class="fa-solid fa-circle-exclamation"></i> {{ submitError | translate }}
           </div>
-          <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+
+          <!-- STEP 1: Filter -->
+          <div *ngIf="formStep === 1" class="step-content">
             <div class="form-grid">
+
+              <!-- Category cascade -->
               <div class="form-group">
-                <label>{{ 'SELECT_LISTING' | translate }} *</label>
-                <select formControlName="listing_id" class="form-control">
-                  <option value="">{{ 'SELECT_LISTING' | translate }}</option>
-                  <option *ngFor="let l of listings" [value]="l.id">{{ l.name }}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>{{ 'VISIT_DATE' | translate }} *</label>
-                <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
-              </div>
-              <div class="form-group">
-                <label>{{ 'NOTES' | translate }}</label>
-                <textarea formControlName="notes" class="form-control" rows="2" placeholder="{{ 'OPTIONAL' | translate }}"></textarea>
-              </div>
-              <div class="form-group form-group--full">
-                <label>{{ 'ATTACHMENTS' | translate }} * <span class="hint">({{ 'ATTACHMENT_HINT' | translate }})</span></label>
-                <div class="file-upload-area" (click)="fileInput.click()">
-                  <i class="fa-solid fa-cloud-arrow-up"></i>
-                  <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
-                  <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
-                  <input #fileInput type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
+                <label>{{ 'CATEGORY' | translate }}</label>
+                <!-- Parent -->
+                <div class="cascade-select cascade-select--cat">
+                  <div class="cascade-trigger" (click)="showCatDropdown=!showCatDropdown">
+                    <span [class.placeholder]="!selectedCatParent">
+                      {{ selectedCatParent ? selectedCatParent.name : ('ALL_CATEGORIES' | translate) }}
+                    </span>
+                    <i class="fa-solid fa-chevron-down" [class.open]="showCatDropdown"></i>
+                    <button *ngIf="selectedCatParent" type="button" class="cascade-clear" (click)="$event.stopPropagation(); clearCat()">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <div class="cascade-panel" *ngIf="showCatDropdown">
+                    <input type="text" [(ngModel)]="catSearch" (input)="onCatSearch()"
+                           placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="cascade-search" autofocus>
+                    <div class="cascade-options">
+                      <div class="cascade-option" *ngFor="let c of filteredCats" (click)="selectCatParent(c)">
+                        {{ c.name }}
+                        <i class="fa-solid fa-chevron-left sub-arrow" *ngIf="c.children?.length"></i>
+                      </div>
+                      <div class="cascade-empty" *ngIf="filteredCats.length === 0">{{ 'NO_RESULTS' | translate }}</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="file-list" *ngIf="selectedFiles.length > 0">
-                  <span class="file-chip" *ngFor="let f of selectedFiles"><i class="fa-solid fa-file"></i> {{ f.name }}</span>
+                <!-- Sub-category -->
+                <div class="cascade-select cascade-select--subcat mt-2" *ngIf="selectedCatParent && subCategories.length > 0">
+                  <div class="cascade-trigger" (click)="showSubCatDropdown=!showSubCatDropdown">
+                    <span [class.placeholder]="filterCategory === String(selectedCatParent.id)">
+                      {{ getSubCatLabel() || ('ALL_CATEGORIES' | translate) }}
+                    </span>
+                    <i class="fa-solid fa-chevron-down" [class.open]="showSubCatDropdown"></i>
+                  </div>
+                  <div class="cascade-panel" *ngIf="showSubCatDropdown">
+                    <input type="text" [(ngModel)]="subCatSearch" (input)="onSubCatSearch()"
+                           placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="cascade-search" autofocus>
+                    <div class="cascade-options">
+                      <div class="cascade-option" *ngFor="let c of filteredSubCats" (click)="selectSubCat(c)">{{ c.name }}</div>
+                      <div class="cascade-empty" *ngIf="filteredSubCats.length === 0">{{ 'NO_RESULTS' | translate }}</div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              <!-- Location cascade -->
+              <div class="form-group">
+                <label>{{ 'CITY' | translate }}</label>
+                <!-- Parent -->
+                <div class="cascade-select cascade-select--loc">
+                  <div class="cascade-trigger" (click)="showLocDropdown=!showLocDropdown">
+                    <span [class.placeholder]="!selectedLocParent">
+                      {{ selectedLocParent ? selectedLocParent.name : ('ALL_LOCATIONS' | translate) }}
+                    </span>
+                    <i class="fa-solid fa-chevron-down" [class.open]="showLocDropdown"></i>
+                    <button *ngIf="selectedLocParent" type="button" class="cascade-clear" (click)="$event.stopPropagation(); clearLoc()">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </div>
+                  <div class="cascade-panel" *ngIf="showLocDropdown">
+                    <input type="text" [(ngModel)]="locSearch" (input)="onLocSearch()"
+                           placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="cascade-search" autofocus>
+                    <div class="cascade-options">
+                      <div class="cascade-option" *ngFor="let l of filteredLocs" (click)="selectLocParent(l)">
+                        {{ l.name }}
+                        <i class="fa-solid fa-chevron-left sub-arrow" *ngIf="l.children?.length"></i>
+                      </div>
+                      <div class="cascade-empty" *ngIf="filteredLocs.length === 0">{{ 'NO_RESULTS' | translate }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Sub-location -->
+                <div class="cascade-select cascade-select--subloc mt-2" *ngIf="selectedLocParent && subLocations.length > 0">
+                  <div class="cascade-trigger" (click)="showSubLocDropdown=!showSubLocDropdown">
+                    <span [class.placeholder]="filterLocation === String(selectedLocParent.id)">
+                      {{ getSubLocLabel() || ('ALL_LOCATIONS' | translate) }}
+                    </span>
+                    <i class="fa-solid fa-chevron-down" [class.open]="showSubLocDropdown"></i>
+                  </div>
+                  <div class="cascade-panel" *ngIf="showSubLocDropdown">
+                    <input type="text" [(ngModel)]="subLocSearch" (input)="onSubLocSearch()"
+                           placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="cascade-search" autofocus>
+                    <div class="cascade-options">
+                      <div class="cascade-option" *ngFor="let l of filteredSubLocs" (click)="selectSubLoc(l)">{{ l.name }}</div>
+                      <div class="cascade-empty" *ngIf="filteredSubLocs.length === 0">{{ 'NO_RESULTS' | translate }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <button type="button" class="btn-primary-action mt-3" (click)="goToStep(2)">
+              {{ 'NEXT' | translate }} <i class="fa-solid fa-arrow-left ms-2"></i>
+            </button>
+          </div>
+
+          <!-- STEP 2: Pick listing -->
+          <div *ngIf="formStep === 2" class="step-content">
+            <div class="listing-picker-search mb-3">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" [(ngModel)]="listingSearchQuery" (input)="onFilterChange()"
+                     placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="form-control">
+            </div>
+
+            <div class="listing-picker-grid" *ngIf="!isLoadingListings">
+              <div class="picker-card" *ngFor="let l of filteredListings" (click)="pickListing(l)">
+                <div class="picker-card__icon"><i class="fa-solid fa-hospital"></i></div>
+                <div class="picker-card__info">
+                  <span class="picker-card__name">{{ l.name }}</span>
+                  <span class="picker-card__address">{{ l.address }}</span>
+                </div>
+                <i class="fa-solid fa-circle-check picker-card__check"></i>
+              </div>
+              <div class="empty-state" *ngIf="filteredListings.length === 0">
+                <i class="fa-solid fa-search-minus"></i>
+                <p>{{ 'NO_LISTINGS_FOUND' | translate }}</p>
               </div>
             </div>
-            <button type="submit" class="btn-primary-action mt-4" [disabled]="isSubmitting">
-              <span *ngIf="!isSubmitting"><i class="fa-solid fa-paper-plane me-2"></i>{{ 'SUBMIT_VISIT' | translate }}</span>
-              <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+
+            <div class="loading-state" *ngIf="isLoadingListings">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+
+            <button type="button" class="btn-back mt-3" (click)="goToStep(1)">
+              <i class="fa-solid fa-arrow-right me-2"></i> {{ 'BACK' | translate }}
             </button>
-          </form>
+          </div>
+
+          <!-- STEP 3: Details -->
+          <div *ngIf="formStep === 3" class="step-content">
+            <!-- Selected listing summary -->
+            <div class="selected-listing-badge mb-4">
+              <i class="fa-solid fa-hospital"></i>
+              <div>
+                <span class="selected-listing-badge__name">{{ selectedListing?.name }}</span>
+                <span class="selected-listing-badge__address">{{ selectedListing?.address }}</span>
+              </div>
+              <button type="button" class="btn-change" (click)="goToStep(2)">
+                {{ 'CHANGE' | translate }}
+              </button>
+            </div>
+
+            <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>{{ 'VISIT_DATE' | translate }} *</label>
+                  <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>{{ 'NOTES' | translate }}</label>
+                  <textarea formControlName="notes" class="form-control" rows="2" placeholder="{{ 'OPTIONAL' | translate }}"></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                  <label>{{ 'ATTACHMENTS' | translate }} * <span class="hint">({{ 'ATTACHMENT_HINT' | translate }})</span></label>
+                  <div class="file-upload-area" (click)="fileInput.click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
+                    <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
+                    <input #fileInput type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
+                  </div>
+                  <div class="file-list" *ngIf="selectedFiles.length > 0">
+                    <span class="file-chip" *ngFor="let f of selectedFiles"><i class="fa-solid fa-file"></i> {{ f.name }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex gap-3 mt-4">
+                <button type="button" class="btn-back" (click)="goToStep(2)">
+                  <i class="fa-solid fa-arrow-right me-2"></i> {{ 'BACK' | translate }}
+                </button>
+                <button type="submit" class="btn-primary-action" [disabled]="isSubmitting">
+                  <span *ngIf="!isSubmitting"><i class="fa-solid fa-paper-plane me-2"></i>{{ 'SUBMIT_VISIT' | translate }}</span>
+                  <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
         <!-- Loading -->
@@ -135,50 +300,124 @@
             <h2 class="section-title">{{ selectedGroup.listing_name }}</h2>
             <p class="section-sub">{{ selectedGroup.listing_address }}</p>
           </div>
-          <button class="btn-primary-action btn-sm" (click)="showForm = !showForm">
+          <button class="btn-primary-action btn-sm" (click)="openForm()">
             <i class="fa-solid" [class.fa-plus]="!showForm" [class.fa-xmark]="showForm"></i>
             {{ (showForm ? 'CANCEL' : 'REGISTER_VISIT') | translate }}
           </button>
         </div>
 
-        <!-- Submit form (in detail view) -->
+        <!-- Submit form (detail view) -->
         <div class="submit-form-card" *ngIf="showForm">
           <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
+
+          <div class="steps-indicator">
+            <div class="step" [class.active]="formStep >= 1" [class.done]="formStep > 1">
+              <span class="step-num">1</span><span class="step-label">{{ 'FILTER' | translate }}</span>
+            </div>
+            <div class="step-line" [class.done]="formStep > 1"></div>
+            <div class="step" [class.active]="formStep >= 2" [class.done]="formStep > 2">
+              <span class="step-num">2</span><span class="step-label">{{ 'SELECT_LISTING' | translate }}</span>
+            </div>
+            <div class="step-line" [class.done]="formStep > 2"></div>
+            <div class="step" [class.active]="formStep >= 3">
+              <span class="step-num">3</span><span class="step-label">{{ 'VISIT_DETAILS' | translate }}</span>
+            </div>
+          </div>
+
           <div class="alert-error" *ngIf="submitError">
             <i class="fa-solid fa-circle-exclamation"></i> {{ submitError | translate }}
           </div>
-          <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+
+          <div *ngIf="formStep === 1" class="step-content">
             <div class="form-grid">
               <div class="form-group">
-                <label>{{ 'SELECT_LISTING' | translate }} *</label>
-                <select formControlName="listing_id" class="form-control">
-                  <option value="">{{ 'SELECT_LISTING' | translate }}</option>
-                  <option *ngFor="let l of listings" [value]="l.id">{{ l.name }}</option>
+                <label>{{ 'CATEGORY' | translate }}</label>
+                <select class="form-control" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+                  <option value="">{{ 'ALL_CATEGORIES' | translate }}</option>
+                  <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
                 </select>
               </div>
               <div class="form-group">
-                <label>{{ 'VISIT_DATE' | translate }} *</label>
-                <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
-              </div>
-              <div class="form-group">
-                <label>{{ 'NOTES' | translate }}</label>
-                <textarea formControlName="notes" class="form-control" rows="2"></textarea>
-              </div>
-              <div class="form-group form-group--full">
-                <label>{{ 'ATTACHMENTS' | translate }} *</label>
-                <div class="file-upload-area" (click)="fileInput2.click()">
-                  <i class="fa-solid fa-cloud-arrow-up"></i>
-                  <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
-                  <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
-                  <input #fileInput2 type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
-                </div>
+                <label>{{ 'CITY' | translate }}</label>
+                <select class="form-control" [(ngModel)]="filterLocation" (change)="onFilterChange()">
+                  <option value="">{{ 'ALL_LOCATIONS' | translate }}</option>
+                  <option *ngFor="let l of locations" [value]="l.id">{{ l.name }}</option>
+                </select>
               </div>
             </div>
-            <button type="submit" class="btn-primary-action mt-4" [disabled]="isSubmitting">
-              <span *ngIf="!isSubmitting">{{ 'SUBMIT_VISIT' | translate }}</span>
-              <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+            <button type="button" class="btn-primary-action mt-3" (click)="goToStep(2)">
+              {{ 'NEXT' | translate }} <i class="fa-solid fa-arrow-left ms-2"></i>
             </button>
-          </form>
+          </div>
+
+          <div *ngIf="formStep === 2" class="step-content">
+            <div class="listing-picker-search mb-3">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" [(ngModel)]="listingSearchQuery" (input)="onFilterChange()"
+                     placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="form-control">
+            </div>
+            <div class="listing-picker-grid" *ngIf="!isLoadingListings">
+              <div class="picker-card" *ngFor="let l of filteredListings" (click)="pickListing(l)">
+                <div class="picker-card__icon"><i class="fa-solid fa-hospital"></i></div>
+                <div class="picker-card__info">
+                  <span class="picker-card__name">{{ l.name }}</span>
+                  <span class="picker-card__address">{{ l.address }}</span>
+                </div>
+                <i class="fa-solid fa-circle-check picker-card__check"></i>
+              </div>
+              <div class="empty-state" *ngIf="filteredListings.length === 0">
+                <i class="fa-solid fa-search-minus"></i>
+                <p>{{ 'NO_LISTINGS_FOUND' | translate }}</p>
+              </div>
+            </div>
+            <div class="loading-state" *ngIf="isLoadingListings">
+              <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <button type="button" class="btn-back mt-3" (click)="goToStep(1)">
+              <i class="fa-solid fa-arrow-right me-2"></i> {{ 'BACK' | translate }}
+            </button>
+          </div>
+
+          <div *ngIf="formStep === 3" class="step-content">
+            <div class="selected-listing-badge mb-4">
+              <i class="fa-solid fa-hospital"></i>
+              <div>
+                <span class="selected-listing-badge__name">{{ selectedListing?.name }}</span>
+                <span class="selected-listing-badge__address">{{ selectedListing?.address }}</span>
+              </div>
+              <button type="button" class="btn-change" (click)="goToStep(2)">{{ 'CHANGE' | translate }}</button>
+            </div>
+            <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>{{ 'VISIT_DATE' | translate }} *</label>
+                  <input type="datetime-local" formControlName="visited_at" [max]="todayDate()" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>{{ 'NOTES' | translate }}</label>
+                  <textarea formControlName="notes" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                  <label>{{ 'ATTACHMENTS' | translate }} *</label>
+                  <div class="file-upload-area" (click)="fileInput2.click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span *ngIf="selectedFiles.length === 0">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
+                    <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
+                    <input #fileInput2 type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex gap-3 mt-4">
+                <button type="button" class="btn-back" (click)="goToStep(2)">
+                  <i class="fa-solid fa-arrow-right me-2"></i> {{ 'BACK' | translate }}
+                </button>
+                <button type="submit" class="btn-primary-action" [disabled]="isSubmitting">
+                  <span *ngIf="!isSubmitting">{{ 'SUBMIT_VISIT' | translate }}</span>
+                  <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i>{{ 'LOADING' | translate }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
         <!-- Loading detail -->
