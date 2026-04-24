@@ -43,6 +43,8 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     // search bar state
     searchQuery: string = '';
     selectedCategory: string = '';
+    selectedSubCategory: string = '';
+    subCategories: any[] = [];
 
     categoriesForHome: any[] = [];
     allLocations: any[] = [];
@@ -163,19 +165,37 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     loadCategories() {
         this.listingsService.getCategories().subscribe({
             next: (response: any) => {
-                const data = response.data || response;
+                const data: any[] = response.data || response;
 
-                this.categoriesForHome = data.map((cat: any) => ({
-                    id: cat.id,
-                    name: cat.name,
-                    slug: cat.slug,
-                    count: cat.count || 0, // Fallback as Laravel resource didn't include count
-                    icon: this.getIconForCategory(cat.name)
-                }));
+                // بناء الـ tree من الـ flat list
+                const map: { [id: string]: any } = {};
+                data.forEach((cat: any) => {
+                    map[cat.id] = { ...cat, children: [], icon: this.getIconForCategory(cat.name) };
+                });
+
+                const roots: any[] = [];
+                data.forEach((cat: any) => {
+                    if (cat.parent_id) {
+                        map[cat.parent_id]?.children.push(map[cat.id]);
+                    } else {
+                        roots.push(map[cat.id]);
+                    }
+                });
+
+                this.categoriesForHome = roots;
             },
-            error: (err: any) => {
-            }
+            error: (err: any) => {}
         });
+    }
+
+    onCategoryChange() {
+        this.selectedSubCategory = '';
+        if (this.selectedCategory) {
+            const selected = this.categoriesForHome.find(c => String(c.id) === String(this.selectedCategory));
+            this.subCategories = selected?.children?.length ? selected.children : [];
+        } else {
+            this.subCategories = [];
+        }
     }
 
     getIconForCategory(name: string): string {
@@ -229,23 +249,24 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     searchListings() {
         const filters: any = {};
         if (this.searchQuery) filters.s = this.searchQuery;
-        if (this.selectedCategory) filters.category = this.selectedCategory;
 
-        // Pass specific area if selected, otherwise pass the city (area has priority)
+        // sub-category has priority over parent category
+        if (this.selectedSubCategory) {
+            filters.category = this.selectedSubCategory;
+        } else if (this.selectedCategory) {
+            filters.category = this.selectedCategory;
+        }
+
         if (this.selectedArea) {
             filters.location = this.selectedArea;
         } else if (this.selectedCity) {
             filters.location = this.selectedCity;
         }
 
-        // Persist filters so a page refresh can recover them
         try {
             localStorage.setItem('listingFilters', JSON.stringify(filters));
-        } catch (e) {
-            // ignore storage errors
-        }
+        } catch (e) {}
 
-        // Navigate without query params and carry filters via navigation state
         this.router.navigate(['/listings'], { state: { filters } });
     }
 

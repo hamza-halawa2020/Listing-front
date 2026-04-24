@@ -21,11 +21,26 @@
                             <app-searchable-select
                                 [options]="categoriesForHome"
                                 [value]="selectedCategory"
-                                (valueChange)="selectedCategory = $event"
+                                (valueChange)="selectedCategory = $event; onCategoryChange()"
                                 [placeholder]="'ALL_CATEGORIES' | translate"
                                 [allOptionLabel]="'ALL_CATEGORIES' | translate"
                                 [searchPlaceholder]="'SEARCH_BUTTON' | translate"
                                 [noResultsLabel]="'NO_LISTINGS_FOUND' | translate">
+                            </app-searchable-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 search-input-col border-start-lg">
+                        <div class="input-with-icon" [class.disabled-col]="!selectedCategory || subCategories.length === 0">
+                            <i class="fa-solid fa-sitemap px-1"></i>
+                            <app-searchable-select
+                                [options]="subCategories"
+                                [value]="selectedSubCategory"
+                                (valueChange)="selectedSubCategory = $event"
+                                [placeholder]="'ALL_CATEGORIES' | translate"
+                                [allOptionLabel]="'ALL_CATEGORIES' | translate"
+                                [searchPlaceholder]="'SEARCH_BUTTON' | translate"
+                                [noResultsLabel]="'NO_LISTINGS_FOUND' | translate"
+                                [disabled]="!selectedCategory || subCategories.length === 0">
                             </app-searchable-select>
                         </div>
                     </div>
@@ -44,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2 search-input-col border-start-lg">
-                        <div class="input-with-icon">
+                        <div class="input-with-icon" [class.disabled-col]="!selectedCity">
                             <i class="fa-solid fa-map-pin px-1"></i>
                             <app-searchable-select
                                 [options]="areas"
@@ -58,7 +73,7 @@
                             </app-searchable-select>
                         </div>
                     </div>
-                    <div class="col-lg-4 search-input-col border-start-lg">
+                    <div class="col-lg-2 search-input-col border-start-lg">
                         <div class="input-with-icon">
                             <i class="fa-solid fa-magnifying-glass px-1"></i>
                             <input type="text" [(ngModel)]="searchQuery" name="searchQuery"
@@ -76,7 +91,7 @@
             <!-- Category Shortcuts -->
             <div class="hero-category-shortcuts mt-4 d-flex flex-wrap justify-content-center gap-3">
                 <div *ngFor="let cat of categoriesForHome" class="cat-shortcut"
-                    (click)="selectedCategory=cat.id; searchListings()">
+                    (click)="selectedCategory=cat.id; onCategoryChange(); searchListings()">
                     <i class="fa-solid {{cat.icon}}"></i>
                     <span>{{cat.name}}</span>
                 </div>
