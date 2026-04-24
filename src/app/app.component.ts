@@ -1,3 +1,4 @@
+import { PhoneFloatComponent } from './common/phone-float/phone-float.component';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, ViewportScroller, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, Event as RouterEvent, NavigationEnd } from '@angular/router';
@@ -13,7 +14,7 @@ import { RewardsBannerComponent } from './shared/components/rewards-banner/rewar
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, BackToTopComponent, AppDownloadComponent, ChatDockComponent, RewardsBannerComponent],
+    imports: [RouterOutlet, NavbarComponent, WhatsappFloatComponent, CustomCursorComponent, FooterComponent, PhoneFloatComponent,BackToTopComponent, AppDownloadComponent, ChatDockComponent, RewardsBannerComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })
