@@ -68,6 +68,7 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   isLoadingListings = false;
   selectedListing: any = null;
   listingSearchQuery = '';
+  showLocationChoice = false;
   private searchSubject = new Subject<void>();
 
   private subs = new Subscription();
@@ -113,6 +114,14 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   }
 
   openListing(group: ListingVisitGroup): void {
+    // لو الفورم مفتوح، اقفله وعمل reset
+    if (this.showForm) {
+      this.showForm = false;
+      this.showLocationChoice = false;
+      this.submitForm.reset();
+      this.selectedFiles = [];
+      this.submitError = '';
+    }
     this.selectedGroup = group;
     this.isLoadingDetail = true;
     this.detail = null;
@@ -306,8 +315,9 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
   openForm(): void {
     this.showForm = !this.showForm;
     if (this.showForm) {
-      this.formStep = 1;
-      this.selectedListing = null;
+      this.submitForm.reset();
+      this.selectedFiles = [];
+      this.submitError = '';
       this.filteredListings = [];
       this.filterCategory = '';
       this.filterLocation = '';
@@ -318,10 +328,38 @@ export class VisitsPageComponent implements OnInit, OnDestroy {
       this.selectedLocParent = null;
       this.subLocations = [];
       this.filteredLocs = this.locations;
-      this.submitForm.reset();
-      this.selectedFiles = [];
-      this.submitError = '';
+
+      // لو واقف على group معينة، اسأل المستخدم يختار
+      if (this.selectedGroup) {
+        this.showLocationChoice = true;
+        this.formStep = 1;
+        this.selectedListing = null;
+      } else {
+        this.showLocationChoice = false;
+        this.formStep = 1;
+        this.selectedListing = null;
+      }
+    } else {
+      this.showLocationChoice = false;
     }
+  }
+
+  useSameLocation(): void {
+    // حدد الـ listing من الـ group الحالية أوتوماتيك
+    this.selectedListing = {
+      id: this.selectedGroup!.listing_id,
+      name: this.selectedGroup!.listing_name,
+      address: this.selectedGroup!.listing_address
+    };
+    this.submitForm.patchValue({ listing_id: this.selectedGroup!.listing_id });
+    this.showLocationChoice = false;
+    this.formStep = 3;
+  }
+
+  useNewLocation(): void {
+    this.showLocationChoice = false;
+    this.selectedListing = null;
+    this.formStep = 1;
   }
 
   onFilesChange(event: Event): void {

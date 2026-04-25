@@ -310,6 +310,24 @@
         <div class="submit-form-card" *ngIf="showForm">
           <h3 class="form-title">{{ 'REGISTER_VISIT' | translate }}</h3>
 
+          <!-- Location choice (same or new) -->
+          <div class="location-choice" *ngIf="showLocationChoice">
+            <p class="location-choice__label">{{ 'CHOOSE_LOCATION_OPTION' | translate }}</p>
+            <div class="location-choice__options">
+              <button type="button" class="location-choice__btn location-choice__btn--same" (click)="useSameLocation()">
+                <i class="fa-solid fa-building-columns"></i>
+                <span class="location-choice__btn-name">{{ selectedGroup?.listing_name }}</span>
+                <span class="location-choice__btn-sub">{{ 'USE_SAME_LOCATION' | translate }}</span>
+              </button>
+              <button type="button" class="location-choice__btn location-choice__btn--new" (click)="useNewLocation()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span class="location-choice__btn-name">{{ 'NEW_LOCATION' | translate }}</span>
+                <span class="location-choice__btn-sub">{{ 'CHOOSE_DIFFERENT_LOCATION' | translate }}</span>
+              </button>
+            </div>
+          </div>
+
+          <ng-container *ngIf="!showLocationChoice">
           <div class="steps-indicator">
             <div class="step" [class.active]="formStep >= 1" [class.done]="formStep > 1">
               <span class="step-num">1</span><span class="step-label">{{ 'FILTER' | translate }}</span>
@@ -405,6 +423,9 @@
                     <span *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}</span>
                     <input #fileInput2 type="file" multiple accept=".jpg,.jpeg,.png,.pdf" (change)="onFilesChange($event)" style="display:none">
                   </div>
+                  <div class="file-list" *ngIf="selectedFiles.length > 0">
+                    <span class="file-chip" *ngFor="let f of selectedFiles"><i class="fa-solid fa-file"></i> {{ f.name }}</span>
+                  </div>
                 </div>
               </div>
               <div class="d-flex gap-3 mt-4">
@@ -418,6 +439,7 @@
               </div>
             </form>
           </div>
+          </ng-container>
         </div>
 
         <!-- Loading detail -->

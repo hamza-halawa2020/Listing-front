@@ -793,5 +793,9 @@
   "VISITS": "visits",
   "BACK": "Back",
   "NO_ATTACHMENTS": "No attachments",
-  "VISIT_BONUS_POINTS": "Visit Bonus"
+  "VISIT_BONUS_POINTS": "Visit Bonus",
+  "CHOOSE_LOCATION_OPTION": "Do you want to register a visit to the same place?",
+  "USE_SAME_LOCATION": "Use this place",
+  "NEW_LOCATION": "Choose a new place",
+  "CHOOSE_DIFFERENT_LOCATION": "Search and select a different place"
 }

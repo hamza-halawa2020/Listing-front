@@ -874,5 +874,9 @@
   "VISIT_DETAILS": "تفاصيل الزيارة",
   "CATEGORY": "الفئة",
   "CHANGE": "تغيير",
-  "ATTACHMENTS": "المرفقات"
+  "ATTACHMENTS": "المرفقات",
+  "CHOOSE_LOCATION_OPTION": "هل تريد تسجيل زيارة لنفس المكان؟",
+  "USE_SAME_LOCATION": "استخدم هذا المكان",
+  "NEW_LOCATION": "اختار مكان جديد",
+  "CHOOSE_DIFFERENT_LOCATION": "ابحث واختار مكان مختلف"
 }

@@ -920,3 +920,72 @@ textarea.form-control {
     text-align: center;
   }
 }
+
+// ── Location choice ───────────────────────────────────────────────────────
+.location-choice {
+  padding: 8px 0 16px;
+
+  &__label {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  &__options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 16px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f8fafc;
+
+    i {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+
+    &-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: $dark;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    &-sub {
+      font-size: 0.78rem;
+      color: #64748b;
+      text-align: center;
+    }
+
+    &--same {
+      border-color: #0891b2;
+      i { color: #0891b2; }
+      &:hover { background: #e0f2fe; border-color: #0369a1; }
+    }
+
+    &--new {
+      border-color: #e2e8f0;
+      i { color: #94a3b8; }
+      &:hover { background: #f1f5f9; border-color: #94a3b8; }
+    }
+  }
+}
