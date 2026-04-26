@@ -15,6 +15,17 @@ $text-color: #374151;
     margin-top: 30px;
     padding-left: 0;
     list-style: none;
+    flex-wrap: wrap;
+
+    @media (max-width: 767px) {
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 575px) {
+        gap: 6px;
+        margin-top: 15px;
+    }
 
     .page-item {
         margin: 0;
@@ -34,12 +45,37 @@ $text-color: #374151;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             text-decoration: none;
+
+            @media (max-width: 767px) {
+                width: 44px;
+                height: 44px;
+                font-size: 15px;
+                border-radius: 12px;
+            }
+
+            @media (max-width: 575px) {
+                width: 38px;
+                height: 38px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            @media (max-width: 359px) {
+                width: 34px;
+                height: 34px;
+                font-size: 13px;
+                border-radius: 8px;
+            }
             
             &:hover {
                 background: var(--creamBg);
                 transform: translateY(-3px);
                 color: $secondary-color;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+                @media (max-width: 575px) {
+                    transform: translateY(-2px);
+                }
             }
             
             &:focus {
@@ -53,6 +89,10 @@ $text-color: #374151;
             color: #fff;
             box-shadow: 0 10px 20px rgba(180, 83, 9, 0.3);
             transform: scale(1.05);
+
+            @media (max-width: 575px) {
+                transform: scale(1.02);
+            }
         }
 
         &.disabled .page-link {

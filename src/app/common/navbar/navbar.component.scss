@@ -665,6 +665,7 @@ $gray: #9ca3af;
 @media (max-width: 1655px) {
     .navbar-container {
         padding: 0 20px;
+        max-width: 100%;
     }
 
     .navbar-menu {
@@ -784,23 +785,90 @@ $gray: #9ca3af;
 
     .navbar-container {
         height: var(--navbar-height-mobile);
-        padding: 0 15px;
+        padding: 0 12px;
+        max-width: 100%;
     }
 
     .navbar-brand {
         a {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .logo {
-            height: 35px;
-            margin-right: 10px;
+            height: 32px;
+            margin-right: 8px;
+        }
+
+        .brand-text {
+            font-size: 18px;
         }
     }
 
     .mobile-toggle {
         width: 28px;
         height: 28px;
+    }
+}
+
+// Extra small devices (< 576px)
+@media (max-width: 575px) {
+    .navbar-container {
+        padding: 0 10px;
+    }
+
+    .navbar-brand {
+        a {
+            font-size: 16px;
+        }
+
+        .logo {
+            height: 28px;
+            margin-right: 6px;
+        }
+
+        .brand-text {
+            font-size: 16px;
+        }
+    }
+
+    .mobile-toggle {
+        width: 26px;
+        height: 26px;
+
+        span {
+            height: 2.5px;
+        }
+    }
+}
+
+// Very small phones (< 360px)
+@media (max-width: 359px) {
+    .navbar-container {
+        padding: 0 8px;
+    }
+
+    .navbar-brand {
+        a {
+            font-size: 14px;
+        }
+
+        .logo {
+            height: 26px;
+            margin-right: 5px;
+        }
+
+        .brand-text {
+            font-size: 14px;
+        }
+    }
+
+    .mobile-toggle {
+        width: 24px;
+        height: 24px;
+
+        span {
+            height: 2px;
+        }
     }
 }
 

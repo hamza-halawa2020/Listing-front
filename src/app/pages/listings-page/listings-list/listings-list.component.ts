@@ -448,7 +448,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
         // construct params based on filters
         let params: any = {};
         if (this.searchQuery) {
-            params.s = this.searchQuery;
+            params.search = this.searchQuery;
         }
         if (this.selectedCategory) {
             params.category_id = this.selectedCategory;
