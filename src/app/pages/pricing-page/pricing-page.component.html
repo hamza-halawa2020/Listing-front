@@ -69,7 +69,7 @@
                 <span class="pricing-card__chip">{{ plan.price }} {{ 'EGP' | translate }}</span>
                 <span class="pricing-card__chip">{{ plan.duration_days }} {{ 'DAYS' | translate }}</span>
                 <span class="pricing-card__chip" *ngIf="plan.max_family_members > 0">
-                    {{ 'MAX_MEMBERS' | translate }}: {{ plan.max_family_members }}
+                    {{ 'MAX_MEMBERS' | translate }}: {{ plan.max_family_members  + 1}}
                 </span>
             </div>
 
