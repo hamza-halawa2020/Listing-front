@@ -73,6 +73,16 @@ export class PricingPageComponent implements OnInit {
         }
     }
 
+    getPlanImage(plan: any): string {
+        const imageMap: { [key: string]: string } = {
+            'FG': 'assets/images/fg.jpeg',
+            'FA': 'assets/images/fa.jpeg',
+            'IA': 'assets/images/ia.jpeg',
+            'IG': 'assets/images/ig.jpeg',
+        };
+        return imageMap[plan?.code] || 'assets/images/back.jpeg';
+    }
+
     private getPlanNameKey(plan: any): string {
         const type = String(plan?.type || '').trim().toUpperCase();
         const coverage = String(plan?.coverage_type || '').trim().toUpperCase();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { ListingsService } from '../listings-page/listings.service';
     templateUrl: './subscription-check-page.component.html',
     styleUrls: ['./subscription-check-page.component.scss']
 })
-export class SubscriptionCheckPageComponent {
+export class SubscriptionCheckPageComponent implements OnInit {
     checkData = {
         national_id: '',
         membership_card_number: ''
@@ -23,7 +23,9 @@ export class SubscriptionCheckPageComponent {
     errorMessage: string | null = null;
     isGeneratingCardKey: string | null = null;
     generatedCardMap: Record<string, string> = {};
-    private readonly membershipCardTemplatePath = '/assets/images/IG_card.png';
+    locations: Array<{ id: string; name: string; parent_id?: string | null }> = [];
+
+    private readonly defaultCardImage = '/assets/images/no_code.jpeg';
     private readonly paymentMethodMap: Record<string, string> = {
         online: 'ONLINE',
         instapay: 'INSTAPAY',
@@ -71,6 +73,29 @@ export class SubscriptionCheckPageComponent {
     };
 
     constructor(private listingsService: ListingsService) { }
+
+    ngOnInit(): void {
+        this.listingsService.getLocations().subscribe({
+            next: (response: any) => {
+                const data = response?.data || response || [];
+                this.locations = this.flattenLocations(data);
+            },
+            error: () => {}
+        });
+    }
+
+    private flattenLocations(locations: any[], parentId: string | null = null): Array<{ id: string; name: string; parent_id?: string | null }> {
+        if (!Array.isArray(locations)) return [];
+        const result: Array<{ id: string; name: string; parent_id?: string | null }> = [];
+        locations.forEach((loc) => {
+            if (!loc?.id) return;
+            result.push({ id: String(loc.id), name: String(loc.name || ''), parent_id: parentId });
+            if (Array.isArray(loc.children) && loc.children.length) {
+                result.push(...this.flattenLocations(loc.children, String(loc.id)));
+            }
+        });
+        return result;
+    }
 
     onSubmit() {
         this.isLoading = true;
@@ -151,7 +176,7 @@ export class SubscriptionCheckPageComponent {
             const memberName = this.getCardMemberName(subscription);
             const membershipNumber = this.getCardMembershipNumber(subscription);
             const expiryDate = this.getCardExpiryDate(subscription);
-            const cardImage = await this.buildMembershipCardImage(memberName, membershipNumber, expiryDate);
+            const cardImage = await this.buildMembershipCardImage(memberName, membershipNumber, expiryDate, subscription);
             this.generatedCardMap[key] = cardImage;
         } catch (error) {
             this.errorMessage = 'REQUEST_FAILED';
@@ -351,13 +376,39 @@ export class SubscriptionCheckPageComponent {
         return this.normalizeCardExpiryDate(rawValue);
     }
 
+    private getCardCoverageText(subscription: any): string {
+        const coverage = String(subscription?.plan?.coverage_type || '').trim().toLowerCase();
+        switch (coverage) {
+            case 'zone': return 'منطقة';
+            case 'governorate': {
+                const userLocation = subscription?.user?.location
+                    || this.getSubscriptions()?.[0]?.user?.location;
+                if (!userLocation) return 'محافظات';
+                if (userLocation.parent_id) {
+                    const parent = this.locations.find((l: any) => String(l.id) === String(userLocation.parent_id));
+                    if (parent) return String(parent.name).trim();
+                }
+                return String(userLocation.name).trim() || 'محافظات';
+            }
+            case 'national': return 'جمهورية';
+            default: return '';
+        }
+    }
+
+    private getCardTemplatePath(subscription: any): string {
+        const code = String(subscription?.plan?.code || '').trim().toLowerCase();
+        return this.defaultCardImage;
+    }
+
     private async buildMembershipCardImage(
         memberName: string,
         membershipNumber: string,
-        expiryDate: string
+        expiryDate: string,
+        subscription: any = null
     ): Promise<string> {
         await this.waitForCanvasFonts();
-        const templateImage = await this.loadImage(this.membershipCardTemplatePath);
+        const templatePath = subscription ? this.getCardTemplatePath(subscription) : this.defaultCardImage;
+        const templateImage = await this.loadImage(templatePath);
 
         const canvas = document.createElement('canvas');
         canvas.width = templateImage.width;
@@ -370,90 +421,87 @@ export class SubscriptionCheckPageComponent {
 
         ctx.drawImage(templateImage, 0, 0);
 
-        const nameBarX = Math.round(canvas.width * 0.062);
-        const nameBarY = Math.round(canvas.height * 0.355);
-        const nameBarWidth = Math.round(canvas.width * 0.523);
-        const nameBarHeight = Math.round(canvas.height * 0.067);
-        const nameBarRadius = Math.round(nameBarHeight / 2);
-        const infoY = Math.round(canvas.height * 0.754);
-
-        ctx.save();
-        ctx.fillStyle = '#089483';
-        this.drawRoundedRect(ctx, nameBarX, nameBarY, nameBarWidth, nameBarHeight, nameBarRadius);
-        ctx.fill();
-        ctx.restore();
-
         const safeMemberName = memberName || '-';
         const memberIdText = this.formatCardMembershipId(membershipNumber);
         const safeExpiryDate = this.normalizeCardExpiryDate(expiryDate);
+
+        // رسم اللوجو في المستطيل الأبيض (شمال)
+        const logoX = Math.round(canvas.width * 0.062);
+        const logoY = Math.round(canvas.height * 0.25);
+        const logoW = Math.round(canvas.width * 0.195);
+        const logoH = Math.round(canvas.height * 0.47);
+        try {
+            const logoImg = await this.loadImage('/assets/images/logo.svg');
+            // حساب نسبة الـ logo عشان يتناسب جوه المستطيل
+            const scale = Math.min(logoW / logoImg.width, logoH / logoImg.height) * 0.75;
+            const lw = Math.round(logoImg.width * scale);
+            const lh = Math.round(logoImg.height * scale);
+            const lx = logoX + Math.round((logoW - lw) / 2);
+            const ly = logoY + Math.round((logoH - lh) / 2);
+            ctx.drawImage(logoImg, lx, ly, lw, lh);
+        } catch (_) { /* لو اللوجو مش اتحمل، نكمل */ }
+
+        // الاسم: كبير في المنتصف يمين المستطيل
+        const nameX = Math.round(canvas.width * 0.295);
+        const nameY = Math.round(canvas.height * 0.48);
+        const nameMaxWidth = Math.round(canvas.width * 0.62);
+        const nameFontSize = Math.round(canvas.width * 0.058);
+        const nameMinFontSize = Math.round(canvas.width * 0.030);
 
         ctx.save();
         ctx.direction = 'rtl';
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
-        this.setFittedFont(
-            ctx,
-            safeMemberName,
-            Math.round(nameBarWidth * 0.9),
-            Math.round(canvas.width * 0.045),
-            Math.round(canvas.width * 0.027),
-            '"Cairo", "Segoe UI", Tahoma, sans-serif'
-        );
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.20)';
-        ctx.shadowBlur = 1;
-        ctx.fillText(
-            safeMemberName,
-            nameBarX + nameBarWidth - Math.round(canvas.width * 0.024),
-            nameBarY + Math.round(nameBarHeight * 0.56)
-        );
+        this.setFittedFont(ctx, safeMemberName, nameMaxWidth, nameFontSize, nameMinFontSize, '"Cairo", "Segoe UI", Tahoma, sans-serif');
+        ctx.fillStyle = '#262571';
+        ctx.fillText(safeMemberName, nameX + nameMaxWidth, nameY);
         ctx.restore();
 
-        const infoFontSize = Math.round(canvas.width * 0.052);
-        const infoMinFontSize = Math.round(canvas.width * 0.035);
-        const exLabelX = Math.round(canvas.width * 0.062);
-        const exValueX = Math.round(canvas.width * 0.115);
-        const idLabelX = Math.round(canvas.width * 0.452);
-        const idValueX = Math.round(canvas.width * 0.505);
+        // قيمة EX و ID
+        const exValueX = Math.round(canvas.width * 0.12);
+        const exValueY = Math.round(canvas.height * 0.810);
+        const idValueX = Math.round(canvas.width * 0.11);
+        const idValueY = Math.round(canvas.height * 0.875);
+
+        const infoFontSize = Math.round(canvas.width * 0.038);
+        const infoMinFontSize = Math.round(canvas.width * 0.025);
 
         ctx.save();
         ctx.direction = 'ltr';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'alphabetic';
-        ctx.lineJoin = 'round';
-        ctx.strokeStyle = 'rgba(248, 250, 252, 0.95)';
-        ctx.lineWidth = Math.max(2, Math.round(infoFontSize * 0.2));
 
-        this.setFittedFont(ctx, 'EX:', Math.round(canvas.width * 0.11), infoFontSize, infoMinFontSize);
-        ctx.fillStyle = '#f97316';
-        ctx.strokeText('EX:', exLabelX, infoY);
-        ctx.fillText('EX:', exLabelX, infoY);
+        this.setFittedFont(ctx, safeExpiryDate, Math.round(canvas.width * 0.25), infoFontSize, infoMinFontSize);
+        ctx.fillStyle = '#262571';
+        ctx.fillText(safeExpiryDate, exValueX, exValueY);
 
-        this.setFittedFont(ctx, safeExpiryDate, Math.round(canvas.width * 0.33), infoFontSize, infoMinFontSize);
-        ctx.fillStyle = '#1f8f8b';
-        ctx.strokeText(safeExpiryDate, exValueX, infoY);
-        ctx.fillText(safeExpiryDate, exValueX, infoY);
-
-        this.setFittedFont(ctx, 'ID:', Math.round(canvas.width * 0.1), infoFontSize, infoMinFontSize);
-        ctx.fillStyle = '#f97316';
-        ctx.strokeText('ID:', idLabelX, infoY);
-        ctx.fillText('ID:', idLabelX, infoY);
-
-        this.setFittedFont(ctx, memberIdText, Math.round(canvas.width * 0.23), infoFontSize, infoMinFontSize);
-        ctx.fillStyle = '#1f8f8b';
-        ctx.strokeText(memberIdText, idValueX, infoY);
-        ctx.fillText(memberIdText, idValueX, infoY);
+        this.setFittedFont(ctx, memberIdText, Math.round(canvas.width * 0.25), infoFontSize, infoMinFontSize);
+        ctx.fillStyle = '#262571';
+        ctx.fillText(memberIdText, idValueX, idValueY);
         ctx.restore();
+
+        // نطاق التغطية: محافظات أو جمهورية
+        const coverageText = this.getCardCoverageText(subscription);
+        if (coverageText) {
+            const coverageX = Math.round(canvas.width * 0.60);
+            const coverageY = Math.round(canvas.height * 0.800);
+            const coverageFontSize = Math.round(canvas.width * 0.034);
+            const coverageMinFontSize = Math.round(canvas.width * 0.022);
+            ctx.save();
+            ctx.direction = 'rtl';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'alphabetic';
+            this.setFittedFont(ctx, coverageText, Math.round(canvas.width * 0.28), coverageFontSize, coverageMinFontSize, '"Cairo", "Segoe UI", Tahoma, sans-serif');
+            ctx.fillStyle = '#1a3a5c';
+            ctx.fillText(coverageText, coverageX, coverageY);
+            ctx.restore();
+        }
 
         return canvas.toDataURL('image/png');
     }
 
     private formatCardMembershipId(membershipNumber: string): string {
-        const normalizedValue = String(membershipNumber || '')
-            .replace(/^IG[\s:-]*/i, '')
-            .trim();
-
-        return `IG ${normalizedValue || '000000'}`;
+        return String(membershipNumber || '').trim() || '000000';
     }
 
     private normalizeCardExpiryDate(rawValue: unknown): string {
