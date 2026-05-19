@@ -427,11 +427,11 @@ export class SubscriptionCheckPageComponent implements OnInit {
 
         // رسم اللوجو في المستطيل الأبيض (شمال)
         const logoX = Math.round(canvas.width * 0.062);
-        const logoY = Math.round(canvas.height * 0.25);
+        const logoY = Math.round(canvas.height * 0.30);
         const logoW = Math.round(canvas.width * 0.195);
         const logoH = Math.round(canvas.height * 0.47);
         try {
-            const logoImg = await this.loadImage('/assets/images/logo.svg');
+            const logoImg = await this.loadImage('/assets/images/small_logo.svg');
             // حساب نسبة الـ logo عشان يتناسب جوه المستطيل
             const scale = Math.min(logoW / logoImg.width, logoH / logoImg.height) * 0.75;
             const lw = Math.round(logoImg.width * scale);
