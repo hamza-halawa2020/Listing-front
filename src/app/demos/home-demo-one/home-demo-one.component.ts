@@ -53,18 +53,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
     selectedCity: string = '';
     selectedArea: string = '';
 
-    categoryIconMapping: { [key: string]: string } = {
-        'أسنان': 'fa-tooth',
-        'اطباء': 'fa-user-md',
-        'صيدلية': 'fa-pills',
-        'تمريض': 'fa-user-nurse',
-        'علاج طبيعي': 'fa-wheelchair',
-        'مستشفى': 'fa-hospital',
-        'اشعة': 'fa-x-ray',
-        'تحليل': 'fa-vial',
-        'مراكز': 'fa-hospital-user',
-        'عيادة': 'fa-stethoscope'
-    };
 
     animatedStats = {
         completedStudies: 0,
@@ -167,10 +155,9 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
             next: (response: any) => {
                 const data: any[] = response.data || response;
 
-                // بناء الـ tree من الـ flat list
                 const map: { [id: string]: any } = {};
                 data.forEach((cat: any) => {
-                    map[cat.id] = { ...cat, children: [], icon: this.getIconForCategory(cat.name) };
+                    map[cat.id] = { ...cat, children: [], icon: 'fa-layer-group' };
                 });
 
                 const roots: any[] = [];
@@ -196,13 +183,6 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         } else {
             this.subCategories = [];
         }
-    }
-
-    getIconForCategory(name: string): string {
-        const foundKey = Object.keys(this.categoryIconMapping).find(key =>
-            name.toLowerCase().includes(key.toLowerCase())
-        );
-        return foundKey ? this.categoryIconMapping[foundKey] : 'fa-layer-group';
     }
 
     loadLocations() {
