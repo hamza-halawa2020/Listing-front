@@ -5,10 +5,10 @@
             <div class="col-lg-7 listings-panel">
                 <div class="listings-scroll-content p-4">
                     <!-- Premium Search Filter Bar -->
-                    <div class="filter-header-premium mb-4" data-aos="fade-down">
-                        <div class="row g-3 align-items-center">
+                    <div class="filter-header-premium mb-3 mb-md-4" data-aos="fade-down">
+                        <div class="row g-2 g-md-3 align-items-center">
                             <!-- Search -->
-                            <div class="col-md-4">
+                            <div class="col-12 col-md-8">
                                 <div class="premium-input-group">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     <input type="text" class="form-control"
@@ -18,15 +18,16 @@
                             </div>
 
                             <!-- Actions -->
-                            <div class="col-md-2 ms-auto">
-                                <div class="filter-actions-group d-flex gap-1 justify-content-end">
-                                    <button class="btn btn-near-me-premium" [class.active]="isNearMeActive"
-                                        [disabled]="isLocating" (click)="toggleNearMe()"
+                            <div class="col-12 col-md-4">
+                                <div class="filter-actions-group d-flex gap-2 justify-content-md-end">
+                                    <button class="btn btn-near-me-premium flex-fill flex-md-grow-0"
+                                        [class.active]="isNearMeActive" [disabled]="isLocating" (click)="toggleNearMe()"
                                         [title]="'NEAR_ME' | translate">
                                         <i class="fa-solid" [class.fa-location-crosshairs]="!isLocating"
                                             [class.fa-spinner]="isLocating" [class.fa-spin]="isLocating"></i>
                                     </button>
-                                    <button class="btn btn-filter-premium" [class.active]="filterOpenNow"
+                                    <button class="btn btn-filter-premium flex-fill flex-md-grow-0"
+                                        [class.active]="filterOpenNow"
                                         (click)="filterOpenNow = !filterOpenNow; applyFilters()"
                                         [title]="'OPEN_NOW' | translate">
                                         <i class="fa-solid fa-clock"></i>
@@ -38,12 +39,11 @@
                         <!-- Hierarchical Filters Row -->
                         <div class="row g-2 mt-2">
                             <!-- Dynamic Cascading Categories -->
-                            <div class="col-md-3" *ngFor="let level of categoryLevels; let i = index">
+                            <div class="col-6 col-md-4 col-lg-3"
+                                *ngFor="let level of categoryLevels; let i = index">
                                 <div class="premium-select-group">
                                     <i class="fa-solid fa-layer-group"></i>
-                                    <app-searchable-select
-                                        [options]="level"
-                                        [value]="selectedCategoryPath[i]"
+                                    <app-searchable-select [options]="level" [value]="selectedCategoryPath[i]"
                                         (valueChange)="selectedCategoryPath[i] = $event; onCategoryChange(i)"
                                         [placeholder]="'ALL_CATEGORIES' | translate"
                                         [allOptionLabel]="'ALL_CATEGORIES' | translate"
@@ -54,12 +54,11 @@
                             </div>
 
                             <!-- Dynamic Cascading Locations -->
-                            <div class="col-md-3" *ngFor="let level of locationLevels; let i = index">
+                            <div class="col-6 col-md-4 col-lg-3"
+                                *ngFor="let level of locationLevels; let i = index">
                                 <div class="premium-select-group">
                                     <i class="fa-solid fa-location-dot"></i>
-                                    <app-searchable-select
-                                        [options]="level"
-                                        [value]="selectedLocationPath[i]"
+                                    <app-searchable-select [options]="level" [value]="selectedLocationPath[i]"
                                         (valueChange)="selectedLocationPath[i] = $event; onLocationChange(i)"
                                         [placeholder]="'ALL_LOCATIONS' | translate"
                                         [allOptionLabel]="'ALL_LOCATIONS' | translate"
@@ -75,19 +74,19 @@
                     <div class="listings-results-info mb-4 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 fw-bold">{{ listings.length }} {{ 'RESULTS_FOUND' | translate }}</h5>
                         <div class="view-toggles d-none d-md-flex gap-2">
-                          
+
                         </div>
                     </div>
 
                     <!-- Listings List -->
-                    <div class="row" *ngIf="isLoading">
-                        <div class="col-md-4 mb-4" *ngFor="let item of [1,2,3,4,5,6]">
+                    <div class="row g-3" *ngIf="isLoading">
+                        <div class="col-12 col-sm-6 col-md-4" *ngFor="let item of [1,2,3,4,5,6]">
                             <div class="skeleton-loader card-skeleton"></div>
                         </div>
                     </div>
 
-                    <div class="row" *ngIf="!isLoading">
-                        <div class="col-md-4 mb-4" *ngFor="let listing of listings; let i = index">
+                    <div class="row g-3" *ngIf="!isLoading">
+                        <div class="col-12 col-sm-6 col-md-4" *ngFor="let listing of listings; let i = index">
                             <app-content-card [item]="listing" [routePath]="'/listings'" [animationDelay]="i * 0.1">
                             </app-content-card>
                         </div>
