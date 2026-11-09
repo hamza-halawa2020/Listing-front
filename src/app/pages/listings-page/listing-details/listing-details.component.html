@@ -120,7 +120,17 @@
                             <ng-container *ngIf="listing.phones && listing.phones.length > 0; else singlePhone">
                                 <li class="mb-3 contact-phone-item" *ngFor="let p of listing.phones">
                                     <i [ngClass]="getPhoneTypeIconClass(p.type)" class="phone-icon me-1"></i>
-                                    <span class="fw-semibold">{{ p.phone_number }}</span>
+                                    <!-- WhatsApp numbers open in WhatsApp, others use tel: -->
+                                    <a *ngIf="getPhoneTypeClass(p.type) === 'whatsapp'"
+                                       [href]="'https://wa.me/' + p.phone_number.replace(' ', '')"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="fw-semibold phone-link phone-link--whatsapp"
+                                       dir="ltr">{{ p.phone_number }}</a>
+                                    <a *ngIf="getPhoneTypeClass(p.type) !== 'whatsapp'"
+                                       [href]="'tel:' + p.phone_number"
+                                       class="fw-semibold phone-link"
+                                       dir="ltr">{{ p.phone_number }}</a>
                                     <span class="phone-type-badge" [ngClass]="'is-' + getPhoneTypeClass(p.type)">
                                         {{ getPhoneTypeLabel(p.type) }}
                                     </span>
@@ -130,7 +140,7 @@
                             <ng-template #singlePhone>
                                 <li class="mb-3" *ngIf="mockData.phone">
                                     <i class="fa-solid fa-phone me-3 text-muted"></i>
-                                    <span class="fw-semibold">{{ mockData.phone }}</span>
+                                    <a [href]="'tel:' + mockData.phone" class="fw-semibold phone-link" dir="ltr">{{ mockData.phone }}</a>
                                 </li>
                             </ng-template>
                         </ul>
