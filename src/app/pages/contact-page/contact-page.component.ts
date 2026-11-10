@@ -21,7 +21,6 @@ import { NgIf } from '@angular/common';
 export class ContactPageComponent implements OnInit, OnDestroy {
     settings: Settings = {};
     isLoading: boolean = true;
-    email: any = 'info@careandshare-eg.com';
     private subscription: Subscription = new Subscription();
 
     constructor(private settingService: SettingService) { }

@@ -9,6 +9,8 @@ export interface Settings {
     whatsapp?: string;
     instapay?: string;
     vodafonecash?: string;
+    email?: string;
+    address?: string;
 
     logo_url?: string;
     referral_enabled?: boolean;

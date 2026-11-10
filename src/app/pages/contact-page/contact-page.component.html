@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="info-content">
                                     <h4>{{ 'OUR_LOCATION' | translate }}</h4>
-                                    <p>{{ 'OFFICE_ADDRESS' | translate }}</p>
+                                    <p>{{ settings.address || ('OFFICE_ADDRESS' | translate) }}</p>
                                 </div>
                             </div>
 
@@ -51,15 +51,15 @@
                                 </div>
                             </div>
 
-                            <div class="premium-info-box">
+                            <div class="premium-info-box" *ngIf="settings.email">
                                 <div class="icon-wrap">
                                     <i class="fa-solid fa-envelope-open-text"></i>
                                 </div>
                                 <div class="info-content">
                                     <h4>{{ 'SEND_EMAIL' | translate }}</h4>
                                     <p>
-                                        <a href="mailto:{{ email }}">
-                                            {{ email }}
+                                        <a href="mailto:{{ settings.email }}">
+                                            {{ settings.email }}
                                         </a>
                                     </p>
                                 </div>

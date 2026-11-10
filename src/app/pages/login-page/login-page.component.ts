@@ -49,9 +49,9 @@ export class LoginPageComponent implements OnInit {
         this.isLoading = true;
         this.errorMessage = '';
 
-        const { phone, password } = this.loginForm.value;
+        const { phone, password, rememberMe } = this.loginForm.value;
 
-        this.authService.login({ phone, password }).subscribe({
+        this.authService.login({ phone, password, rememberMe }).subscribe({
             next: () => {
                 this.isLoading = false;
                 this.router.navigate(['/']);

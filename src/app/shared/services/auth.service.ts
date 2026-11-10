@@ -13,13 +13,21 @@ export class AuthService {
     private currentUserSubject = new BehaviorSubject<any>(null);
     private apiUrl = environment.backEndUrl;
 
+    /** Tracks whether the user chose "Remember Me" — determines cookie expiry strategy. */
+    private rememberMe = false;
+
     constructor(
         private http: HttpClient,
         private cookieService: CookieService
     ) {
-        const savedUser = localStorage.getItem(this.USER_KEY);
+        // Restore user from cookie on startup (works for both persistent & session cookies).
+        const savedUser = this.cookieService.get(this.USER_KEY);
         if (savedUser) {
-            this.currentUserSubject.next(this.normalizeUser(JSON.parse(savedUser)));
+            try {
+                this.currentUserSubject.next(this.normalizeUser(JSON.parse(savedUser)));
+            } catch {
+                this.cookieService.delete(this.USER_KEY, '/');
+            }
         }
     }
 
@@ -27,29 +35,27 @@ export class AuthService {
         return this.currentUserSubject.asObservable();
     }
 
-    login(credentials: { phone: string; password: string }): Observable<any> {
+    login(credentials: { phone: string; password: string; rememberMe?: boolean }): Observable<any> {
         const authUrl = `${this.apiUrl}/login`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {
                 if (response.token) {
-                    // Store token in cookie (secure if on HTTPS)
-                    this.cookieService.set(this.TOKEN_KEY, response.token, 7, '/', '', true, 'Lax');
-
-                    this.setCurrentUser(response.user);
+                    this.rememberMe = credentials.rememberMe ?? false;
+                    this.storeCookies(response.token, this.normalizeUser(response.user));
+                    this.currentUserSubject.next(this.normalizeUser(response.user));
                 }
             })
         );
     }
 
-    register(credentials: { name: string; email: string; phone?: string; password: string; referral_code?: string }): Observable<any> {
+    register(credentials: { name: string; email: string; phone?: string; password: string; referral_code?: string; rememberMe?: boolean }): Observable<any> {
         const authUrl = `${this.apiUrl}/register`;
         return this.http.post<any>(authUrl, credentials).pipe(
             tap(response => {
                 if (response.token) {
-                    // Store token in cookie (secure if on HTTPS)
-                    this.cookieService.set(this.TOKEN_KEY, response.token, 7, '/', '', true, 'Lax');
-
-                    this.setCurrentUser(response.user);
+                    this.rememberMe = credentials.rememberMe ?? true;
+                    this.storeCookies(response.token, this.normalizeUser(response.user));
+                    this.currentUserSubject.next(this.normalizeUser(response.user));
                 }
             })
         );
@@ -92,8 +98,9 @@ export class AuthService {
     }
 
     logout(): void {
-        this.cookieService.deleteAll('/');
-        localStorage.clear();
+        this.cookieService.delete(this.TOKEN_KEY, '/');
+        this.cookieService.delete(this.USER_KEY, '/');
+        this.rememberMe = false;
         this.currentUserSubject.next(null);
     }
 
@@ -105,10 +112,28 @@ export class AuthService {
         return this.cookieService.get(this.TOKEN_KEY);
     }
 
+    /**
+     * Stores token + user in cookies.
+     *  - rememberMe = true  → persistent cookies (7 days)
+     *  - rememberMe = false → session cookies (cleared when browser closes)
+     */
+    private storeCookies(token: string, user: any): void {
+        const expires = this.rememberMe ? 7 : undefined;
+        this.cookieService.set(this.TOKEN_KEY, token, expires, '/', '', true, 'Lax');
+        this.cookieService.set(this.USER_KEY, JSON.stringify(user), expires, '/', '', true, 'Lax');
+    }
+
     private setCurrentUser(user: any): void {
         const normalizedUser = this.normalizeUser(user);
-
-        localStorage.setItem(this.USER_KEY, JSON.stringify(normalizedUser));
+        this.cookieService.set(
+            this.USER_KEY,
+            JSON.stringify(normalizedUser),
+            this.rememberMe ? 7 : undefined,
+            '/',
+            '',
+            true,
+            'Lax'
+        );
         this.currentUserSubject.next(normalizedUser);
     }
     sendResetCode(phone: string): Observable<any> {

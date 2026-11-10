@@ -16,7 +16,6 @@ export class FooterComponent implements OnInit, OnDestroy {
     settings: Settings = {
         logo_url: 'assets/images/logo.svg',
     };
-    email: any = 'info@careandshare-eg.com';
 
     private subscription: Subscription = new Subscription();
 
