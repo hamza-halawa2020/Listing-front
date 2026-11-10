@@ -1,9 +1,8 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './token.interceptor';
-import { importProvidersFrom } from '@angular/core';
 
 import {
     TranslateModule,
@@ -12,6 +11,8 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgIconsModule } from '@ng-icons/core';
+import * as heroOutline from '@ng-icons/heroicons/outline';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,7 +29,8 @@ export const appConfig: ApplicationConfig = {
                     useFactory: HttpLoaderFactory,
                     deps: [HttpClient]
                 }
-            })
+            }),
+            NgIconsModule.withIcons({ ...heroOutline })
         ),
         provideAnimations(),
     ]

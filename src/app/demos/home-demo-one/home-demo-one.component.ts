@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select/searchable-select.component';
 import { ReviewsSliderComponent } from '../../shared/components/reviews-slider/reviews-slider.component';
 import { AddReviewModalComponent } from '../../shared/components/add-review-modal/add-review-modal.component';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
     selector: 'app-home-demo-one',
@@ -26,6 +27,7 @@ import { AddReviewModalComponent } from '../../shared/components/add-review-moda
         SearchableSelectComponent,
         AddReviewModalComponent,
         ReviewsSliderComponent,
+        NgIcon,
     ],
     templateUrl: './home-demo-one.component.html',
     styleUrl: './home-demo-one.component.scss',
@@ -157,7 +159,12 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
 
                 const map: { [id: string]: any } = {};
                 data.forEach((cat: any) => {
-                    map[cat.id] = { ...cat, children: [], icon: 'fa-layer-group' };
+                    map[cat.id] = {
+                        ...cat,
+                        children: [],
+                        icon: this.resolveIcon(cat.icon),
+                        color: cat.color || '#2b3990'
+                    };
                 });
 
                 const roots: any[] = [];
@@ -173,6 +180,30 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
             },
             error: (err: any) => {}
         });
+    }
+
+    /**
+     * Converts heroicon-o-heart → heroHeart (camelCase for @ng-icons/heroicons)
+     * Falls back to a default icon if format is unrecognized.
+     */
+    resolveIcon(raw: string | null | undefined): string {
+        if (!raw) return 'heroSquares2x2';
+        const name = raw.trim();
+
+        // heroicon-o-* or heroicon-s-* → heroXxx (outline/solid handled by registration)
+        if (name.startsWith('heroicon-o-') || name.startsWith('heroicon-s-')) {
+            const stripped = name.replace(/^heroicon-[os]-/, '');
+            return 'hero' + stripped
+                .split('-')
+                .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join('');
+        }
+
+        // already camelCase (e.g. heroHeart)
+        if (name.startsWith('hero')) return name;
+
+        // fallback
+        return 'heroSquares2x2';
     }
 
     onCategoryChange() {

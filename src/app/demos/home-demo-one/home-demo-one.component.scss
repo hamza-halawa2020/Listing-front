@@ -1599,46 +1599,74 @@
         z-index: 2;
 
         .cat-shortcut {
-            // background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 15px;
-            // color: white;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgb(31, 25, 34);
-            min-width: 0;
-            // background: var(--secondaryColor);
-            // color: white;
+            --cat-color: #2b3990;
 
-            i {
-                color: hsl(232.14deg 47.73% 34.51%);
+            position: relative;
+            overflow: hidden;
+            width: 110px;
+            height: 110px;
+            border-radius: 16px;
+            background: #fff;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            /* fill layer — starts at bottom, hidden */
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 0%;
+                background: var(--cat-color);
+                transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 0;
+                border-radius: 14px;
+            }
+
+            i, ng-icon {
+                position: relative;
+                z-index: 1;
+                font-size: 2rem;
+                color: var(--cat-color);
+                transition: color 0.2s ease;
             }
 
             span {
-                min-width: 0;
+                position: relative;
+                z-index: 1;
+                font-size: 12px;
+                font-weight: 700;
+                text-align: center;
+                line-height: 1.3;
+                color: var(--cat-color);
                 overflow-wrap: anywhere;
-                color: hsl(232.14deg 47.73% 34.51%);
-                font-weight: bold;
-
+                transition: color 0.2s ease;
             }
 
             &:hover {
-                               background: hsl(204deg 100% 35.29%);
+                transform: translateY(-4px);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 
-                transform: translateY(-5px);
-
-                i {
-                color: rgb(250, 250, 250);
+                &::after {
+                    height: 100%;
                 }
-                 span {
-                    color: rgb(250, 250, 250);
 
-            }
+                i, ng-icon {
+                    color: #fff;
+                }
+
+                span {
+                    color: #fff;
+                }
             }
         }
     }
@@ -1714,11 +1742,8 @@
             gap: 10px !important;
 
             .cat-shortcut {
-                width: calc(50% - 8px);
-                justify-content: center;
-                align-items: center;
-                padding: 10px 12px;
-                text-align: center;
+                width: 90px;
+                height: 90px;
             }
         }
     }
@@ -1746,8 +1771,11 @@
 
         .hero-category-shortcuts {
             .cat-shortcut {
-                width: 100%;
-                gap: 8px;
+                width: 80px;
+                height: 80px;
+
+                i { font-size: 1.6rem; }
+                span { font-size: 10px; }
             }
         }
     }

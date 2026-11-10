@@ -88,11 +88,12 @@
                 </div>
             </form>
 
-            <!-- Category Shortcuts -->
+            <!-- Category Cards -->
             <div class="hero-category-shortcuts mt-4 d-flex flex-wrap justify-content-center gap-3">
                 <div *ngFor="let cat of categoriesForHome" class="cat-shortcut"
+                    [style.--cat-color]="cat.color"
                     (click)="selectedCategory=cat.id; onCategoryChange(); searchListings()">
-                    <i class="fa-solid {{cat.icon}}"></i>
+                    <ng-icon [name]="cat.icon" size="2rem"></ng-icon>
                     <span>{{cat.name}}</span>
                 </div>
             </div>
