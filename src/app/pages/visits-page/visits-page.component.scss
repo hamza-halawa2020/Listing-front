@@ -1,5 +1,5 @@
-﻿$primary: #f15a24;
-$secondary: #2563eb;
+$primary: #E8192C;
+$secondary: #1E90D6;
 $white: #ffffff;
 $dark: #0f172a;
 
@@ -12,8 +12,8 @@ $dark: #0f172a;
 .visits-banner {
     background: linear-gradient(
         135deg,
-        #0f766e 0%,
-        #0891b2 60%,
+        #1270a8 0%,
+        #1E90D6 60%,
         $secondary 100%
     );
     padding: 52px 20px;
@@ -74,9 +74,9 @@ $dark: #0f172a;
 }
 
 .alert-success {
-    background: rgba(#10b981, 0.1);
-    border: 1px solid rgba(#10b981, 0.25);
-    color: #065f46;
+    background: rgba(#1E90D6, 0.1);
+    border: 1px solid rgba(#1E90D6, 0.25);
+    color: #1270a8;
     border-radius: 10px;
     padding: 10px 14px;
     display: flex;
@@ -201,7 +201,7 @@ textarea.form-control {
     align-items: center;
     gap: 8px;
     padding: 11px 22px;
-    background: linear-gradient(135deg, $primary, $secondary);
+    background:  $secondary;
     color: $white;
     border: none;
     border-radius: 30px;
@@ -320,12 +320,12 @@ textarea.form-control {
         color: $secondary;
     }
     &--approved {
-        background: rgba(#10b981, 0.1);
-        color: #059669;
+        background: rgba(#1E90D6, 0.1);
+        color: #1E90D6;
     }
     &--pending {
-        background: rgba(#f59e0b, 0.1);
-        color: #d97706;
+        background: rgba(232, 25, 44, 0.08);
+        color: #E8192C;
     }
     &--rejected {
         background: rgba(#ef4444, 0.1);
@@ -423,12 +423,12 @@ textarea.form-control {
     justify-content: center;
     font-size: 0.85rem;
     &.status-pending {
-        background: rgba(#f59e0b, 0.12);
-        color: #d97706;
+        background: rgba(232, 25, 44, 0.08);
+        color: #E8192C;
     }
     &.status-approved {
-        background: rgba(#10b981, 0.12);
-        color: #059669;
+        background: rgba(#1E90D6, 0.12);
+        color: #1E90D6;
     }
     &.status-rejected {
         background: rgba(#ef4444, 0.12);
@@ -468,12 +468,12 @@ textarea.form-control {
         font-size: 0.8rem;
     }
     &--earned {
-        background: rgba(#10b981, 0.1);
-        color: #059669;
+        background: rgba(#1E90D6, 0.1);
+        color: #1E90D6;
     }
     &--pending {
-        background: rgba(#f59e0b, 0.1);
-        color: #d97706;
+        background: rgba(232, 25, 44, 0.08);
+        color: #E8192C;
     }
     &--rejected {
         background: rgba(#ef4444, 0.08);
@@ -623,7 +623,7 @@ textarea.form-control {
     }
 }
 
-// ── Steps Indicator ───────────────────────────────────────────────────────────
+// -- Steps Indicator -----------------------------------------------------------
 .steps-indicator {
   display: flex;
   align-items: center;
@@ -674,7 +674,7 @@ textarea.form-control {
   }
 }
 
-// ── Listing Picker ────────────────────────────────────────────────────────────
+// -- Listing Picker ------------------------------------------------------------
 .listing-picker-search {
   position: relative;
   display: flex;
@@ -765,7 +765,7 @@ textarea.form-control {
   }
 }
 
-// ── Selected listing badge ────────────────────────────────────────────────────
+// -- Selected listing badge ----------------------------------------------------
 .selected-listing-badge {
   display: flex;
   align-items: center;
@@ -818,7 +818,7 @@ textarea.form-control {
 .step-content { animation: fadeIn .2s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-// ── Cascade Select ────────────────────────────────────────────────────────────
+// -- Cascade Select ------------------------------------------------------------
 .cascade-select {
   position: relative;
 
@@ -921,7 +921,7 @@ textarea.form-control {
   }
 }
 
-// ── Location choice ───────────────────────────────────────────────────────
+// -- Location choice -------------------------------------------------------
 .location-choice {
   padding: 8px 0 16px;
 
@@ -977,8 +977,8 @@ textarea.form-control {
     }
 
     &--same {
-      border-color: #0891b2;
-      i { color: #0891b2; }
+      border-color: #1E90D6;
+      i { color: #1E90D6; }
       &:hover { background: #e0f2fe; border-color: #0369a1; }
     }
 

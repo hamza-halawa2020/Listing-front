@@ -65,7 +65,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     const dot = this.renderer.createElement('div');
     this.renderer.setStyle(dot, 'width', '8px');
     this.renderer.setStyle(dot, 'height', '8px');
-    this.renderer.setStyle(dot, 'background', '#f15a24'); // Brand Orange
+    this.renderer.setStyle(dot, 'background', '#1E90D6'); // Brand Orange
     this.renderer.setStyle(dot, 'border-radius', '50%');
     this.renderer.setStyle(dot, 'position', 'absolute');
     this.renderer.setStyle(dot, 'transform', 'translate(-50%, -50%)');
@@ -109,8 +109,8 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
         this.isHovering = true;
         this.renderer.setStyle(this.cursorOutline, 'width', '60px');
         this.renderer.setStyle(this.cursorOutline, 'height', '60px');
-        this.renderer.setStyle(this.cursorOutline, 'background', 'rgba(241, 90, 36, 0.1)');
-        this.renderer.setStyle(this.cursorOutline, 'border-color', '#f15a24');
+        this.renderer.setStyle(this.cursorOutline, 'background', 'rgba(30, 144, 214, 0.1)');
+        this.renderer.setStyle(this.cursorOutline, 'border-color', '#1E90D6');
       }
     });
 

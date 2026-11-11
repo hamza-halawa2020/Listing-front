@@ -12,8 +12,8 @@
     }
 
     .card-header {
-        bg: linear-gradient(135deg, #4d40ffea 0%, #003cff 100%);
-        border-bottom: 3px solid #3459fc;
+        background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
+        border-bottom: 3px solid rgba(30, 144, 214, 0.3);
 
         h3 {
             font-size: 1.75rem;
@@ -39,8 +39,8 @@
         font-size: 0.95rem;
 
         &:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #1E90D6;
+            box-shadow: 0 0 0 0.2rem rgba(30, 144, 214, 0.25);
             background-color: #fff;
         }
 
@@ -56,7 +56,7 @@
     }
 
     h5 {
-        color: #667eea;
+        color: #1E90D6;
         border-bottom: 2px solid #e0e0e0;
         padding-bottom: 1rem;
         margin-top: 1.5rem;
@@ -139,7 +139,7 @@
     .hours-row,
     .link-row,
     .image-row {
-        border-left: 4px solid #667eea;
+        border-left: 4px solid #1E90D6;
         animation: slideDown 0.3s ease;
 
         .form-control,
@@ -148,8 +148,8 @@
             border: 1px solid #e0e0e0;
 
             &:focus {
-                border-color: #667eea;
-                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+                border-color: #1E90D6;
+                box-shadow: 0 0 0 0.2rem rgba(30, 144, 214, 0.25);
             }
         }
 
@@ -189,13 +189,13 @@
 
     // Add buttons for rows
     .btn-outline-primary {
-        color: #667eea;
-        border-color: #667eea;
+        color: #1E90D6;
+        border-color: #1E90D6;
         transition: all 0.3s ease;
 
         &:hover {
-            background-color: #002fff;
-            border-color: #001b91;
+            background-color: #1270a8;
+            border-color: #0d5a8a;
             transform: translateY(-2px);
 
             i {
@@ -260,5 +260,32 @@
                 width: 100%;
             }
         }
+    }
+}
+
+.btn-search-premium {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(30, 144, 214, 0.3);
+        color: #fff;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
     }
 }

@@ -17,7 +17,7 @@
   position: sticky;
   top: calc(var(--navbar-height) + 24px);
   background: #fff;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(30, 144, 214, 0.12);
   border-radius: 18px;
   padding: 20px;
   box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
@@ -51,7 +51,7 @@
 .conversation-item,
 .contact-item {
   width: 100%;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(30, 144, 214, 0.12);
   border-radius: 14px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
   text-align: left;
@@ -60,15 +60,15 @@
 }
 
 .conversation-item.active {
-  border-color: rgba(37, 99, 235, 0.4);
-  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
+  border-color: rgba(30, 144, 214, 0.4);
+  box-shadow: 0 14px 28px rgba(30, 144, 214, 0.12);
 }
 
 .conversation-item:hover,
 .contact-item:hover {
   transform: translateY(-1px);
-  border-color: rgba(37, 99, 235, 0.25);
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
+  border-color: rgba(30, 144, 214, 0.25);
+  box-shadow: 0 12px 24px rgba(30, 144, 214, 0.08);
 }
 
 .unread {
@@ -87,7 +87,7 @@
 
 .chat-main {
   background: #fff;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(30, 144, 214, 0.12);
   border-radius: 18px;
   min-height: 420px;
   box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
@@ -98,7 +98,7 @@
 
 .chat-main__header {
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+  border-bottom: 1px solid rgba(30, 144, 214, 0.1);
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 }
 
@@ -175,7 +175,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 20px;
-  border-top: 1px solid rgba(37, 99, 235, 0.1);
+  border-top: 1px solid rgba(30, 144, 214, 0.1);
   background: #fff;
 }
 
@@ -190,7 +190,7 @@
 .chat-main__input input {
   flex: 1;
   min-width: 0;
-  border: 1px solid rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(30, 144, 214, 0.14);
   border-radius: 14px;
   padding: 12px 14px;
   outline: none;
@@ -204,7 +204,7 @@
 .chat-main__emoji-btn {
   width: 46px;
   height: 46px;
-  border: 1px solid rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(30, 144, 214, 0.14);
   border-radius: 14px;
   background: #fff;
   font-size: 22px;
@@ -215,8 +215,8 @@
 .chat-main__emoji-btn:hover,
 .chat-main__emoji-btn.is-open {
   transform: translateY(-1px);
-  border-color: rgba(37, 99, 235, 0.3);
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.08);
+  border-color: rgba(30, 144, 214, 0.3);
+  box-shadow: 0 10px 20px rgba(30, 144, 214, 0.08);
 }
 
 .chat-main__emoji-panel {
@@ -230,7 +230,7 @@
   gap: 8px;
   padding: 12px;
   border-radius: 18px;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(30, 144, 214, 0.12);
   background: #fff;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
 }

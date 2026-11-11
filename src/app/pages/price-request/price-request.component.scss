@@ -6,7 +6,7 @@
 
 .page-header {
   .display-4 {
-    background: linear-gradient(135deg, #f15a24 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -32,7 +32,7 @@
 
       i {
         font-size: 2rem;
-        color: #f15a24;
+        color: #E8192C;
       }
 
       h6 {
@@ -65,7 +65,7 @@
       font-weight: 600;
 
       i {
-        color: #f15a24;
+        color: #E8192C;
       }
     }
 
@@ -79,15 +79,15 @@
       padding: 10px 25px;
       font-weight: 500;
       transition: all 0.3s ease;
-      border-color: #f15a24;
-      color: #f15a24;
+      border-color: #E8192C;
+      color: #E8192C;
 
       &:hover {
-        background: linear-gradient(135deg, #f15a24 0%, #2563eb 100%);
-        border-color: #f15a24;
+        background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
+        border-color: #E8192C;
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(241, 90, 36, 0.2);
+        box-shadow: 0 5px 15px rgba(30, 144, 214, 0.2);
       }
     }
   }

@@ -1,7 +1,7 @@
 // Colors & Variables
 // Colors & Variables
-$primary: #2563eb; // Brand Blue
-$secondary: #f15a24; // Brand Orange
+$primary: #1E90D6; // Brand Blue
+$secondary: #E8192C; // Brand Red
 $dark: #0f172a;
 $white: #ffffff;
 $cream: #f8fafc;
@@ -16,7 +16,7 @@ $glass: rgba(255, 255, 255, 0.85);
             width: 100%;
             height: 60px;
             border-radius: 16px;
-            background: linear-gradient(90deg, var(--secondaryColor) 0%, #f59e0b 100%);
+            background: linear-gradient(90deg, #1E90D6 0%, #1270a8 100%);
             border: none;
             color: white;
             font-weight: 700;
@@ -28,7 +28,7 @@ $glass: rgba(255, 255, 255, 0.85);
 
             &:hover {
                 transform: scale(1.02);
-                box-shadow: 0 15px 30px rgba(180, 83, 9, 0.3);
+                box-shadow: 0 15px 30px rgba(30, 144, 214, 0.3);
             }
         }
 
@@ -685,7 +685,7 @@ $glass: rgba(255, 255, 255, 0.85);
     overflow: hidden;
     background:
         radial-gradient(circle at top right, rgba($white, 0.12), transparent 28%),
-        linear-gradient(135deg, #0f172a 0%, #103f9b 55%, #1d4ed8 100%);
+        linear-gradient(135deg, #0f172a 0%, #1270a8 55%, #1270a8 100%);
     border-color: rgba($white, 0.12);
     color: $white;
 

@@ -44,13 +44,13 @@ body.loaded #loading-screen {
 :root {
     --navbar-height: 70px;
     --navbar-height-mobile: 60px;
-    --primaryColor: #2563eb;
+    --primaryColor: #1E90D6;
     /* Brand Blue - Lighter and closer to logo blue */
-    --primary-color: #2563eb;
+    --primary-color: #1E90D6;
     /* Alias for components using kebab-case variable */
-    --secondaryColor: #f15a24;
-    /* Brand Orange - Matches Logo Orange */
-    --accentColor: #06b6d4;
+    --secondaryColor: #E8192C;
+    /* Brand Red - Matches Logo */
+    --accentColor: #0ea5e9;
     /* Cyan 500 */
     --goldLight: #fbbf24;
     /* Amber 400 - For Ratings */
@@ -287,6 +287,19 @@ p {
     border-color: var(--paragraphColor) !important;
 }
 
+// Bootstrap btn-primary override
+.btn-primary {
+    background-color: #1E90D6 !important;
+    border-color: #1E90D6 !important;
+    color: #fff !important;
+
+    &:hover, &:focus, &:active {
+        background-color: #1270a8 !important;
+        border-color: #1270a8 !important;
+        box-shadow: 0 6px 20px rgba(30, 144, 214, 0.3) !important;
+    }
+}
+
 // Default Btn
 .default-btn {
     border: 0;
@@ -298,13 +311,13 @@ p {
     font-weight: 600;
     transition: var(--transition);
     background-color: var(--secondaryColor);
-    box-shadow: 0 4px 15px rgba(180, 83, 9, 0.3);
+    box-shadow: 0 4px 15px rgba(30, 144, 214, 0.3);
 
     &:hover {
         color: var(--whiteColor);
         background-color: var(--primaryColor);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(6, 78, 59, 0.3);
+        box-shadow: 0 6px 20px rgba(30, 144, 214, 0.3);
     }
 }
 
@@ -348,7 +361,7 @@ p {
         width: 160px;
         height: 160px;
         padding-top: 34px;
-        background-color: #fbe8fe;
+        background-color: rgba(30, 144, 214, 0.08);
 
         span {
             margin-bottom: 5px;
@@ -374,7 +387,7 @@ p {
     width: 60px;
     overflow: hidden;
     position: absolute;
-    border-left: 1px solid #4c0048;
+    border-left: 1px solid rgba(30, 144, 214, 0.3);
 
     div {
         margin-left: -64px;
@@ -396,7 +409,7 @@ p {
 
         border: {
             left-width: 0;
-            right: 1px solid #4c0048;
+            right: 1px solid rgba(30, 144, 214, 0.3);
         }
     }
 }

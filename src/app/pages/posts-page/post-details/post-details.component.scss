@@ -1,5 +1,5 @@
-$primary: #2563eb;
-$secondary: #f15a24;
+$primary: #1E90D6;
+$secondary: #E8192C;
 $dark: #0f172a;
 $text: #334155;
 $text-muted: #64748b;
@@ -108,7 +108,7 @@ $white: #ffffff;
     .insight-card {
         padding: 18px 20px;
         border-radius: 20px;
-        background: linear-gradient(135deg, rgba($primary, 0.08), rgba($secondary, 0.14));
+        background: rgba($primary, 0.06);
         border: 1px solid rgba($primary, 0.08);
 
         strong {

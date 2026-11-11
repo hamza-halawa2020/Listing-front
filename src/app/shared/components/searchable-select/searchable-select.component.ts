@@ -87,7 +87,7 @@ import { FormsModule } from '@angular/forms';
             padding: 12px 18px 12px 45px;
             text-align: start;
             box-shadow: none;
-            background: linear-gradient(135deg, #f97316 0%, #f15a24 55%, #ea580c 100%) !important;
+            background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%) !important;
             cursor: pointer;
         }
 
@@ -157,8 +157,8 @@ import { FormsModule } from '@angular/forms';
 
         .searchable-select__option:hover,
         .searchable-select__option.is-selected {
-            background: rgba(233, 110, 30, 0.08);
-            color: var(--secondaryColor);
+            background: rgba(30, 144, 214, 0.08);
+            color: var(--primaryColor);
         }
 
         .searchable-select__empty {
@@ -186,7 +186,7 @@ import { FormsModule } from '@angular/forms';
 
         .searchable-select.is-dark .searchable-select__label.is-placeholder,
         .searchable-select.is-dark .searchable-select__chevron {
-            color: #64748b;
+            color: #000000;
         }
 
         [dir="rtl"] .searchable-select__trigger {

@@ -1,5 +1,5 @@
-$primary-color: #064e3b;
-$secondary-color: #b45309;
+$primary-color: #1E90D6;
+$secondary-color: #E8192C;
 $text-color: #374151;
 
 :host {
@@ -87,7 +87,7 @@ $text-color: #374151;
         &.active .page-link {
             background: $secondary-color;
             color: #fff;
-            box-shadow: 0 10px 20px rgba(180, 83, 9, 0.3);
+            box-shadow: 0 10px 20px rgba(30, 144, 214, 0.3);
             transform: scale(1.05);
 
             @media (max-width: 575px) {

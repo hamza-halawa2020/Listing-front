@@ -1,6 +1,6 @@
 .price-request-container {
   padding: 40px 20px;
-  background: linear-gradient(135deg, #f15a24 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
   margin: 60px auto;
   max-width: 900px;
   border-radius: 20px;
@@ -83,8 +83,8 @@
         text-align: right;
 
         &:focus {
-          border-color: #f15a24;
-          box-shadow: 0 0 0 0.2rem rgba(241, 90, 36, 0.15);
+          border-color: #1E90D6;
+          box-shadow: 0 0 0 0.2rem rgba(30, 144, 214, 0.15);
           outline: none;
         }
 
@@ -115,7 +115,7 @@
         }
 
         &::-webkit-scrollbar-thumb {
-          background: #667eea;
+          background: #1E90D6;
           border-radius: 10px;
         }
       }
@@ -144,11 +144,11 @@
             display: none;
 
             &:checked + .option-label {
-              background: linear-gradient(135deg, #f15a24 0%, #2563eb 100%);
+              background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
               color: white;
-              border-color: #f15a24;
+              border-color: #1E90D6;
               transform: translateY(-2px);
-              box-shadow: 0 5px 15px rgba(241, 90, 36, 0.3);
+              box-shadow: 0 5px 15px rgba(30, 144, 214, 0.3);
             }
           }
 
@@ -165,7 +165,7 @@
             font-weight: 500;
 
             &:hover {
-              border-color: #f15a24;
+              border-color: #1E90D6;
               transform: translateY(-1px);
             }
 
@@ -194,12 +194,12 @@
       border: none;
 
       &.btn-primary {
-        background: linear-gradient(135deg, #f15a24 0%, #2563eb 100%);
+        background: linear-gradient(135deg, #1E90D6 0%, #1270a8 100%);
         color: white;
 
         &:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(241, 90, 36, 0.3);
+          box-shadow: 0 10px 30px rgba(30, 144, 214, 0.3);
         }
 
         &:disabled {

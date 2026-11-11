@@ -1,7 +1,7 @@
-﻿// Colors
-$primary: #f15a24;
+// Colors
+$primary: #E8192C; /* Brand Red - Matches Logo */
 /* Orange from logo */
-$secondary: #2563eb;
+$secondary: #1E90D6; /* Brand Blue - Matches Logo */
 /* Navy from logo */
 $white: #ffffff;
 $dark: #0f172a;
@@ -74,7 +74,7 @@ $gray: #9ca3af;
     }
 
     .brand-text {
-        background: linear-gradient(135deg, $primary, $secondary);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -117,7 +117,7 @@ $gray: #9ca3af;
                     left: 50%;
                     width: 0;
                     height: 2px;
-                    background: linear-gradient(135deg, $primary, $secondary);
+                    background: #1E90D6;
                     transition: all 0.3s ease;
                     transform: translateX(-50%);
                     border-radius: 1px;
@@ -162,7 +162,7 @@ $gray: #9ca3af;
     height: 48px;
     border: 1px solid rgba($secondary, 0.12);
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba($secondary, 0.08), rgba($primary, 0.12));
+    background: rgba(30, 144, 214, 0.08);
     color: $dark;
     display: inline-flex;
     align-items: center;
@@ -209,7 +209,7 @@ $gray: #9ca3af;
 }
 
 .chat-badge {
-    background: linear-gradient(135deg, $secondary, $primary);
+    background: linear-gradient(135deg, #1E90D6, #1270a8);
 }
 
 .notification-badge {
@@ -220,7 +220,7 @@ $gray: #9ca3af;
     height: 20px;
     padding: 0 6px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #ef4444, #f97316);
+    background: linear-gradient(135deg, #E8192C, #c0121f);
     color: $white;
     font-size: 11px;
     font-weight: 800;
@@ -247,7 +247,7 @@ $gray: #9ca3af;
     gap: 12px;
     padding: 18px 18px 14px;
     border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    background: linear-gradient(135deg, rgba($secondary, 0.06), rgba($primary, 0.08));
+    background: rgba(30, 144, 214, 0.05);
 }
 
 .notification-menu__heading {
@@ -318,7 +318,7 @@ $gray: #9ca3af;
     }
 
     &.is-unread {
-        background: linear-gradient(135deg, rgba($primary, 0.06), rgba($secondary, 0.05));
+        background: rgba(30, 144, 214, 0.05);
     }
 }
 
@@ -340,8 +340,8 @@ $gray: #9ca3af;
     }
 
     &.is-warning {
-        background: rgba(#f59e0b, 0.14);
-        color: #d97706;
+        background: rgba(232, 25, 44, 0.1);
+        color: #E8192C;
     }
 
     &.is-danger {
@@ -505,7 +505,7 @@ $gray: #9ca3af;
     gap: 12px;
     padding: 8px 10px 8px 8px;
     border-radius: 999px;
-    background: linear-gradient(135deg, rgba($secondary, 0.08), rgba($primary, 0.08));
+    background: rgba(30, 144, 214, 0.06);
     border: 1px solid rgba($secondary, 0.12);
     box-shadow: 0 8px 20px rgba($secondary, 0.08);
 
@@ -586,7 +586,7 @@ $gray: #9ca3af;
     letter-spacing: 0.3px;
 
     &.btn-primary {
-        background: linear-gradient(135deg, $primary, $secondary);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
         color: $white;
         box-shadow: 0 4px 15px rgba($primary, 0.3);
 
@@ -936,5 +936,7 @@ $gray: #9ca3af;
 @keyframes flash-bolt {
     0%, 100% { opacity: 1; transform: scale(1); color: $primary; }
     40% { opacity: 0.2; transform: scale(0.8); }
-    60% { opacity: 1; transform: scale(1.2); color: #fbbf24; }
+    60% { opacity: 1; transform: scale(1.2); color: #E8192C; }
 }
+
+

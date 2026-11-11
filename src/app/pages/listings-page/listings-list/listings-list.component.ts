@@ -171,7 +171,7 @@ export class ListingsListComponent implements OnInit, AfterViewInit, OnDestroy {
                         top: 0; left: 0;
                         width: 32px; height: 32px;
                         border-radius: 50%;
-                        background: rgba(233, 110, 30, 0.2);
+                        background: rgba(30, 144, 214, 0.2);
                         animation: pulse-ring 1.5s ease-out infinite;
                     "></div>
                     <div style="

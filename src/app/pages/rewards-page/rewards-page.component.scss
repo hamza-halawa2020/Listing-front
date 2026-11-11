@@ -1,5 +1,5 @@
-﻿$primary: #f15a24;
-$secondary: #2563eb;
+$primary: #E8192C;
+$secondary: #1E90D6;
 $white: #ffffff;
 $dark: #0f172a;
 
@@ -14,7 +14,7 @@ $dark: #0f172a;
         135deg,
         $secondary 0%,
         darken($secondary, 10%) 50%,
-        $primary 100%
+        $secondary 100%
     );
     padding: 60px 20px;
     text-align: center;
@@ -77,7 +77,7 @@ $dark: #0f172a;
         left: 0;
         width: 44px;
         height: 3px;
-        background: linear-gradient(135deg, $primary, $secondary);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
         border-radius: 2px;
     }
 }
@@ -124,16 +124,16 @@ $dark: #0f172a;
     font-size: 1.4rem;
     color: $white;
     &--1 {
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
     }
     &--2 {
         background: linear-gradient(135deg, $secondary, #0ea5e9);
     }
     &--3 {
-        background: linear-gradient(135deg, #f59e0b, #f97316);
+        background: rgba(232, 25, 44, 0.12);
     }
     &--4 {
-        background: linear-gradient(135deg, #10b981, #059669);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
     }
 }
 
@@ -157,7 +157,7 @@ $dark: #0f172a;
         width: 48px;
         height: 48px;
         border-radius: 12px;
-        background: linear-gradient(135deg, $primary, $secondary);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -222,14 +222,14 @@ $dark: #0f172a;
         line-height: 1.6;
     }
     &--warning i {
-        color: #f59e0b;
+        color: #E8192C;
     }
 }
 .btn-primary-action {
     display: inline-flex;
     align-items: center;
     padding: 13px 30px;
-    background: linear-gradient(135deg, $primary, $secondary);
+    background: $secondary;
     color: $white;
     border-radius: 30px;
     text-decoration: none;
@@ -316,7 +316,7 @@ $dark: #0f172a;
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
     border-left: 4px solid transparent;
     &--signup {
-        border-left-color: #6366f1;
+        border-left-color: #1E90D6;
         .breakdown-icon {
             background: rgba(#6366f1, 0.1);
             color: #6366f1;
@@ -330,14 +330,14 @@ $dark: #0f172a;
         }
     }
     &--referral {
-        border-left-color: #f59e0b;
+        border-left-color: #E8192C;
         .breakdown-icon {
-            background: rgba(#f59e0b, 0.1);
-            color: #d97706;
+            background: rgba(30, 144, 214, 0.1);
+            color: #1270a8;
         }
     }
     &--referee {
-        border-left-color: #10b981;
+        border-left-color: #1270a8;
         .breakdown-icon {
             background: rgba(#10b981, 0.1);
             color: #059669;
@@ -493,7 +493,7 @@ $dark: #0f172a;
     padding: 12px 22px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, $primary, $secondary);
+    background: linear-gradient(135deg, #1E90D6, #1270a8);
     color: $white;
     font-weight: 700;
     font-size: 13px;
@@ -505,7 +505,7 @@ $dark: #0f172a;
         box-shadow: 0 6px 16px rgba($primary, 0.35);
     }
     &.copied {
-        background: linear-gradient(135deg, #10b981, #059669);
+        background: linear-gradient(135deg, #1E90D6, #1270a8);
     }
 }
 .code-hint {
@@ -560,9 +560,9 @@ $dark: #0f172a;
         }
     }
     &--warning {
-        border-top-color: #f59e0b;
+        border-top-color: #E8192C;
         i {
-            color: #f59e0b;
+            color: #E8192C;
         }
     }
     &--points {
@@ -621,8 +621,8 @@ $dark: #0f172a;
     font-size: 0.72rem;
     font-weight: 700;
     &.badge-pending {
-        background: rgba(#f59e0b, 0.12);
-        color: #d97706;
+        background: rgba(232, 25, 44, 0.08);
+        color: #1270a8;
     }
     &.badge-qualified {
         background: rgba($secondary, 0.12);
@@ -654,7 +654,7 @@ $dark: #0f172a;
             border-right-color: $secondary;
         }
         &--referral {
-            border-right-color: #f59e0b;
+            border-right-color: #E8192C;
         }
         &--referee {
             border-right-color: #10b981;
@@ -681,3 +681,5 @@ $dark: #0f172a;
         letter-spacing: 0.08em;
     }
 }
+
+
