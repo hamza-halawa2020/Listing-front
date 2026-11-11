@@ -13,9 +13,9 @@ import { TranslateModule } from '@ngx-translate/core';
 export class AppDownloadComponent {
     private readonly defaultAndroidApkPath = '/assets/download/android.apk';
 
-    @Input() appStoreUrl: string = 'https://apps.apple.com/us/app/care-share/id6762157618';
+    @Input() appStoreUrl: string = 'https://apps.apple.com/us/app/Aman-Med/id6762157618';
     @Input() googlePlayUrl: string = this.defaultAndroidApkPath;
-    @Input() androidApkFileName: string = 'care-and-share-android.apk';
+    @Input() androidApkFileName: string = 'Aman-Med-android.apk';
     @Input() title: string = 'Download Our App';
     @Input() description: string = 'Get our mobile app for the best experience';
 

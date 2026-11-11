@@ -75,6 +75,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
             label: 'CHECK_SUBSCRIPTION',
             route: '/check-subscription'
         },
+        {
+            label: 'ACTIVATE_CARD',
+            route: '/activate-card',
+            requiresAuth: true
+        },
          
         {
             label: 'PRICING',

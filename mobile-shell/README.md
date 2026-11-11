@@ -68,14 +68,14 @@ copy android\keystore.properties.example android\keystore.properties
 2. توليد keystore جديد:
 ```cmd
 cd android\app
-keytool -genkeypair -v -keystore release.keystore -alias careandshare-upload -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkeypair -v -keystore release.keystore -alias Aman-Med-upload -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 3. افتح ملف `android/keystore.properties` وضع البيانات الصحيحة:
 ```properties
 storePassword=كلمة_السر_اللي_حطيتها
 keyPassword=كلمة_السر_اللي_حطيتها
-keyAlias=careandshare-upload
+keyAlias=Aman-Med-upload
 storeFile=app/release.keystore
 ```
 

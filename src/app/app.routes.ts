@@ -1,5 +1,6 @@
 ﻿import { Routes } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { NoActiveSubscriptionGuard } from './shared/guards/no-active-subscription.guard';
 import { HomeDemoOneComponent } from './demos/home-demo-one/home-demo-one.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
@@ -93,6 +94,11 @@ export const routes: Routes = [
     {
         path: 'visits',
         loadComponent: () => import('./pages/visits-page/visits-page.component').then(m => m.VisitsPageComponent),
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'activate-card',
+        loadComponent: () => import('./pages/activate-card-page/activate-card-page.component').then(m => m.ActivateCardPageComponent),
         canActivate: [AuthGuard]
     },
     { path: '**', component: ErrorPageComponent },

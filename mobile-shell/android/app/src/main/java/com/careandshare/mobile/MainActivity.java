@@ -1,4 +1,4 @@
-package com.careandshare.mobile;
+package com.Aman-Med.mobile;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -2,12 +2,12 @@ import type { CapacitorConfig } from '@capacitor/cli';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const browserBuildDir = '../dist/careandshare/browser';
-const fallbackBuildDir = '../dist/careandshare';
+const browserBuildDir = '../dist/AmanMed/browser';
+const fallbackBuildDir = '../dist/AmanMed';
 
 const config: CapacitorConfig = {
-  appId: 'com.careandshare.mobile',
-  appName: 'Care & Share',
+  appId: 'com.AmanMed.mobile',
+  appName: 'Aman-Med',
   webDir: existsSync(resolve(__dirname, browserBuildDir))
     ? browserBuildDir
     : fallbackBuildDir,

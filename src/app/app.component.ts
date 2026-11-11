@@ -19,7 +19,7 @@ import { RewardsBannerComponent } from './shared/components/rewards-banner/rewar
     styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
-    title = 'care_and_share';
+    title = 'Aman-Med';
     private readonly imageFallbackSrc = 'assets/images/logo.svg';
     private removeImageErrorListener?: () => void;
 

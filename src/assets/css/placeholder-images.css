@@ -1,5 +1,5 @@
 /* Placeholder Images for Demo */
-img[src*="care-and-share-bannar.svg"],
+img[src*="Aman-Med-bannar.svg"],
 img[src*="work-sample-"],
 img[src*="team-"],
 img[src*="client-"],
@@ -14,7 +14,7 @@ img[src*="partner-"] {
     position: relative;
 }
 
-img[src*="care-and-share-bannar.svg"]::before {
+img[src*="Aman-Med-bannar.svg"]::before {
     content: "About Image";
     position: absolute;
     top: 50%;

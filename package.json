@@ -1,5 +1,5 @@
 {
-  "name": "care_and_share",
+  "name": "Aman-Med",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:care_and_share": "node dist/care_and_share/server/server.mjs"
+    "serve:ssr:Aman-Med": "node dist/Aman-Med/server/server.mjs"
   },
   "private": true,
   "dependencies": {

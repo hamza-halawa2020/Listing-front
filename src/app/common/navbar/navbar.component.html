@@ -1,9 +1,10 @@
 ﻿<nav class="main-navbar" [class.sticky]="isSticky">
     <div class="navbar-container">
+
         <!-- Brand Logo -->
         <div class="navbar-brand">
             <a routerLink="/" (click)="closeMobileMenu()">
-                <img [src]="settings.logo_url || 'assets/images/logo.svg'" alt="care & share" class="logo" >
+                <img [src]="settings.logo_url || 'assets/images/logo.svg'" alt="Logo" class="logo">
             </a>
         </div>
 
@@ -27,29 +28,24 @@
 
             <!-- Action Buttons -->
             <div class="navbar-actions">
-                <!-- Language Switcher -->
-                <div class="language-switcher me-3" ngbDropdown placement="bottom-end">
-                    <button class="lang-btn" ngbDropdownToggle id="languageDropdown">
+
+                <!-- Language Switcher (flag only) -->
+                <div class="language-switcher" ngbDropdown placement="bottom-end">
+                    <button class="lang-btn" ngbDropdownToggle id="languageDropdown" title="{{ getCurrentLanguageData().name }}">
                         <span class="flag">{{ getCurrentLanguageData().flag }}</span>
-                        <span class="lang-name d-none d-lg-inline-block">{{ getCurrentLanguageData().name }}</span>
-                        <i class="fas fa-chevron-down ms-1"></i>
+                        <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu shadow-lg border-0" ngbDropdownMenu>
                         <button class="dropdown-item py-2" *ngFor="let lang of languages"
-                            [class.active]="lang.code === currentLanguage" (click)="switchLanguage(lang.code)">
+                            [class.active]="lang.code === currentLanguage"
+                            (click)="switchLanguage(lang.code)">
                             <span class="flag me-2">{{ lang.flag }}</span>
                             <span>{{ lang.name }}</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Auth Buttons -->
-                <ng-container *ngIf="!authService.isLoggedIn()">
-                    <a routerLink="/login" class="btn btn-primary" (click)="closeMobileMenu()">
-                        <i class="fa-solid fa-right-to-bracket me-2"></i> {{ 'Login' | translate }}
-                    </a>
-                </ng-container>
-
+                <!-- Notifications -->
                 <ng-container *ngIf="authService.isLoggedIn()">
                     <!-- <a
                         routerLink="/chat"
@@ -64,7 +60,7 @@
                         </span>
                     </a> -->
 
-                    <div class="notification-center me-2" ngbDropdown placement="bottom-end" autoClose="outside"
+                    <div class="notification-center" ngbDropdown placement="bottom-end" autoClose="outside"
                         (openChange)="onNotificationsOpenChange($event)">
                         <button class="notification-btn" ngbDropdownToggle id="notificationsDropdown"
                             [class.has-unread]="unreadNotificationsCount > 0"
@@ -81,7 +77,6 @@
                                     <span class="notification-menu__eyebrow">{{ 'NOTIFICATIONS' | translate }}</span>
                                     <strong>{{ 'NOTIFICATIONS' | translate }}</strong>
                                 </div>
-
                                 <button type="button" class="notification-menu__mark-all"
                                     *ngIf="unreadNotificationsCount"
                                     (click)="markAllNotificationsAsRead($event)">
@@ -102,7 +97,6 @@
                                         [ngClass]="getNotificationStatusClass(notification.status)">
                                         <i class="fa-solid" [ngClass]="getNotificationIconClass(notification.status)"></i>
                                     </span>
-
                                     <span class="notification-item__content">
                                         <span class="notification-item__topline">
                                             <strong>{{ notification.title }}</strong>
@@ -110,11 +104,9 @@
                                                 {{ 'NEW' | translate }}
                                             </span>
                                         </span>
-
                                         <span class="notification-item__body" *ngIf="notification.body">
                                             {{ notification.body }}
                                         </span>
-
                                         <span class="notification-item__time" *ngIf="notification.created_at">
                                             {{ notification.created_at | date:'short' }}
                                         </span>
@@ -127,18 +119,42 @@
                             </div>
                         </div>
                     </div>
+                </ng-container>
 
-                    <a routerLink="/profile" class="user-info me-3" (click)="closeMobileMenu()">
-                        <div class="user-avatar-sm">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div class="user-meta">
-                            <span class="user-label">{{ 'PROFILE' | translate }}</span>
-                            <span class="user-name">{{ getUserDisplayName() }}</span>
-                        </div>
-                        <button class="btn btn-logout-sm" (click)="logout(); $event.preventDefault(); $event.stopPropagation()" title="{{ 'Log Out' | translate }}">
-                            <i class="fa-solid fa-power-off"></i>
+                <!-- User Avatar Dropdown (logged in) -->
+                <ng-container *ngIf="authService.isLoggedIn()">
+                    <div ngbDropdown placement="bottom-end" class="user-dropdown">
+                        <button class="user-avatar-btn" ngbDropdownToggle
+                            [attr.aria-label]="'PROFILE' | translate">
+                            <span class="user-avatar-initial">
+                                {{ getUserDisplayName().charAt(0).toUpperCase() || '?' }}
+                            </span>
                         </button>
+
+                        <div class="dropdown-menu user-menu shadow-lg border-0" ngbDropdownMenu>
+                            <div class="user-menu__head">
+                                <span class="user-menu__name">{{ getUserDisplayName() }}</span>
+                            </div>
+                            <a routerLink="/profile" class="user-menu__item" ngbDropdownItem
+                                (click)="closeMobileMenu()">
+                                <i class="fa-solid fa-user"></i>
+                                {{ 'PROFILE' | translate }}
+                            </a>
+                            <div class="user-menu__divider"></div>
+                            <button type="button" class="user-menu__item is-logout" ngbDropdownItem
+                                (click)="logout()">
+                                <i class="fa-solid fa-power-off"></i>
+                                {{ 'Log Out' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- Login Button (not logged in) -->
+                <ng-container *ngIf="!authService.isLoggedIn()">
+                    <a routerLink="/login" class="btn btn-primary" (click)="closeMobileMenu()">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>
+                        {{ 'Login' | translate }}
                     </a>
                 </ng-container>
 

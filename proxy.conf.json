@@ -1,6 +1,6 @@
 {
     "/public/i18n": {
-        "target": "https://new-backend.care_and_share.net",
+        "target": "https://new-backend.Aman-Med.net",
         "secure": true,
         "changeOrigin": true,
         "logLevel": "debug"

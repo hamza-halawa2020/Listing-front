@@ -498,76 +498,139 @@ $gray: #9ca3af;
     }
 }
 
-// User Info
-.user-info {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 10px 8px 8px;
-    border-radius: 999px;
-    background: rgba(30, 144, 214, 0.06);
-    border: 1px solid rgba($secondary, 0.12);
-    box-shadow: 0 8px 20px rgba($secondary, 0.08);
-
-    .user-avatar-sm {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, $secondary, lighten($secondary, 8%));
-        color: $white;
-        font-size: 1rem;
-        box-shadow: 0 8px 18px rgba($secondary, 0.2);
-        flex-shrink: 0;
-    }
-
-    .user-meta {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        line-height: 1.1;
-    }
-
-    .user-label {
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: rgba($dark, 0.45);
-    }
-
-    .user-name {
-        white-space: nowrap;
-        max-width: 140px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: $dark;
-        font-size: 13px;
-        font-weight: 800;
-        margin-top: 3px;
-    }
+// User Avatar Dropdown
+.user-dropdown {
+    position: relative;
 }
 
-.btn-logout-sm {
-    background: rgba($white, 0.9);
-    color: $primary;
-    border: 1px solid rgba($primary, 0.12);
-    width: 36px;
-    height: 36px;
+.user-avatar-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid rgba($secondary, 0.2);
+    background: linear-gradient(135deg, $secondary, lighten($secondary, 10%));
+    color: $white;
+    font-size: 1rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
     cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba($secondary, 0.25);
+    padding: 0;
+
+    &:hover, &:focus {
+        transform: scale(1.08);
+        box-shadow: 0 8px 20px rgba($secondary, 0.3);
+        outline: none;
+    }
+}
+
+.user-menu {
+    min-width: 200px;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    border: 1px solid rgba($secondary, 0.08) !important;
+    background: #fff;
+    overflow: hidden;
+
+    &__head {
+        padding: 10px 14px 8px;
+        border-bottom: 1px solid rgba($dark, 0.06);
+        margin-bottom: 4px;
+    }
+
+    &__name {
+        font-size: 13px;
+        font-weight: 800;
+        color: $dark;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        max-width: 160px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: $dark;
+        text-decoration: none;
+        border: none;
+        background: transparent;
+        width: 100%;
+        text-align: start;
+        transition: background 0.2s ease;
+        cursor: pointer;
+
+        i {
+            width: 18px;
+            text-align: center;
+            color: $secondary;
+        }
+
+        &:hover {
+            background: rgba($secondary, 0.06);
+        }
+
+        &.is-logout {
+            color: $primary;
+
+            i {
+                color: $primary;
+            }
+
+            &:hover {
+                background: rgba($primary, 0.06);
+            }
+        }
+    }
+
+    &__divider {
+        height: 1px;
+        background: rgba($dark, 0.06);
+        margin: 4px 0;
+    }
+}
+
+// Language btn - flag only
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 10px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    color: $dark;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    .flag {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    i {
+        font-size: 10px;
+        opacity: 0.5;
+        transition: transform 0.2s ease;
+    }
+
+    &[aria-expanded="true"] i {
+        transform: rotate(180deg);
+    }
 
     &:hover {
-        background: $primary;
-        color: white;
-        transform: scale(1.08);
-        box-shadow: 0 10px 18px rgba($primary, 0.22);
+        border-color: $secondary;
+        background: rgba($secondary, 0.04);
     }
 }
 
@@ -730,20 +793,18 @@ $gray: #9ca3af;
 
         .navbar-actions {
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
 
             .language-switcher,
             .notification-center,
-            .chat-shortcut,
-            .user-info,
+            .user-dropdown,
             .btn {
                 width: 100%;
                 justify-content: center;
             }
 
-            .notification-btn,
-            .chat-shortcut {
+            .notification-btn {
                 width: 100%;
                 border-radius: 18px;
                 height: 52px;
@@ -754,15 +815,17 @@ $gray: #9ca3af;
                 max-width: none;
             }
 
-            .user-info {
-                border-radius: 18px;
-                padding: 12px 14px;
+            .user-avatar-btn {
+                width: 100%;
+                border-radius: 14px;
+                height: 52px;
+                font-size: 1.1rem;
             }
 
             .lang-btn {
                 width: 100%;
                 justify-content: center;
-                padding: 15px 20px;
+                padding: 12px 20px;
                 font-size: 16px;
             }
 
@@ -898,7 +961,6 @@ $gray: #9ca3af;
     .user-info {
         padding: 8px 8px 8px 10px;
     }
-
     .notification-item,
     .notification-menu__loading,
     .notification-menu__empty {

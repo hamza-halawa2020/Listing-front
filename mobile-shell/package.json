@@ -1,5 +1,5 @@
 {
-  "name": "careandshare-mobile-shell",
+  "name": "AmanMed-mobile-shell",
   "private": true,
   "version": "1.0.0",
   "description": "Capacitor wrapper for the existing Angular web app.",

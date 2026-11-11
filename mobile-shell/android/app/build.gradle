@@ -21,10 +21,10 @@ if (!hasReleaseSigning) {
 }
 
 android {
-    namespace "com.careandshare.mobile"
+    namespace "com.Aman-Med.mobile"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.careandshare.mobile"
+        applicationId "com.Aman-Med.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

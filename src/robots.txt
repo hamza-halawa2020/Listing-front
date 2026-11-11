@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://care_and_share.com/sitemap.xml
+Sitemap: https://Aman-Med.com/sitemap.xml

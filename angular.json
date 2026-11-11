@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "careandshare": {
+    "AmanMed": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/careandshare",
+            "outputPath": "dist/AmanMed",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -95,10 +95,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "careandshare:build:production"
+              "buildTarget": "AmanMed:build:production"
             },
             "development": {
-              "buildTarget": "careandshare:build:development"
+              "buildTarget": "AmanMed:build:development"
             }
           },
           "defaultConfiguration": "development"
