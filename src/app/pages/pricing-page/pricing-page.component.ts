@@ -75,8 +75,8 @@ export class PricingPageComponent implements OnInit {
 
     getPlanImage(plan: any): string {
         const imageMap: { [key: string]: string } = {
-            'FA': 'assets/images/family.jpeg',
-            'IA': 'assets/images/individual.jpeg',
+            'FG': 'assets/images/family.jpeg',
+            'IG': 'assets/images/individual.jpeg',
         };
         return imageMap[plan?.code] || 'assets/images/back.jpeg';
     }
