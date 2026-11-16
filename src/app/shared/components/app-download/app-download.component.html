@@ -1,8 +1,16 @@
 <div class="app-download-container">
+
+    <h3 class="download-description">{{ 'app_download_header' | translate  }}</h3>
+        <p class="download-description">{{ 'app_download_description' | translate  }}</p>
+        <p class="download-description">{{ 'app_download_description2' | translate  }}</p>
+
+
+
+
     <div class="download-content">
         <h3 class="download-title">{{ title }}</h3>
         <p class="download-description">{{ description }}</p>
-        
+
         <div class="download-buttons">
             <a class="download-btn app-store" [href]="appStoreUrl" target="_blank" rel="noopener noreferrer">
                 <i class="fa-brands fa-apple"></i>
@@ -11,8 +19,10 @@
                     <span class="large-text">App Store</span>
                 </div>
             </a>
-            
-            <a class="download-btn google-play" href="https://play.google.com/store/apps/details?id=com.Aman-Med.Aman-Med_app&pli=1" target="_blank" rel="noopener noreferrer">
+
+            <a class="download-btn google-play"
+                href="https://play.google.com/store/apps/details?id=com.Aman-Med.Aman-Med_app&pli=1" target="_blank"
+                rel="noopener noreferrer">
                 <i class="fa-brands fa-google-play"></i>
                 <div class="btn-text">
                     <span class="small-text">{{ 'GET_IT_ON' | translate }}</span>
