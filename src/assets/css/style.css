@@ -1023,7 +1023,7 @@ p.section-title-white {
 
 @media only screen and (max-width: 767px) {
     .navbar-brand {
-        padding-top: 20px;
+        /* padding-top: 20px; */
     }
 }
 
@@ -2274,7 +2274,7 @@ p.section-title-white {
 
 @media only screen and (max-width: 767px) {
     .navbar-brand {
-        padding-top: 20px;
+        /* padding-top: 20px; */
     }
 }
 

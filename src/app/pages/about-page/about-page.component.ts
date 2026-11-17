@@ -30,8 +30,8 @@ interface ImpactStat {
     styleUrls: ['./about-page.component.scss'],
 })
 export class AboutPageComponent implements OnInit, AfterViewInit, OnDestroy {
-    private readonly baseMembersCount = 5000;
-    private readonly baseListingsCount = 2000;
+    private readonly baseMembersCount = 3000;
+    private readonly baseListingsCount = 1000;
     private readonly fixedMaxDiscountPercentage = 75;
     private readonly governoratesCount = 27;
 
