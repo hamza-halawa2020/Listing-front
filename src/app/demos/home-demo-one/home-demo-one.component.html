@@ -203,8 +203,8 @@
                 <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let cat of categoriesForHome; let i = index"
                     data-aos="fade-up" [attr.data-aos-delay]="i * 50">
                     <div class="cat-modern-card" (click)="selectedCategory=cat.id; searchListings()">
-                    <div class="cat-icon-wrap" [style.background]="cat.color ? cat.color + '22' : null">
-                        <img *ngIf="cat.icon" [src]="cat.icon" [alt]="cat.name" class="cat-icon-img" style="width:2rem;height:2rem;object-fit:contain;" />
+                    <div class="cat-icon-wrap" [style.border]="cat.color ? '2px solid ' + cat.color + '44' : null">
+                        <img *ngIf="cat.icon" [src]="cat.icon" [alt]="cat.name" class="cat-icon-img" style="width:2.5rem;height:2.5rem;object-fit:contain;" />
                         <i *ngIf="!cat.icon" class="fa-solid fa-stethoscope" [style.color]="cat.color || null"></i>
                     </div>
                         <div class="cat-details">
