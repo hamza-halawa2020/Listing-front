@@ -186,9 +186,12 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
      * Converts heroicon-o-heart → heroHeart (camelCase for @ng-icons/heroicons)
      * Falls back to a default icon if format is unrecognized.
      */
-    resolveIcon(raw: string | null | undefined): string {
-        if (!raw) return 'heroSquares2x2';
+    resolveIcon(raw: string | null | undefined): string | null {
+        if (!raw) return null;
         const name = raw.trim();
+
+        // Category icons may be served as absolute URLs or paths under /files.
+        if (/^(https?:)?\/\//i.test(name) || name.startsWith('/')) return name;
 
         // heroicon-o-* or heroicon-s-* → heroXxx (outline/solid handled by registration)
         if (name.startsWith('heroicon-o-') || name.startsWith('heroicon-s-')) {
@@ -203,7 +206,7 @@ export class HomeDemoOneComponent implements OnInit, AfterViewInit {
         if (name.startsWith('hero')) return name;
 
         // fallback
-        return 'heroSquares2x2';
+        return null;
     }
 
     onCategoryChange() {
